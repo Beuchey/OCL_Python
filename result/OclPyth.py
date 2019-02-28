@@ -19,7 +19,7 @@ class OclWrapper(object):
             awrapped (object): The target object of this wrapper.
         """
         self.__instances.add(weakref.ref(self)) # Keeps track of all the instances of this classinfo (OCL functionnality -> 'allInstances')
-        self.__wrapped = awrapped
+        self._wrapped = awrapped
         """object: The wrapped object."""
 
     def __getattr__(self, attName: str) -> object:
@@ -39,7 +39,7 @@ class OclWrapper(object):
         Raises:
             TypeError: If the wrapped doesn't support the attribute reference
         """
-        return object.__getattribute__(self.__wrapped, attName)
+        return object.__getattribute__(self._wrapped, attName)
 
     def __getattribute__(self, attName: str) -> object:
         """Tries to get an object from the wrapper object, and if fails, tries to get it from the wrapped object instead.
@@ -150,7 +150,7 @@ class OclWrapper(object):
         Returns:
             True if the wrapped object is invalid, aka is None, Fale otherwise.
         """
-        return self.__wrapped is None
+        return self._wrapped is None
 
 
 
@@ -160,7 +160,7 @@ class OclWrapper_Extended(OclWrapper):
     """ Example of OclWrapper with additionnal functionnality """
 
     def sayHello(self):
-        print("Hello from ", self.__wrapped, "!")
+        print("Hello from ", self._wrapped, "!")
 
 
 
@@ -168,7 +168,7 @@ class OclWrapper_Extended(OclWrapper):
 
 
 
-
+"""
 # Ocl functionnality -> allInstances
 a = OclWrapper("a")
 b = OclWrapper("b")
@@ -187,8 +187,8 @@ print("----------------------------------------------")
 for obj in OclWrapper_Extended.allInstances():
     print(obj)
     obj.sayHello()
-'''
-'''
+"""
+"""
 # Ocl functionnality -> oclAsType
 a = OclWrapper("a")
 a_e = a.oclAsType(OclWrapper_Extended)
@@ -204,8 +204,8 @@ if(a_e == None):
 else:
     print("a is a OclWrapper_Extended")
 a.oclAsType(OclWrapper_Extended).sayHello()
-'''
-'''
+"""
+"""
 # Ocl functionnality -> oclIsKindOf
 a = OclWrapper("a")
 b = OclWrapper_Extended(1)
@@ -213,8 +213,8 @@ print(a.oclIsKindOf(OclWrapper))
 print(a.oclIsKindOf(OclWrapper_Extended))
 print(b.oclIsKindOf(OclWrapper))
 print(b.oclIsKindOf(OclWrapper_Extended))
-'''
-'''
+"""
+"""
 # Ocl functionnality -> oclIsTypeOf
 a = OclWrapper("a")
 b = OclWrapper_Extended(1)
@@ -222,11 +222,11 @@ print(a.oclIsTypeOf(OclWrapper))
 print(a.oclIsTypeOf(OclWrapper_Extended))
 print(b.oclIsTypeOf(OclWrapper))
 print(b.oclIsTypeOf(OclWrapper_Extended))
-'''
-'''
+"""
+"""
 # Ocl functionnality -> oclIsInvalid
 a = OclWrapper("a")
 b = OclWrapper_Extended(None)
 print(a.oclIsInvalid())
 print(b.oclIsInvalid())
-'''
+"""

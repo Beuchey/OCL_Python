@@ -22,7 +22,7 @@ class OclWrapper(object):
         self.wrapped = awrapped
         """object: The wrapped object."""
 
-    def __getattr__(self, attName: str):
+    def __getattr__(self, attName: str) -> object:
         """Tries to get an attribute from the wrapped object only.
 
         Note:
@@ -41,7 +41,7 @@ class OclWrapper(object):
         """
         return object.__getattribute__(self.wrapped, attName)
 
-    def __getattribute__(self, attName: str):
+    def __getattribute__(self, attName: str) -> object:
         """Tries to get an object from the wrapper object, and if fails, tries to get it from the wrapped object instead.
 
         Note:
@@ -70,7 +70,7 @@ class OclWrapper(object):
         return object.__getattribute__(self, attName)
 
     @classmethod
-    def allInstances(cls: str):
+    def allInstances(cls: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.
 
         Note:
@@ -98,7 +98,7 @@ class OclWrapper(object):
                     yield obj
         cls._instances -= dead # remove the deads from the set of instances
 
-    def oclAsType(self, cls: str):
+    def oclAsType(self, cls: str) -> object:
         """Statically cast self as the desired class.
 
         Note:
@@ -113,7 +113,7 @@ class OclWrapper(object):
         if(isinstance(self, cls)):
             return self
 
-    def oclIsKindOf(self, cls: str):
+    def oclIsKindOf(self, cls: str) -> bool:
         """Checks if the object is an instance of the Class. Just an alias for isinstance(), actually.
 
         Note:
@@ -127,7 +127,7 @@ class OclWrapper(object):
         """
         return isinstance(self, cls)
 
-    def oclIsTypeOf(self, cls: str):
+    def oclIsTypeOf(self, cls: str) -> bool:
         """Checks if the object is exactly an instance of the Class. Exactly means that it will return False even if the object is a generalization or specialization of the desired class.
 
         Note:
@@ -141,7 +141,7 @@ class OclWrapper(object):
         """
         return type(self) is cls
 
-    def oclIsInvalid(self):
+    def oclIsInvalid(self) -> bool:
         """Checks if the wrapped object is invalid, aka is None.
 
         Note:

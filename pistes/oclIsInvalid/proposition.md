@@ -1,4 +1,4 @@
-# oclIsInvalid
+ -> bool# oclIsInvalid
 
 Use a wrapper with "is None".
 
@@ -8,7 +8,7 @@ class Wrapper(object):
     def __init__(self, awrapped : object):
         self.wrapped = awrapped
 
-    def oclIsInvalid(self):
+    def oclIsInvalid(self) -> bool:
         return self.wrapped is None
 
 

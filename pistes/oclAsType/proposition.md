@@ -4,7 +4,7 @@ The function oclAsType is basically a static cast allowing the user to check if 
 
 ```Python
 class A(object):
-  def oclAsType(self, cls):
+  def oclAsType(self, cls: str): str:
         """Statically cast self as the desired class.
 
         Note:

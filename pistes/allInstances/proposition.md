@@ -9,12 +9,12 @@ class MyClass:
 
     _instances = set()
 
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
         self._instances.add(weakref.ref(self))
 
     @classmethod
-    def allInstances(cls):
+    def allInstances(cls: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.
 
         Note:

@@ -4,7 +4,7 @@ The function oclIsKindOf in OCL is has the same purpose than the function isinst
 
 ```Python
 class A(object):
-  def oclIsKindOf(self, cls):
+  def oclIsKindOf(self, cls: str) -> bool:
         """Checks if the object is an instance of the Class. Just an alias for isinstance(), actually.
 
         Note:

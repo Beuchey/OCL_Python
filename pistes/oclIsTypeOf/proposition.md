@@ -5,7 +5,7 @@ To accomplish this, we can test if the type of the object IS the one desired.
 
 ```Python
 class A(object):
-  def oclIsTypeOf(self, cls: str):
+  def oclIsTypeOf(self, cls: str) -> bool:
         """Checks if the object is exactly an instance of the Class. Exactly means that it will return False even if the object is a generalization or specialization of the desired class.
 
         Note:
@@ -16,6 +16,11 @@ class A(object):
 
         Returns:
             True if the type of the object is exactly the given class, False otherwise.
+
+        >>> OclWrapper(True).oclIsTypeOf(OclWrapper)
+        True
+        >>> OclWrapper(True).oclIsTypeOf(bool)
+        False
         """
         return type(self) is cls
 

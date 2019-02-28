@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import doctest
 import weakref
 
 class OclWrapper(object):
@@ -66,6 +67,15 @@ class OclWrapper(object):
 
         Raises:
             TypeError: If neither the wrapped or the wrapper support the attribute.
+
+        >>> OclWrapper(True)._wrapped
+        True
+        >>> OclWrapper(1)._wrapped
+        1
+        >>> OclWrapper('Hello')._wrapped
+        'Hello'
+        >>> OclWrapper((1, 2, 3))._wrapped
+        (1, 2, 3)
         """
         return object.__getattribute__(self, attName)
 
@@ -109,6 +119,11 @@ class OclWrapper(object):
 
         Returns:
             object: Self if the object if an instance of the Class, None otherwise.
+
+        >>> type(OclWrapper(True).oclAsType(OclWrapper)).__name__
+        'OclWrapper'
+        >>> type(OclWrapper(True).oclAsType(bool)).__name__
+        'NoneType'
         """
         if(isinstance(self, cls)):
             return self
@@ -124,6 +139,11 @@ class OclWrapper(object):
 
         Returns:
             True if the object is an instance of the class, False otherwise.
+
+        >>> OclWrapper(True).oclIsKindOf(OclWrapper)
+        True
+        >>> OclWrapper(True).oclIsKindOf(bool)
+        False
         """
         return isinstance(self, cls)
 
@@ -138,6 +158,11 @@ class OclWrapper(object):
 
         Returns:
             True if the type of the object is exactly the given class, False otherwise.
+
+        >>> OclWrapper(True).oclIsTypeOf(OclWrapper)
+        True
+        >>> OclWrapper(True).oclIsTypeOf(bool)
+        False
         """
         return type(self) is cls
 
@@ -149,11 +174,13 @@ class OclWrapper(object):
 
         Returns:
             True if the wrapped object is invalid, aka is None, Fale otherwise.
+
+        >>> OclWrapper(True).oclIsInvalid()
+        False
+        >>> OclWrapper(None).oclIsInvalid()
+        True
         """
         return self._wrapped is None
-
-
-
 
 
 class OclWrapper_Extended(OclWrapper):
@@ -230,3 +257,8 @@ b = OclWrapper_Extended(None)
 print(a.oclIsInvalid())
 print(b.oclIsInvalid())
 """
+
+
+
+if __name__ == '__main__':
+    doctest.testmod()

@@ -4,7 +4,7 @@ The function oclAsType is basically a static cast allowing the user to check if 
 
 ```Python
 class A(object):
-  def oclAsType(self, cls: str): str:
+  def oclAsType(self, cls: str) -> str:
         """Statically cast self as the desired class.
 
         Note:
@@ -15,6 +15,11 @@ class A(object):
 
         Returns:
             object: Self if the object if an instance of the Class, None otherwise.
+
+        >>> type(OclWrapper(True).oclAsType(OclWrapper)).__name__
+        'OclWrapper'
+        >>> type(OclWrapper(True).oclAsType(bool)).__name__
+        'NoneType'
         """
         if(isinstance(self, cls)):
             return self

@@ -15,6 +15,11 @@ class A(object):
 
         Returns:
             True if the object is an instance of the class, False otherwise.
+
+        >>> OclWrapper(True).oclIsKindOf(OclWrapper)
+        True
+        >>> OclWrapper(True).oclIsKindOf(bool)
+        False
         """
         return isinstance(self, cls)
 

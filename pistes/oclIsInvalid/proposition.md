@@ -9,6 +9,19 @@ class Wrapper(object):
         self.wrapped = awrapped
 
     def oclIsInvalid(self) -> bool:
+        """Checks if the wrapped object is invalid, aka is None.
+
+        Note:
+            OCL functionnality -> 'oclIsInvalid'
+
+        Returns:
+            True if the wrapped object is invalid, aka is None, Fale otherwise.
+
+        >>> OclWrapper(True).oclIsInvalid()
+        False
+        >>> OclWrapper(None).oclIsInvalid()
+        True
+        """
         return self.wrapped is None
 
 

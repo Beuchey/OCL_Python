@@ -5,7 +5,7 @@ import weakref
 class OclWrapper(object):
     """ A wrapper for any other objects to which we need to add functionnalities in order to match Ocl's """
 
-    _instances = set()
+    __instances = set()
     """set: Set of all instances of this classinfo
 
         Note:
@@ -18,8 +18,8 @@ class OclWrapper(object):
         Args:
             awrapped (object): The target object of this wrapper.
         """
-        self._instances.add(weakref.ref(self)) # Keeps track of all the instances of this classinfo (OCL functionnality -> 'allInstances')
-        self.wrapped = awrapped
+        self.__instances.add(weakref.ref(self)) # Keeps track of all the instances of this classinfo (OCL functionnality -> 'allInstances')
+        self.__wrapped = awrapped
         """object: The wrapped object."""
 
     def __getattr__(self, attName: str) -> object:
@@ -39,7 +39,7 @@ class OclWrapper(object):
         Raises:
             TypeError: If the wrapped doesn't support the attribute reference
         """
-        return object.__getattribute__(self.wrapped, attName)
+        return object.__getattribute__(self.__wrapped, attName)
 
     def __getattribute__(self, attName: str) -> object:
         """Tries to get an object from the wrapper object, and if fails, tries to get it from the wrapped object instead.
@@ -89,14 +89,14 @@ class OclWrapper(object):
             set: Set of the instanced object of this class.
         """
         dead = set() # to remember the deads (T.T)
-        for ref in cls._instances: # for every recorded instance of this general class
+        for ref in cls.__instances: # for every recorded instance of this general class
             obj = ref()
             if obj is None: # if the object is dead, remember it
                 dead.add(ref)
             else:
                 if isinstance(obj, cls): # if still alive and is an instance of this eventually specialized class, yield it
                     yield obj
-        cls._instances -= dead # remove the deads from the set of instances
+        cls.__instances -= dead # remove the deads from the set of instances
 
     def oclAsType(self, cls: str) -> object:
         """Statically cast self as the desired class.
@@ -150,7 +150,7 @@ class OclWrapper(object):
         Returns:
             True if the wrapped object is invalid, aka is None, Fale otherwise.
         """
-        return self.wrapped is None
+        return self.__wrapped is None
 
 
 
@@ -160,7 +160,7 @@ class OclWrapper_Extended(OclWrapper):
     """ Example of OclWrapper with additionnal functionnality """
 
     def sayHello(self):
-        print("Hello from ", self.wrapped, "!")
+        print("Hello from ", self.__wrapped, "!")
 
 
 
@@ -168,7 +168,7 @@ class OclWrapper_Extended(OclWrapper):
 
 
 
-'''
+
 # Ocl functionnality -> allInstances
 a = OclWrapper("a")
 b = OclWrapper("b")

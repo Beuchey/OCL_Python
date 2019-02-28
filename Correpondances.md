@@ -1,11 +1,3 @@
-
-
-| header 1 | header 2 |
-| -------- | -------- |
-| cell 1   | cell 2   |
-| cell 3   | cell 4   |
-
-
 # Classifier
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type|
@@ -17,7 +9,7 @@
 |-| - | - | - | - | - | - |
 |oclAsType|t : Classifier|t|object|oclAsType<br />(`pistes/oclAsType/proposition.md`)|classinfo|{self, None}|
 |oclIsKindOf|Classifier|Boolean|object|oclIsKindOf<br />(`pistes/oclIsKindOf/proposition.md`)|classinfo|{True, False}|
-|oclIsInvalid||Boolean|object|is|None|{True, False}|
+|oclIsInvalid||Boolean|object|oclIsKindOf<br />(`pistes/oclIsKindOf/proposition.md`)||{True, False}|
 |oclIsTypeOf|t : Classifier|Boolean|object|oclIsTypeOf<br />(`pistes/oclIsTypeOf/proposition.md`)|classinfo|{True, False}|
 |oclIsUndefined||Boolean|object|is|None|{True, False}|
 |<>|OclAny|Boolean|object|!=|object|{True, False}|

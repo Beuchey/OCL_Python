@@ -11,7 +11,7 @@
 |oclIsKindOf|Classifier|Boolean|object|oclIsKindOf<br />(`pistes/oclIsKindOf/proposition.md`)|classinfo|{True, False}|
 |oclIsInvalid||Boolean|object|oclIsInvalid<br />(`pistes/oclIsInvalid/proposition.md`)||{True, False}|
 |oclIsTypeOf|t : Classifier|Boolean|object|oclIsTypeOf<br />(`pistes/oclIsTypeOf/proposition.md`)|classinfo|{True, False}|
-|oclIsUndefined||Boolean|object|oclIsTypeOf<br />(`pistes/oclIsTypeOf||{True, False}|
+|oclIsUndefined||Boolean|object|oclIsUndefined<br />(`pistes/oclIsUndefined/proposition.md`||{True, False}|
 |<>|OclAny|Boolean|object|!=|object|{True, False}|
 |=|OclAny|Boolean|object|==|object|{True, False}|
 |<|T|Boolean|object|<|object|{True, False}|

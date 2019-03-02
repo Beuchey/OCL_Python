@@ -1,18 +1,18 @@
-# oclIsKindOf
+# oclIsTypeOf
 
 The function oclIsKindOf in OCL is has almost the same purpose than the function isinstance in Python, but it checks if the type of the object is EXACTLY the one desired, and so returns False also if the object is a generalization or specialization of the desired class.
 To accomplish this, we can test if the type of the object IS the one desired.
 
 ```Python
 class A(object):
-  def oclIsTypeOf(self, cls: str) -> bool:
+  def oclIsTypeOf(self, aclass: str) -> bool:
         """Checks if the object is exactly an instance of the Class. Exactly means that it will return False even if the object is a generalization or specialization of the desired class.
 
         Note:
             OCL functionnality -> 'oclIsTypeOf'
 
         Args:
-            cls (classinfo): Class to check of the object has the type.
+            cls (str): Class to check of the object has the type.
 
         Returns:
             True if the type of the object is exactly the given class, False otherwise.
@@ -22,7 +22,7 @@ class A(object):
         >>> OclWrapper(True).oclIsTypeOf(bool)
         False
         """
-        return type(self) is cls
+        return type(self) is aclass
 
 class A_1(A):
   pass

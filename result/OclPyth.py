@@ -80,7 +80,7 @@ class OclWrapper(object):
         return object.__getattribute__(self, attName)
 
     @classmethod
-    def allInstances(cls: str) -> set:
+    def allInstances(aclass: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.
 
         Note:
@@ -93,49 +93,49 @@ class OclWrapper(object):
             OCL functionnality -> 'allInstances'
 
         Args:
-            cls (classinfo): Class of the desired instances.
+            aclass (str): class of the desired instances.
 
         Returns:
             set: Set of the instanced object of this class.
         """
         dead = set() # to remember the deads (T.T)
-        for ref in cls.__instances: # for every recorded instance of this general class
+        for ref in aclass.__instances: # for every recorded instance of this general class
             obj = ref()
             if obj is None: # if the object is dead, remember it
                 dead.add(ref)
             else:
-                if isinstance(obj, cls): # if still alive and is an instance of this eventually specialized class, yield it
+                if isinstance(obj, aclass): # if still alive and is an instance of this eventually specialized class, yield it
                     yield obj
-        cls.__instances -= dead # remove the deads from the set of instances
+        aclass.__instances -= dead # remove the deads from the set of instances
 
-    def oclAsType(self, cls: str) -> object:
+    def oclAsType(self, aclass: str) -> object:
         """Statically cast self as the desired class.
 
         Note:
             OCL functionnality -> 'oclAsType'
 
         Args:
-            cls (classinfo): Class to cast the object to.
+            aclass (str): class to cast the object to.
 
         Returns:
-            object: Self if the object if an instance of the Class, None otherwise.
+            object: Self if the object if an instance of the class, None otherwise.
 
         >>> type(OclWrapper(True).oclAsType(OclWrapper)).__name__
         'OclWrapper'
         >>> type(OclWrapper(True).oclAsType(bool)).__name__
         'NoneType'
         """
-        if(isinstance(self, cls)):
+        if(isinstance(self, aclass)):
             return self
 
-    def oclIsKindOf(self, cls: str) -> bool:
-        """Checks if the object is an instance of the Class. Just an alias for isinstance(), actually.
+    def oclIsKindOf(self, aclass: str) -> bool:
+        """Checks if the object is an instance of the class. Just an alias for isinstance(), actually.
 
         Note:
             OCL functionnality -> 'oclIsKindOf'
 
         Args:
-            cls (classinfo): Class to check of the object is an instance of.
+            aclass (str): class to check of the object is an instance of.
 
         Returns:
             True if the object is an instance of the class, False otherwise.
@@ -145,16 +145,16 @@ class OclWrapper(object):
         >>> OclWrapper(True).oclIsKindOf(bool)
         False
         """
-        return isinstance(self, cls)
+        return isinstance(self, aclass)
 
-    def oclIsTypeOf(self, cls: str) -> bool:
-        """Checks if the object is exactly an instance of the Class. Exactly means that it will return False even if the object is a generalization or specialization of the desired class.
+    def oclIsTypeOf(self, aclass: str) -> bool:
+        """Checks if the object is exactly an instance of the class. Exactly means that it will return False even if the object is a generalization or specialization of the desired class.
 
         Note:
             OCL functionnality -> 'oclIsTypeOf'
 
         Args:
-            cls (classinfo): Class to check of the object has the type.
+            aclass (str): class to check of the object has the type.
 
         Returns:
             True if the type of the object is exactly the given class, False otherwise.
@@ -164,7 +164,7 @@ class OclWrapper(object):
         >>> OclWrapper(True).oclIsTypeOf(bool)
         False
         """
-        return type(self) is cls
+        return type(self) is aclass
 
     def oclIsInvalid(self) -> bool:
         """Checks if the wrapped object is invalid, aka is None.

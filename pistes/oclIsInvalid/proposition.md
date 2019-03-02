@@ -1,4 +1,4 @@
-# oclIsUndefined
+# oclIsInvalid
 
 Use a wrapper with "is None".
 

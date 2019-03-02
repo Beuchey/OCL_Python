@@ -253,6 +253,20 @@ class OclWrapper_String(OclWrapper):
         else:
             return OclWrapper_String(self._wrapped + otherObject)
 
+    def size(self) -> int:
+        """Returns the size, aka le length, of the wrapped object.
+
+        Note:
+            OCL functionnality -> 'size'
+
+        Returns:
+            The size, aka le length, of the wrapped object.
+
+        >>> OclWrapper_String('Hello World!').size()
+        12
+        """
+        return len(self._wrapped)
+
 
 
 

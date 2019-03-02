@@ -2,16 +2,16 @@
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type|
 | - | - | - | - | - | - | - |
-|allInstances||Set{T}|classinfo|allInstances <br />(`pistes/allInstances/proposition.md`)||set()|
+|allInstances||Set{T}|classinfo|__instances = set()||set()|
 
 # OclAny
 |OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - | - |
-|oclAsType|t : Classifier|t|object|oclAsType<br />(`pistes/oclAsType/proposition.md`)|classinfo|{self, None}|
-|oclIsKindOf|Classifier|Boolean|object|oclIsKindOf<br />(`pistes/oclIsKindOf/proposition.md`)|classinfo|{True, False}|
-|oclIsInvalid||Boolean|object|oclIsInvalid<br />(`pistes/oclIsInvalid/proposition.md`)||{True, False}|
-|oclIsTypeOf|t : Classifier|Boolean|object|oclIsTypeOf<br />(`pistes/oclIsTypeOf/proposition.md`)|classinfo|{True, False}|
-|oclIsUndefined||Boolean|object|oclIsUndefined<br />(`pistes/oclIsUndefined/proposition.md`||{True, False}|
+|oclAsType|t : Classifier|t|object|if(isinstance(self, aclass)): return self|classinfo|{self, None}|
+|oclIsKindOf|Classifier|Boolean|object|return isinstance(self, aclass)|classinfo|{True, False}|
+|oclIsInvalid||Boolean|object|return self._wrapped is None||{True, False}|
+|oclIsTypeOf|t : Classifier|Boolean|object|return type(self) is aclass|classinfo|{True, False}|
+|oclIsUndefined||Boolean|object|return self._wrapped is None||{True, False}|
 |<>|OclAny|Boolean|object|!=|object|{True, False}|
 |=|OclAny|Boolean|object|==|object|{True, False}|
 |<|T|Boolean|object|<|object|{True, False}|

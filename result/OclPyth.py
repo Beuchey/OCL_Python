@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-
+from __future__ import annotations # To be able to return the current class in class method. This import should become unnecessary in Python 4.0 to be able to di this.
 import doctest
 import weakref
+
+
 
 class OclWrapper(object):
     """ A wrapper for any other objects to which we need to add functionnalities in order to match Ocl's """
@@ -221,6 +223,32 @@ class OclWrapper_Extended(OclWrapper):
 
     def sayHello(self):
         print("Hello from ", self._wrapped, "!")
+
+
+
+
+
+
+class OclWrapper_String(OclWrapper):
+
+    def concat(self, otherObject: object) -> OclWrapper_String:
+        """Concatenates the other object (eventually already wrapped) to the wrapped string.
+
+        Args:
+            otherObject (object): The other object to concatenate to the wrapped object.
+
+        Returns:
+            An OclWrapper_String wrapping the original wrapped object concatenated with the other object (eventually already wrapped).
+
+        >>> print(OclWrapper_String('Hello World!').concat(' I am a string.'))
+        Hello World! I am a string.
+        >>> print(OclWrapper_String('Hello World!').concat(OclWrapper_String(' I am another string.')))
+        Hello World! I am another string.
+        """
+        if isinstance(otherObject, OclWrapper):
+            return OclWrapper_String(self._wrapped + otherObject._wrapped)
+        else:
+            return OclWrapper_String(self._wrapped + otherObject)
 
 
 

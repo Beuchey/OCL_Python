@@ -1,33 +1,33 @@
-# Classifier
+# Classifier -> OclWrapper
 
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type|
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type|
 | - | - | - | - | - | - | - |
-|allInstances||Set{T}|classinfo|__instances = set()||set()|
+|allInstances||Set{T}|__instances = set()||set()|
 
-# OclAny
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
+# OclAny -> OclWrapper
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - | - |
-|oclAsType|t : Classifier|t|object|if(isinstance(self, aclass)): return self|classinfo|{self, None}|
-|oclIsKindOf|Classifier|Boolean|object|return isinstance(self, aclass)|classinfo|{True, False}|
-|oclIsInvalid||Boolean|object|return self._wrapped is None||{True, False}|
-|oclIsTypeOf|t : Classifier|Boolean|object|return type(self) is aclass|classinfo|{True, False}|
-|oclIsUndefined||Boolean|object|return self._wrapped is None||{True, False}|
-|<>|OclAny|Boolean|object|!=|object|{True, False}|
-|=|OclAny|Boolean|object|==|object|{True, False}|
-|<|T|Boolean|object|<|object|{True, False}|
-|>|T|Boolean|object|>|object|{True, False}|
-|<=|T|Boolean|object|<=|object|{True, False}|
-|>=|T|Boolean|object|>=|object|{True, False}|
-# String
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
+|oclAsType|t : Classifier|t|if(isinstance(self, aclass)): return self|classinfo|{self, None}|
+|oclIsKindOf|Classifier|Boolean|return isinstance(self, aclass)|classinfo|{True, False}|
+|oclIsInvalid||Boolean|return self._wrapped is None||{True, False}|
+|oclIsTypeOf|t : Classifier|Boolean|return type(self) is aclass|classinfo|{True, False}|
+|oclIsUndefined||Boolean|return self._wrapped is None||{True, False}|
+|<>|OclAny|Boolean|!=|object|{True, False}|
+|=|OclAny|Boolean|==|object|{True, False}|
+|<|T|Boolean|<|object|{True, False}|
+|>|T|Boolean|>|object|{True, False}|
+|<=|T|Boolean|<=|object|{True, False}|
+|>=|T|Boolean|>=|object|{True, False}|
+# String -> OclWrapper_String
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - | - |
-|concat|String|String|||||
-|size||Integer|||||
-|substring|lower:Integer,upper:Integer|String|||||
-|toInteger||Integer|||||
-|toLower||String|||||
-|toReal||Real|||||
-|toUpper||String|||||
+|concat|String|String|self._wrapped + otherObject<br /><br />self._wrapped + otherObject._wrapped|object<br /><br />OCLWrapper|OclWrapper_String|
+|size||Integer||||
+|substring|lower:Integer,upper:Integer|String||||
+|toInteger||Integer||||
+|toLower||String||||
+|toReal||Real||||
+|toUpper||String||||
 # Number
 |OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - | - |

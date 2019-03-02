@@ -6,25 +6,19 @@ import OclPyth
 
 class OclWrapper_String(OclPyth.OclWrapper):
 
-    def __init__(self, awrapped : str):
-        """__init__ method.
-
-        Args:
-            awrapped (str): The target string of this wrapper.
-        """
-        OclPyth.OclWrapper.__init__(self, awrapped)
-
     def concat(self, otherObject: object) -> OclWrapper_String:
-        """Concatenate the other object (eventually already wrapped) to the wrapped string.
+        """Concatenates the other object (eventually already wrapped) to the wrapped string.
 
         Args:
-            otherString (str): The other string to concatenate to the wrapped stringself.
+            otherObject (object): The other object to concatenate to the wrapped object.
 
         Returns:
-            An OclWrapper_String wrapping the original wrapped string concatenated with the other object (eventually already wrapped).
+            An OclWrapper_String wrapping the original wrapped object concatenated with the other object (eventually already wrapped).
 
-        OclWrapper_String('Hello World!').concat(' I\'m a string.')._wrapped
-        'Hello World! I'm a string.'
+        >>> print(OclWrapper_String('Hello World!').concat(' I am a string.'))
+        Hello World! I am a string.
+        >>> print(OclWrapper_String('Hello World!').concat(OclWrapper_String(' I am another string.')))
+        Hello World! I am another string.
         """
         if isinstance(otherObject, OclPyth.OclWrapper):
             return OclWrapper_String(self._wrapped + otherObject._wrapped)

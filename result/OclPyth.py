@@ -99,14 +99,14 @@ class OclWrapper(object):
             set: Set of the instanced object of this class.
         """
         dead = set() # to remember the deads (T.T)
-        for ref in self.__instances: # for every recorded instance of this general class
+        for ref in OclWrapper.__instances: # for every recorded instance of this general class
             obj = ref()
             if obj is None: # if the object is dead, remember it
                 dead.add(ref)
             else:
                 if isinstance(obj, aclass): # if still alive and is an instance of this eventually specialized class, yield it
                     yield obj
-        self.__instances -= dead # remove the deads from the set of instances
+        OclWrapper.__instances -= dead # remove the deads from the set of instances
 
     def oclAsType(self, aclass: str) -> object:
         """Statically cast self as the desired class.

@@ -33,14 +33,14 @@ class MyClass:
             set: Set of the instanced object of this class.
         """
         dead = set() # to remember the deads (T.T)
-        for ref in aclass._instances: # for every recorded instance of this general class
+        for ref in MyClass._instances: # for every recorded instance of this general class
             obj = ref()
             if obj is None: # if the object is dead, remember it
                 dead.add(ref)
             else:
                 if isinstance(obj, aclass): # if still alive and is an instance of this eventually specialized class, yield it
                     yield obj
-        aclass._instances -= dead # remove the deads from the set of instances
+        MyClass._instances -= dead # remove the deads from the set of instances
 
 a = MyClass("a")
 b = MyClass("b")

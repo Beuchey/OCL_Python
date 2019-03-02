@@ -98,6 +98,19 @@ class OclWrapper(object):
         """
         return self._wrapped.__str__()
 
+    def __len__(self):
+        """__len__ method.
+
+        Args:
+            Delegate the __len__ method to the wrapped object.
+
+        >>> len(OclWrapper('Hello'))
+        5
+        >>> len(OclWrapper((1, 2, 3)))
+        3
+        """
+        return self._wrapped.__len__()
+
     @classmethod
     def allInstances(aclass: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.

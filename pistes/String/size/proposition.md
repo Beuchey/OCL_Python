@@ -1,7 +1,6 @@
-# concat
+# size
 
-In Python, the concatenation opration is made with the '+' operator, and can easily be generalized to all types.
-We just need to check if the contenated object is an OclWrapper, in which case we consider the wrapped object.
+In Python, the size request is made with the len() function, and can easily be generalized to all types.
 
 ```Python
 from __future__ import annotations # To be able to return the current class in class method. This import should become unnecessary in Python 4.0 to be able to di this.

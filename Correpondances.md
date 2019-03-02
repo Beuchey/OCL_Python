@@ -8,10 +8,10 @@
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - | - |
 |oclAsType|t : Classifier|t|if(isinstance(self, aclass)): return self|classinfo|{self, None}|
-|oclIsKindOf|Classifier|Boolean|return isinstance(self, aclass)|classinfo|{True, False}|
-|oclIsInvalid||Boolean|return self._wrapped is None||{True, False}|
-|oclIsTypeOf|t : Classifier|Boolean|return type(self) is aclass|classinfo|{True, False}|
-|oclIsUndefined||Boolean|return self._wrapped is None||{True, False}|
+|oclIsKindOf|Classifier|Boolean|isinstance(self, aclass)|classinfo|{True, False}|
+|oclIsInvalid||Boolean|self._wrapped is None||{True, False}|
+|oclIsTypeOf|t : Classifier|Boolean|type(self) is aclass|classinfo|{True, False}|
+|oclIsUndefined||Boolean|self._wrapped is None||{True, False}|
 |<>|OclAny|Boolean|!=|object|{True, False}|
 |=|OclAny|Boolean|==|object|{True, False}|
 |<|T|Boolean|<|object|{True, False}|
@@ -22,7 +22,7 @@
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - | - |
 |concat|String|String|self._wrapped + otherObject<br /><br />self._wrapped + otherObject._wrapped|object<br /><br />OCLWrapper|OclWrapper_String|
-|size||Integer||||
+|size||Integer|len(self._wrapped)||int|
 |substring|lower:Integer,upper:Integer|String||||
 |toInteger||Integer||||
 |toLower||String||||

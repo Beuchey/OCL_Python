@@ -279,6 +279,8 @@ class OclWrapper_String(OclWrapper):
         12
         >>> OclWrapper_String('').size()
         0
+        >>> OclWrapper_String(OclWrapper('Hello World!')).size()
+        12
         """
         return len(self._wrapped)
 
@@ -363,8 +365,11 @@ astr = OclWrapper_String('Hello World!')
 print(astr.concat(' I\'m a string.'))
 print(astr.concat(OclWrapper_String(' I\'m a another string.')))
 """
-
-
+"""
+# Ocl functionnality -> size
+print(OclWrapper_String('Hello World!').size())
+print(OclWrapper_String(OclWrapper('Hello World!')).size())
+"""
 
 if __name__ == '__main__':
     doctest.testmod()

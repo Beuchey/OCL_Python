@@ -23,5 +23,6 @@ class OclWrapper_String(OclPyth.OclWrapper):
 
 
 
-astr = OclWrapper_String('Hello World!')
-print(astr.size())
+
+print(OclWrapper_String('Hello World!').size())
+print(OclWrapper_String(OclPyth.OclWrapper('Hello World!')).size())

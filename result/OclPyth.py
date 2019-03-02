@@ -264,6 +264,8 @@ class OclWrapper_String(OclWrapper):
 
         >>> OclWrapper_String('Hello World!').size()
         12
+        >>> OclWrapper_String('').size()
+        0
         """
         return len(self._wrapped)
 

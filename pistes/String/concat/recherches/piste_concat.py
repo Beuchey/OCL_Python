@@ -9,6 +9,9 @@ class OclWrapper_String(OclPyth.OclWrapper):
     def concat(self, otherObject: object) -> OclWrapper_String:
         """Concatenates the other object (eventually already wrapped) to the wrapped string.
 
+        Note:
+            OCL functionnality -> 'concat'
+
         Args:
             otherObject (object): The other object to concatenate to the wrapped object.
 

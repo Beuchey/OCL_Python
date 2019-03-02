@@ -234,6 +234,9 @@ class OclWrapper_String(OclWrapper):
     def concat(self, otherObject: object) -> OclWrapper_String:
         """Concatenates the other object (eventually already wrapped) to the wrapped string.
 
+        Note:
+            OCL functionnality -> 'concat'
+
         Args:
             otherObject (object): The other object to concatenate to the wrapped object.
 
@@ -324,6 +327,12 @@ a = OclWrapper("a")
 b = OclWrapper_Extended(None)
 print(a.oclIsUndefined())
 print(b.oclIsUndefined())
+"""
+"""
+# Ocl functionnality -> concat
+astr = OclWrapper_String('Hello World!')
+print(astr.concat(' I\'m a string.'))
+print(astr.concat(OclWrapper_String(' I\'m a another string.')))
 """
 
 

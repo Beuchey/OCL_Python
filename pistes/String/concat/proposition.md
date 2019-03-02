@@ -1,55 +1,45 @@
-# allInstances
+# concat
 
-Python does not keep track of all instances of a class (or of a built-in type), so we would have to implement it ourselves. In order to ccomplish this, we can store a weak reference to each instance in class attribute. Here’s an example:
+In Python, the concatenation opration is made with the '+' operator, and can easily be generalized to all types.
+We just need to check if the contenated object is an OclWrapper, in which case we consider the wrapped object.
 
 ```Python
-import weakref
+from __future__ import annotations # To be able to return the current class in class method. This import should become unnecessary in Python 4.0 to be able to di this.
 
-class MyClass:
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..', 'result'))
+import OclPyth
 
-    _instances = set()
+class OclWrapper_String(OclPyth.OclWrapper):
 
-    def __init__(self, name: str):
-        self.name = name
-        self._instances.add(weakref.ref(self))
-
-    @classmethod
-    def allInstances(aclass: str) -> set:
-        """Allows to get, at any instant, a set of all the object of the calling class.
+    def concat(self, otherObject: object) -> OclWrapper_String:
+        """Concatenates the other object (eventually already wrapped) to the wrapped string.
 
         Note:
-            Iterates through the recorded instances of the general OCLWrapper class
-            and if the objects are instances of the calling classinfo
-            (eventually corresponding to a specialization of the general OCLWrapper class),
-            yields them.
-            Cleans up the references onto None objects before returning.
-
-            OCL functionnality -> 'allInstances'
+            OCL functionnality -> 'concat'
 
         Args:
-            aclass (str): Class of the desired instances.
+            otherObject (object): The other object to concatenate to the wrapped object.
 
         Returns:
-            set: Set of the instanced object of this class.
+            An OclWrapper_String wrapping the original wrapped object concatenated with the other object (eventually already wrapped).
+
+        >>> print(OclWrapper_String('Hello World!').concat(' I am a string.'))
+        Hello World! I am a string.
+        >>> print(OclWrapper_String('Hello World!').concat(OclWrapper_String(' I am another string.')))
+        Hello World! I am another string.
         """
-        dead = set() # to remember the deads (T.T)
-        for ref in MyClass._instances: # for every recorded instance of this general class
-            obj = ref()
-            if obj is None: # if the object is dead, remember it
-                dead.add(ref)
-            else:
-                if isinstance(obj, aclass): # if still alive and is an instance of this eventually specialized class, yield it
-                    yield obj
-        MyClass._instances -= dead # remove the deads from the set of instances
+        if isinstance(otherObject, OclPyth.OclWrapper):
+            return OclWrapper_String(self._wrapped + otherObject._wrapped)
+        else:
+            return OclWrapper_String(self._wrapped + otherObject)
 
-a = MyClass("a")
-b = MyClass("b")
-c = MyClass("c")
 
-del b
 
-for obj in MyClass.allInstances():
-    print(obj.name) # prints 'a' and 'c'
+
+
+
+astr = OclWrapper_String('Hello World!')
+print(astr.concat(' I\'m a string.'))
+print(astr.concat(OclWrapper_String(' I\'m a another string.')))
 ```
-
-This means we would have to create this kind of class to be a wrapper for all the classes we would like to keep track this way.

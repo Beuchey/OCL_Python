@@ -79,6 +79,23 @@ class OclWrapper(object):
         """
         return object.__getattribute__(self, attName)
 
+    def __str__(self):
+        """__str__ method.
+
+        Args:
+            Delegate the __str__ method to the wrapped object.
+
+        >>> print(OclWrapper(True))
+        True
+        >>> print(OclWrapper(1))
+        1
+        >>> print(OclWrapper('Hello'))
+        Hello
+        >>> print(OclWrapper((1, 2, 3)))
+        (1, 2, 3)
+        """
+        return self._wrapped.__str__()
+
     @classmethod
     def allInstances(aclass: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.

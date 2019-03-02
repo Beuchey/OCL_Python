@@ -1,4 +1,4 @@
- -> bool# oclIsInvalid
+# oclIsUndefined
 
 Use a wrapper with "is None".
 
@@ -8,18 +8,18 @@ class Wrapper(object):
     def __init__(self, awrapped : object):
         self.wrapped = awrapped
 
-    def oclIsInvalid(self) -> bool:
-        """Checks if the wrapped object is invalid, aka is None.
+    def oclIsUndefined(self) -> bool:
+        """Checks if the wrapped object is undefined, aka is None.
 
         Note:
-            OCL functionnality -> 'oclIsInvalid'
+            OCL functionnality -> 'oclIsUndefined'
 
         Returns:
-            True if the wrapped object is invalid, aka is None, Fale otherwise.
+            True if the wrapped object is undefined, aka is None, Fale otherwise.
 
-        >>> OclWrapper(True).oclIsInvalid()
+        >>> OclWrapper(True).oclIsUndefined()
         False
-        >>> OclWrapper(None).oclIsInvalid()
+        >>> OclWrapper(None).oclIsUndefined()
         True
         """
         return self.wrapped is None
@@ -29,6 +29,6 @@ class Wrapper(object):
 a = Wrapper("2")
 b = Wrapper(None)
 
-print(a.oclIsInvalid())
-print(b.oclIsInvalid())
+print(a.oclIsUndefined())
+print(b.oclIsUndefined())
 ```

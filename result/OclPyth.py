@@ -182,6 +182,22 @@ class OclWrapper(object):
         """
         return self._wrapped is None
 
+    def oclIsUndefined(self) -> bool:
+        """Checks if the wrapped object is undefined, aka is None.
+
+        Note:
+            OCL functionnality -> 'oclIsUndefined'
+
+        Returns:
+            True if the wrapped object is undefined, aka is None, Fale otherwise.
+
+        >>> OclWrapper(True).oclIsUndefined()
+        False
+        >>> OclWrapper(None).oclIsUndefined()
+        True
+        """
+        return self._wrapped is None
+
 
 class OclWrapper_Extended(OclWrapper):
     """ Example of OclWrapper with additionnal functionnality """
@@ -256,6 +272,13 @@ a = OclWrapper("a")
 b = OclWrapper_Extended(None)
 print(a.oclIsInvalid())
 print(b.oclIsInvalid())
+"""
+"""
+# Ocl functionnality -> oclIsUndefined
+a = OclWrapper("a")
+b = OclWrapper_Extended(None)
+print(a.oclIsUndefined())
+print(b.oclIsUndefined())
 """
 
 

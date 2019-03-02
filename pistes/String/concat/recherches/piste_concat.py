@@ -14,6 +14,9 @@ class OclWrapper_String(OclPyth.OclWrapper):
         """
         OclPyth.OclWrapper.__init__(self, awrapped)
 
+    def __str__(self):
+        return self._wrapped.__str__(self._wrapped)
+
     def concat(self, otherObject: object) -> OclWrapper_String:
         """Concatenate the other object (eventually already wrapped) to the wrapped string.
 

@@ -81,7 +81,7 @@ class OclWrapper(object):
         """
         return object.__getattribute__(self, attName)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """__str__ method.
 
         Note:
@@ -98,7 +98,7 @@ class OclWrapper(object):
         """
         return self._wrapped.__str__()
 
-    def __len__(self):
+    def __len__(self) -> int:
         """__len__ method.
 
         Note:
@@ -135,7 +135,7 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped + otherObject)
 
-    def __ladd__(self, otherObject):
+    def __ladd__(self, otherObject) -> OclWrapper:
         """__ladd__ method.
 
         Note:
@@ -159,7 +159,7 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped + otherObject)
 
-    def __radd__(self, otherObject):
+    def __radd__(self, otherObject) -> OclWrapper:
         """__add__ method.
 
         Note:
@@ -185,7 +185,7 @@ class OclWrapper(object):
         """
         return OclWrapper(otherObject + self._wrapped)
 
-    def __lt__(self, otherObject):
+    def __lt__(self, otherObject) -> OclWrapper:
         """__lt__ method.
 
         Note:
@@ -205,7 +205,7 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped < otherObject)
 
-    def __le__(self, otherObject):
+    def __le__(self, otherObject) -> OclWrapper:
         """__te__ method.
 
         Note:
@@ -229,7 +229,7 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped <= otherObject)
 
-    def __bool__(self):
+    def __bool__(self) -> Bool:
         """__bool__ method.
 
         Note:

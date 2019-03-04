@@ -185,6 +185,20 @@ class OclWrapper(object):
         """
         return OclWrapper(otherObject + self._wrapped)
 
+    def __lt__(self, otherObject):
+        """__tl__ method.
+
+        Note:
+            Delegates the __tl__ method to the wrapped object.
+
+        Args:
+            otherObject (object): The other object to compare this one to.
+
+        >>> print(OclWrapper(1) < 2)
+        True
+        """
+        return OclWrapper(self._wrapped < otherObject)
+
     @classmethod
     def allInstances(aclass: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.

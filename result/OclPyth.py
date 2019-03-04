@@ -286,6 +286,18 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped > otherObject)
 
+    def __repr__(self):
+        """__repr__ method.
+
+        >>> repr(OclWrapper(True))
+        'WRAPPED : True'
+        >>> repr(OclWrapper(1))
+        'WRAPPED : 1'
+        >>> repr(OclWrapper((1, 2, 3)))
+        'WRAPPED : (1, 2, 3)'
+        """
+        return 'WRAPPED : ' + repr(self._wrapped)
+
     @classmethod
     def allInstances(aclass: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.

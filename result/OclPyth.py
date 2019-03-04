@@ -84,8 +84,8 @@ class OclWrapper(object):
     def __str__(self):
         """__str__ method.
 
-        Args:
-            Delegate the __str__ method to the wrapped object.
+        Note:
+            Delegates the __str__ method to the wrapped object.
 
         >>> print(OclWrapper(True))
         True
@@ -101,8 +101,8 @@ class OclWrapper(object):
     def __len__(self):
         """__len__ method.
 
-        Args:
-            Delegate the __len__ method to the wrapped object.
+        Note:
+            Delegates the __len__ method to the wrapped object.
 
         >>> len(OclWrapper('Hello'))
         5
@@ -110,6 +110,80 @@ class OclWrapper(object):
         3
         """
         return self._wrapped.__len__()
+
+    def __add__(self, otherObject: object) -> OclWrapper:
+        """__add__ method.
+
+        Note:
+            Delegates the __add__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to add to this one.
+
+        >>> print(OclWrapper(1) + 2)
+        3
+        >>> print(OclWrapper(1) + OclWrapper(2))
+        3
+        >>> print(OclWrapper('Hello') + ' world!')
+        Hello world!
+        >>> print(OclWrapper('Hello') + OclWrapper(' world!'))
+        Hello world!
+        >>> print(OclWrapper((1, 2)) + (3, 4))
+        (1, 2, 3, 4)
+        >>> print(OclWrapper((1, 2)) + OclWrapper((3, 4)))
+        (1, 2, 3, 4)
+        """
+        return OclWrapper(self._wrapped + otherObject)
+
+    def __ladd__(self, otherObject):
+        """__ladd__ method.
+
+        Note:
+            Delegates the __ladd__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to add this one to.
+
+        >>> print(2 + OclWrapper(1))
+        3
+        >>> print(OclWrapper(1) + OclWrapper(2))
+        3
+        >>> print(OclWrapper('Hello') + ' world!')
+        Hello world!
+        >>> print(OclWrapper('Hello') + OclWrapper(' world!'))
+        Hello world!
+        >>> print(OclWrapper((1, 2)) + (3, 4))
+        (1, 2, 3, 4)
+        >>> print(OclWrapper((1, 2)) + OclWrapper((3, 4)))
+        (1, 2, 3, 4)
+        """
+        return OclWrapper(self._wrapped + otherObject)
+
+    def __radd__(self, otherObject):
+        """__add__ method.
+
+        Note:
+            Delegates the __add__ method to the wrapped object.
+
+        Args:
+            otherObject (object): The other object to add to this one.
+
+        >>> print(OclWrapper(1) + 2)
+        3
+        >>> print(OclWrapper(1) + OclWrapper(2))
+        3
+        >>> print('Hello' + OclWrapper(' world!'))
+        Hello world!
+        >>> print(OclWrapper('Hello') + OclWrapper(' world!'))
+        Hello world!
+        >>> print((1, 2) + OclWrapper((3, 4)))
+        (1, 2, 3, 4)
+        >>> print(OclWrapper((1, 2)) + OclWrapper((3, 4)))
+        (1, 2, 3, 4)
+        >>> print(sum([OclWrapper(1), OclWrapper(2)]))
+        3
+        """
+        return OclWrapper(otherObject + self._wrapped)
 
     @classmethod
     def allInstances(aclass: str) -> set:
@@ -261,10 +335,7 @@ class OclWrapper_String(OclWrapper):
         >>> print(OclWrapper_String('Hello World!').concat(OclWrapper_String(' I am another string.')))
         Hello World! I am another string.
         """
-        if isinstance(otherObject, OclWrapper):
-            return OclWrapper_String(self._wrapped + otherObject._wrapped)
-        else:
-            return OclWrapper_String(self._wrapped + otherObject)
+        return OclWrapper_String(self._wrapped + otherObject)
 
     def size(self) -> int:
         """Returns the size, aka le length, of the wrapped object.
@@ -370,6 +441,8 @@ print(astr.concat(OclWrapper_String(' I\'m a another string.')))
 print(OclWrapper_String('Hello World!').size())
 print(OclWrapper_String(OclWrapper('Hello World!')).size())
 """
+
+
 
 if __name__ == '__main__':
     doctest.testmod()

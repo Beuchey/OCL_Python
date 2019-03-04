@@ -29,10 +29,7 @@ class OclWrapper_String(OclPyth.OclWrapper):
         >>> print(OclWrapper_String('Hello World!').concat(OclWrapper_String(' I am another string.')))
         Hello World! I am another string.
         """
-        if isinstance(otherObject, OclPyth.OclWrapper):
-            return OclWrapper_String(self._wrapped + otherObject._wrapped)
-        else:
-            return OclWrapper_String(self._wrapped + otherObject)
+        return OclWrapper_String(self._wrapped + otherObject)
 
 
 

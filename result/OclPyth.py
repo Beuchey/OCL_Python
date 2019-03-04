@@ -81,11 +81,28 @@ class OclWrapper(object):
         """
         return object.__getattribute__(self, attName)
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: object):
+        """Avoids direct setting of the _wrapped attribute.
+
+        >>> OclWrapper(True)._wrapped = False
+        Traceback (most recent call last):
+        AttributeError
+        """
         if (name=="_wrapped"):
-            raise TypeError
+            raise AttributeError
         else:
             object.__setattr__(self, name, value)
+
+    def __delattr__(self, name):
+        """Avoids direct deleting of the _wrapped attribute.
+
+        >>> del OclWrapper(True)._wrapped
+        Traceback (most recent call last):
+        AttributeError"""
+        if (name=="_wrapped"):
+            raise AttributeError
+        else:
+            object.__delattr__(self, name)
 
     def __str__(self) -> str:
         """__str__ method.
@@ -560,12 +577,6 @@ print(astr.concat(OclWrapper_String(' I\'m a another string.')))
 print(OclWrapper_String('Hello World!').size())
 print(OclWrapper_String(OclWrapper('Hello World!')).size())
 """
-
-
-
-a = OclWrapper(3)
-a = OclWrapper(2)
-object.__setattr__(a, '_wrapped', 6)
 
 
 if __name__ == '__main__':

@@ -309,6 +309,38 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped > otherObject)
 
+    def __getitem__(self, key: object) -> object:
+        """__getitem__ method.
+
+        Note:
+            Delegates the __getitem__ method to the wrapped object.
+
+        Args:
+            key (object): Key of the item to get.
+
+        >>> print(OclWrapper((1, 2, 3))[1])
+        2
+        >>> print(OclWrapper('Hello world!')[1])
+        e
+        """
+        return self._wrapped[key]
+
+    def __setitem__(self, key: object, item: object) -> object:
+        """__setitem__ method.
+
+        Note:
+            Delegates the __setitem__ method to the wrapped object.
+
+        Args:
+            key (object): Key of the item to set.
+
+        >>> a = OclWrapper([1, 2, 3])
+        >>> a[1] = 'A'
+        >>> print(a)
+        [1, 'A', 3]
+        """
+        self._wrapped[key] = item
+
     def __repr__(self) -> str:
         """__repr__ method.
 
@@ -577,6 +609,7 @@ print(astr.concat(OclWrapper_String(' I\'m a another string.')))
 print(OclWrapper_String('Hello World!').size())
 print(OclWrapper_String(OclWrapper('Hello World!')).size())
 """
+
 
 
 if __name__ == '__main__':

@@ -8,12 +8,16 @@ import weakref
 class OclWrapper(object):
     """ A wrapper for any other objects to which we need to add functionnalities in order to match Ocl's """
 
+    # Class attributes
+
     __instances = set()
     """set: Set of all instances of this classinfo
 
         Note:
             OCL functionnality -> 'allInstances'
     """
+
+    # Definition of instance attributes
 
     def __init__(self, awrapped : object):
         """__init__ method.
@@ -24,6 +28,8 @@ class OclWrapper(object):
         self.__instances.add(weakref.ref(self)) # Keeps track of all the instances of this classinfo (OCL functionnality -> 'allInstances')
         object.__setattr__(self, '_wrapped', awrapped)
         """object: The wrapped object."""
+
+    # Basic wrapping mechanism : if the attribute is one of the wrapper, get this one, if not, look in the wrapped
 
     def __getattr__(self, attName: str) -> object:
         """Tries to get an attribute from the wrapped object only.
@@ -81,6 +87,24 @@ class OclWrapper(object):
         """
         return object.__getattribute__(self, attName)
 
+    # Lock some attributes, avoiding simple settings et deletings
+
+    @classmethod
+    def _isLocked(self, name: str) -> bool:
+        """Check if the attribute name is one of the locked ones.
+
+        Args:
+            name (str): The name of the attribute to check.
+
+        >>> OclWrapper._isLocked('_wrapped')
+        True
+        >>> OclWrapper._isLocked('__instances')
+        True
+        >>> OclWrapper._isLocked('anyThingElse')
+        False
+        """
+        return name=="_wrapped" or name=="__instances"
+
     def __setattr__(self, name: str, value: object):
         """Avoids direct setting of the _wrapped attribute.
 
@@ -88,7 +112,7 @@ class OclWrapper(object):
         Traceback (most recent call last):
         AttributeError
         """
-        if (name=="_wrapped"):
+        if (OclWrapper._isLocked(name)):
             raise AttributeError
         else:
             object.__setattr__(self, name, value)
@@ -99,10 +123,24 @@ class OclWrapper(object):
         >>> del OclWrapper(True)._wrapped
         Traceback (most recent call last):
         AttributeError"""
-        if (name=="_wrapped"):
+        if (OclWrapper._isLocked(name)):
             raise AttributeError
         else:
             object.__delattr__(self, name)
+
+    # Basic customization
+
+    def __repr__(self) -> str:
+        """__repr__ method.
+
+        >>> repr(OclWrapper(True))
+        'WRAPPED : True'
+        >>> repr(OclWrapper(1))
+        'WRAPPED : 1'
+        >>> repr(OclWrapper((1, 2, 3)))
+        'WRAPPED : (1, 2, 3)'
+        """
+        return 'WRAPPED : ' + repr(self._wrapped)
 
     def __str__(self) -> str:
         """__str__ method.
@@ -133,6 +171,150 @@ class OclWrapper(object):
         3
         """
         return self._wrapped.__len__()
+
+    # Boolean identity
+
+    def __lt__(self, otherObject) -> OclWrapper:
+        """__lt__ method.
+
+        Note:
+            Delegates the __lt__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to compare this one to.
+
+        >>> print(OclWrapper(1) < 2)
+        True
+        >>> print(OclWrapper(1) < OclWrapper(2))
+        True
+        >>> print(OclWrapper(2) < 1)
+        False
+        >>> print(OclWrapper(2) < OclWrapper(1))
+        False
+        """
+        return OclWrapper(self._wrapped < otherObject)
+
+    def __le__(self, otherObject) -> OclWrapper:
+        """__te__ method.
+
+        Note:
+            Delegates the __te__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to compare this one to.
+
+        >>> print(OclWrapper(1) <= 2)
+        True
+        >>> print(OclWrapper(1) <= OclWrapper(2))
+        True
+        >>> print(OclWrapper(2) <= 1)
+        False
+        >>> print(OclWrapper(2) <= OclWrapper(1))
+        False
+        >>> print(OclWrapper(1) <= 1)
+        True
+        >>> print(OclWrapper(1) <= OclWrapper(1))
+        True
+        """
+        return OclWrapper(self._wrapped <= otherObject)
+
+    def __eq__(self, other):
+        """__eq__ method.
+
+        Note:
+            Delegates the __eq__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to compare this one to.
+
+        >>> print(OclWrapper(1) == 1)
+        True
+        >>> print(OclWrapper(1) == OclWrapper(1))
+        True
+        >>> print(OclWrapper(1) == 2)
+        False
+        >>> print(OclWrapper(1) == OclWrapper(2))
+        False
+        """
+        return self._wrapped == other
+
+    def __hash__(self):
+        """__hash__ method.
+
+        Note:
+            Delegates the __hash__ method to the parent class : object.
+            This is mandatory to keep the class hashable, since the __eq__ method has been overloaded.
+            Otherwise, class is delared unshashable and can't be used in hashable collections, and
+            its instances can't be correctly compared to any other instances of any object.
+
+        >>> print(hash(OclWrapper(1)) == hash(OclWrapper(1)))
+        True
+        >>> a = OclWrapper(1)
+        >>> print(hash(a) == hash(a))
+        True
+        >>> a = OclWrapper(1)
+        >>> b = OclWrapper(1)
+        >>> print(hash(a) == hash(b))
+        False
+        """
+        return object.__hash__(self)
+
+    def __bool__(self) -> Bool:
+        """__bool__ method.
+
+        Note:
+            Delegates the __bool__ method to the wrapped object.
+
+        >>> print('Yes' if OclWrapper(True) else 'No')
+        Yes
+        >>> print('Yes' if OclWrapper(False) else 'No')
+        No
+        """
+        return self._wrapped.__bool__()
+
+    def __ge__(self, otherObject) -> OclWrapper:
+        """__ge__ method.
+
+        Note:
+            Delegates the __ge__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to compare this one to.
+
+        >>> print(OclWrapper(1) >= 2)
+        False
+        >>> print(OclWrapper(1) >= OclWrapper(2))
+        False
+        >>> print(OclWrapper(2) >= 1)
+        True
+        >>> print(OclWrapper(2) >= OclWrapper(1))
+        True
+        >>> print(OclWrapper(1) >= OclWrapper(1))
+        True
+        >>> print(OclWrapper(1) >= 1)
+        True
+        """
+        return OclWrapper(self._wrapped >= otherObject)
+
+    def __gt__(self, otherObject) -> OclWrapper:
+        """__gt__ method.
+
+        Note:
+            Delegates the __gt__ method to the wrapped object.
+
+        Args:
+            otherObject (object): The other object to compare this one to and creates an OclWrapper.
+
+        >>> print(OclWrapper(1) > 2)
+        False
+        >>> print(OclWrapper(1) > OclWrapper(2))
+        False
+        >>> print(OclWrapper(2) > 1)
+        True
+        >>> print(OclWrapper(2) > OclWrapper(1))
+        True
+        """
+        return OclWrapper(self._wrapped > otherObject)
 
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.
@@ -208,107 +390,6 @@ class OclWrapper(object):
         """
         return OclWrapper(otherObject + self._wrapped)
 
-    def __lt__(self, otherObject) -> OclWrapper:
-        """__lt__ method.
-
-        Note:
-            Delegates the __lt__ method to the wrapped object and creates an OclWrapper.
-
-        Args:
-            otherObject (object): The other object to compare this one to.
-
-        >>> print(OclWrapper(1) < 2)
-        True
-        >>> print(OclWrapper(1) < OclWrapper(2))
-        True
-        >>> print(OclWrapper(2) < 1)
-        False
-        >>> print(OclWrapper(2) < OclWrapper(1))
-        False
-        """
-        return OclWrapper(self._wrapped < otherObject)
-
-    def __le__(self, otherObject) -> OclWrapper:
-        """__te__ method.
-
-        Note:
-            Delegates the __te__ method to the wrapped object and creates an OclWrapper.
-
-        Args:
-            otherObject (object): The other object to compare this one to.
-
-        >>> print(OclWrapper(1) <= 2)
-        True
-        >>> print(OclWrapper(1) <= OclWrapper(2))
-        True
-        >>> print(OclWrapper(2) <= 1)
-        False
-        >>> print(OclWrapper(2) <= OclWrapper(1))
-        False
-        >>> print(OclWrapper(1) <= 1)
-        True
-        >>> print(OclWrapper(1) <= OclWrapper(1))
-        True
-        """
-        return OclWrapper(self._wrapped <= otherObject)
-
-    def __bool__(self) -> Bool:
-        """__bool__ method.
-
-        Note:
-            Delegates the __bool__ method to the wrapped object.
-
-        >>> print('Yes' if OclWrapper(True) else 'No')
-        Yes
-        >>> print('Yes' if OclWrapper(False) else 'No')
-        No
-        """
-        return self._wrapped.__bool__()
-
-    def __ge__(self, otherObject) -> OclWrapper:
-        """__ge__ method.
-
-        Note:
-            Delegates the __ge__ method to the wrapped object and creates an OclWrapper.
-
-        Args:
-            otherObject (object): The other object to compare this one to.
-
-        >>> print(OclWrapper(1) >= 2)
-        False
-        >>> print(OclWrapper(1) >= OclWrapper(2))
-        False
-        >>> print(OclWrapper(2) >= 1)
-        True
-        >>> print(OclWrapper(2) >= OclWrapper(1))
-        True
-        >>> print(OclWrapper(1) >= OclWrapper(1))
-        True
-        >>> print(OclWrapper(1) >= 1)
-        True
-        """
-        return OclWrapper(self._wrapped >= otherObject)
-
-    def __gt__(self, otherObject) -> OclWrapper:
-        """__gt__ method.
-
-        Note:
-            Delegates the __gt__ method to the wrapped object.
-
-        Args:
-            otherObject (object): The other object to compare this one to and creates an OclWrapper.
-
-        >>> print(OclWrapper(1) > 2)
-        False
-        >>> print(OclWrapper(1) > OclWrapper(2))
-        False
-        >>> print(OclWrapper(2) > 1)
-        True
-        >>> print(OclWrapper(2) > OclWrapper(1))
-        True
-        """
-        return OclWrapper(self._wrapped > otherObject)
-
     def __getitem__(self, key: object) -> object:
         """__getitem__ method.
 
@@ -340,18 +421,6 @@ class OclWrapper(object):
         [1, 'A', 3]
         """
         self._wrapped[key] = item
-
-    def __repr__(self) -> str:
-        """__repr__ method.
-
-        >>> repr(OclWrapper(True))
-        'WRAPPED : True'
-        >>> repr(OclWrapper(1))
-        'WRAPPED : 1'
-        >>> repr(OclWrapper((1, 2, 3)))
-        'WRAPPED : (1, 2, 3)'
-        """
-        return 'WRAPPED : ' + repr(self._wrapped)
 
     @classmethod
     def allInstances(aclass: str) -> set:

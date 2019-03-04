@@ -242,7 +242,7 @@ class OclWrapper(object):
         """
         return self._wrapped.__bool__()
 
-    def __ge__(self, otherObject):
+    def __ge__(self, otherObject) -> OclWrapper:
         """__ge__ method.
 
         Note:
@@ -266,7 +266,7 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped >= otherObject)
 
-    def __gt__(self, otherObject):
+    def __gt__(self, otherObject) -> OclWrapper:
         """__gt__ method.
 
         Note:
@@ -286,7 +286,7 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped > otherObject)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """__repr__ method.
 
         >>> repr(OclWrapper(True))

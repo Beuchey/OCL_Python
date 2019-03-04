@@ -159,19 +159,6 @@ class OclWrapper(object):
         """
         return self._wrapped.__str__()
 
-    def __len__(self) -> int:
-        """__len__ method.
-
-        Note:
-            Delegates the __len__ method to the wrapped object.
-
-        >>> len(OclWrapper('Hello'))
-        5
-        >>> len(OclWrapper((1, 2, 3)))
-        3
-        """
-        return self._wrapped.__len__()
-
     # Boolean identity
 
     def __lt__(self, otherObject) -> OclWrapper:
@@ -332,6 +319,29 @@ class OclWrapper(object):
         (1, 2, 3)
         """
         return self._wrapped(*args)
+
+    #  Emulating container types
+
+    def __len__(self) -> int:
+        """__len__ method.
+
+        Note:
+            Delegates the __len__ method to the wrapped object.
+
+        >>> len(OclWrapper('Hello'))
+        5
+        >>> len(OclWrapper((1, 2, 3)))
+        3
+        """
+        return self._wrapped.__len__()
+
+    def __length_hint__(self) -> int:
+        """__length_hint__ method.
+
+        Note:
+            Delegates the __length_hint__ method to the wrapped object.
+        """
+        return self._wrapped.__length_hint__()
 
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.

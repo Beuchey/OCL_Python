@@ -316,6 +316,11 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped > otherObject)
 
+    # Emulating callable objects
+
+    def __call__(self) -> object:
+        return self._wrapped()
+
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.
 

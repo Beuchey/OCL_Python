@@ -318,8 +318,20 @@ class OclWrapper(object):
 
     # Emulating callable objects
 
-    def __call__(self) -> object:
-        return self._wrapped()
+    def __call__(self, *args: object) -> object:
+        """__call__ method.
+
+        Note:
+            Delegates the __call__ method to the wrapped object.
+
+        >>> OclWrapper(lambda x : x + 1)(2)
+        3
+        >>> OclWrapper(lambda x : x + ' world!')('Hello')
+        'Hello world!'
+        >>> OclWrapper(lambda x : x + (3,))((1, 2))
+        (1, 2, 3)
+        """
+        return self._wrapped(*args)
 
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.

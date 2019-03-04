@@ -565,6 +565,7 @@ print(OclWrapper_String(OclWrapper('Hello World!')).size())
 
 a = OclWrapper(3)
 a = OclWrapper(2)
+object.__setattr__(a, '_wrapped', 6)
 
 
 if __name__ == '__main__':

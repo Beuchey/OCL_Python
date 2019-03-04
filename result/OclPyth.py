@@ -22,7 +22,7 @@ class OclWrapper(object):
             awrapped (object): The target object of this wrapper.
         """
         self.__instances.add(weakref.ref(self)) # Keeps track of all the instances of this classinfo (OCL functionnality -> 'allInstances')
-        self._wrapped = awrapped
+        object.__setattr__(self, '_wrapped', awrapped)
         """object: The wrapped object."""
 
     def __getattr__(self, attName: str) -> object:
@@ -80,6 +80,12 @@ class OclWrapper(object):
         (1, 2, 3)
         """
         return object.__getattribute__(self, attName)
+
+    def __setattr__(self, name, value):
+        if (name=="_wrapped"):
+            raise TypeError
+        else:
+            object.__setattr__(self, name, value)
 
     def __str__(self) -> str:
         """__str__ method.
@@ -555,6 +561,10 @@ print(OclWrapper_String('Hello World!').size())
 print(OclWrapper_String(OclWrapper('Hello World!')).size())
 """
 
+
+
+a = OclWrapper(3)
+a = OclWrapper(2)
 
 
 if __name__ == '__main__':

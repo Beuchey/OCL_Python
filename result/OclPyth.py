@@ -822,12 +822,50 @@ class OclWrapper(object):
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(OclWrapper(2) & 1)
+        >>> print(OclWrapper(3) & 1)
         1
-        >>> print(OclWrapper(2) & OclWrapper(1))
+        >>> print(OclWrapper(3) & OclWrapper(1))
         1
         """
         return OclWrapper(self._wrapped & otherObject)
+
+    def __or__(self, otherObject: object) -> OclWrapper:
+        """__or__ method.
+
+        Note:
+            Delegates the __or__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "or" with.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(3) | 1)
+        3
+        >>> print(OclWrapper(3) | OclWrapper(1))
+        3
+        """
+        return OclWrapper(self._wrapped | otherObject)
+
+    def __xor__(self, otherObject: object) -> OclWrapper:
+        """__xor__ method.
+
+        Note:
+            Delegates the __xor__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "xor" with.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(3) ^ 1)
+        2
+        >>> print(OclWrapper(3) ^ OclWrapper(1))
+        2
+        """
+        return OclWrapper(self._wrapped ^ otherObject)
 
     def __radd__(self, otherObject) -> OclWrapper:
         """__radd__ method.
@@ -1059,12 +1097,50 @@ class OclWrapper(object):
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(1 & OclWrapper(2))
+        >>> print(3 & OclWrapper(1))
         1
-        >>> print(OclWrapper(1) & OclWrapper(2))
+        >>> print(OclWrapper(3) & OclWrapper(1))
         1
         """
         return OclWrapper(otherObject & self._wrapped)
+
+    def __ror__(self, otherObject: object) -> OclWrapper:
+        """__ror__ method.
+
+        Note:
+            Delegates the __ror__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "ror" with.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(3 | OclWrapper(1))
+        3
+        >>> print(OclWrapper(3) | OclWrapper(1))
+        3
+        """
+        return OclWrapper(otherObject | self._wrapped)
+
+    def __rxor__(self, otherObject: object) -> OclWrapper:
+        """__rxor__ method.
+
+        Note:
+            Delegates the __rxor__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "rxor" with.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(3 ^ OclWrapper(1))
+        2
+        >>> print(OclWrapper(3) ^ OclWrapper(1))
+        2
+        """
+        return OclWrapper(self._wrapped ^ otherObject)
 
     @classmethod
     def allInstances(aclass: str) -> set:

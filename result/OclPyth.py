@@ -772,6 +772,44 @@ class OclWrapper(object):
         """
         return OclWrapper(pow(self._wrapped, otherObject))
 
+    def __lshift__(self, otherObject: object) -> OclWrapper:
+        """__lshift__ method.
+
+        Note:
+            Delegates the __lshift__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to lshift this one of.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(2) << 1)
+        4
+        >>> print(OclWrapper(2) << OclWrapper(2))
+        8
+        """
+        return OclWrapper(self._wrapped << otherObject)
+
+    def __rshift__(self, otherObject: object) -> OclWrapper:
+        """__rshift__ method.
+
+        Note:
+            Delegates the __rshift__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to rshift this one of.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(4) >> 1)
+        2
+        >>> print(OclWrapper(4) >> OclWrapper(2))
+        1
+        """
+        return OclWrapper(self._wrapped >> otherObject)
+
     def __radd__(self, otherObject) -> OclWrapper:
         """__radd__ method.
 
@@ -951,6 +989,44 @@ class OclWrapper(object):
         8
         """
         return OclWrapper(pow(otherObject, self._wrapped))
+
+    def __rlshift__(self, otherObject: object) -> OclWrapper:
+        """__rlshift__ method.
+
+        Note:
+            Delegates the __rlshift__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to rlshift of this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(2 << OclWrapper(1))
+        4
+        >>> print(OclWrapper(2) << OclWrapper(2))
+        8
+        """
+        return OclWrapper(otherObject << self._wrapped)
+
+    def __rrshift__(self, otherObject: object) -> OclWrapper:
+        """__rrshift__ method.
+
+        Note:
+            Delegates the __rrshift__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to rrshift of this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(4 >> OclWrapper(1))
+        2
+        >>> print(OclWrapper(4) >> OclWrapper(2))
+        1
+        """
+        return OclWrapper(otherObject >> self._wrapped)
 
     @classmethod
     def allInstances(aclass: str) -> set:

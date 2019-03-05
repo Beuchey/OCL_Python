@@ -10,6 +10,20 @@ class OclWrapper(object):
 
     # Class attributes
 
+    __slots__ = ['__weakref__', '_wrapped']
+    """
+        Use __slots__ method to store attributes for class instances :
+        Prevents from the default Python's behaviour to use a dictionnary to store them and
+        so allow to dynamically add, modify or delate attributes to each instances, but loosing
+        performance.
+        Use slots instead disallow to add, modify or delate attributes to each instances, but gains
+        in performance.
+
+        We need to add '__weakref__' in order to allow weak references on class instances.
+
+        We need to also declare each possible instance attribute, like the wrapped object '_wrapped'.
+    """
+
     __instances = set()
     """set: Set of all instances of this classinfo
 

@@ -669,7 +669,7 @@ class OclWrapper(object):
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
         """
-        return OclWrapper(self._wrapped * otherObject)
+        return OclWrapper(self._wrapped @ otherObject)
 
     def __truediv__(self, otherObject: object) -> OclWrapper:
         """__truediv__ method.
@@ -682,6 +682,11 @@ class OclWrapper(object):
 
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(1) / 2)
+        0.5
+        >>> print(OclWrapper(1) / OclWrapper(2))
+        0.5
         """
         return OclWrapper(self._wrapped / otherObject)
 
@@ -696,8 +701,13 @@ class OclWrapper(object):
 
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(1) // 2)
+        0
+        >>> print(OclWrapper(1) // OclWrapper(2))
+        0
         """
-        return OclWrapper(self._wrapped / otherObject)
+        return OclWrapper(self._wrapped // otherObject)
 
     def __mod__(self, otherObject: object) -> OclWrapper:
         """__mod__ method.
@@ -711,9 +721,9 @@ class OclWrapper(object):
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> OclWrapper(3) % 2
+        >>> print(OclWrapper(3) % 2)
         1
-        >>> OclWrapper(3) % OclWrapper(2)
+        >>> print(OclWrapper(3) % OclWrapper(2))
         1
         """
         return OclWrapper(self._wrapped % otherObject)
@@ -730,12 +740,12 @@ class OclWrapper(object):
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> divmod(OclWrapper(7), 2)
+        >>> print(divmod(OclWrapper(7), 2))
         (3, 1)
-        >>> divmod(OclWrapper(7), 2)
+        >>> print(divmod(OclWrapper(7), OclWrapper(2)))
         (3, 1)
         """
-        return OclWrapper(self._wrapped % otherObject)
+        return OclWrapper(divmod(self._wrapped, otherObject))
 
     def __radd__(self, otherObject) -> OclWrapper:
         """__radd__ method.
@@ -820,7 +830,7 @@ class OclWrapper(object):
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
         """
-        return OclWrapper(otherObject * self._wrapped)
+        return OclWrapper(otherObject @ self._wrapped)
 
     def __rtruediv__(self, otherObject: object) -> OclWrapper:
         """__rtruediv__ method.
@@ -833,6 +843,11 @@ class OclWrapper(object):
 
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(1 / OclWrapper(2))
+        0.5
+        >>> print(OclWrapper(1) / OclWrapper(2))
+        0.5
         """
         return OclWrapper(otherObject / self._wrapped)
 
@@ -847,8 +862,13 @@ class OclWrapper(object):
 
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(1 // OclWrapper(2))
+        0
+        >>> print(OclWrapper(1) // OclWrapper(2))
+        0
         """
-        return OclWrapper(otherObject / self._wrapped)
+        return OclWrapper(otherObject // self._wrapped)
 
     def __rmod__(self, otherObject: object) -> OclWrapper:
         """__rmod__ method.
@@ -868,6 +888,25 @@ class OclWrapper(object):
         1
         """
         return OclWrapper(otherObject % self._wrapped)
+
+    def __rdivmod__(self, otherObject: object) -> OclWrapper:
+        """__rdivmod__ method.
+
+        Note:
+            Delegates the __rdivmod__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to mod this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(divmod(7, OclWrapper(2)))
+        (3, 1)
+        >>> print(divmod(OclWrapper(7), OclWrapper(2)))
+        (3, 1)
+        """
+        return OclWrapper(divmod(otherObject,self._wrapped))
 
     @classmethod
     def allInstances(aclass: str) -> set:

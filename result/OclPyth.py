@@ -419,9 +419,11 @@ class OclWrapper(object):
         >>> OclWrapper((1, 2, 3))[1]
         2
         >>> OclWrapper('Hello world!')[1]
-        e
-        >>> OclWrapper('Hello world!')[1]
-        e
+        'e'
+        >>> OclWrapper([1, 2, 3])[2]
+        3
+        >>> OclWrapper({'a': 1, 'b': 2, 'c': 3})['c']
+        3
         """
         return self._wrapped.__getitem__(key)
 

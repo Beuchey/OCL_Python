@@ -3,7 +3,7 @@ from __future__ import annotations # To be able to return the current class in c
 import doctest
 import weakref
 from math import trunc, floor, ceil
-
+from sys import stdout
 
 class OclWrapper(object):
     """ A wrapper for any other objects to which we need to add functionnalities in order to match Ocl's """
@@ -189,6 +189,28 @@ class OclWrapper(object):
         {'a': 1, 'b': 2, 'c': 3}
         """
         return self._wrapped.__str__()
+
+    def __bytes__(self) -> bytes:
+        """__bytes__ method.
+
+        Note:
+            Delegates the __bytes__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object.
+
+        >>> print(bytes(OclWrapper(True)))
+        b'\\x00'
+        >>> print(bytes(OclWrapper(False)))
+        b''
+        >>> print(bytes(OclWrapper(1)))
+        b'\\x00'
+        >>> print(bytes(OclWrapper((1, 16, 10))))
+        b'\\x01\\x10\\n'
+        >>> print(bytes(OclWrapper([1, 16, 10])))
+        b'\\x01\\x10\\n'
+        """
+        return bytes(self._wrapped)
 
     # Boolean identity
 
@@ -1598,7 +1620,7 @@ class OclWrapper(object):
         """
         return self._wrapped.__index__()
 
-    def __round__(self, *ndigits) -> int:
+    def __round__(self, *ndigits) -> real:
         """__round__ method.
 
         Note:
@@ -1695,6 +1717,37 @@ class OclWrapper(object):
         4
         """
         return ceil(self._wrapped)
+
+    # Emulating context manager
+
+    def __enter__(self) -> object:
+        """__enter__ method.
+
+        Note:
+            If the wrapped object has an __enter__ attribute, delegates the operation to it,
+            or returns directly the wrapped object if it has not.
+
+        >>> with OclWrapper(True) as o: print(o)
+        True
+        >>> with OclWrapper(OclWrapper(False)) as o: print(o)
+        False
+        """
+        try:
+            return self._wrapped.__enter__()
+        except AttributeError:
+            return self._wrapped
+
+    def __exit__(self, exception_type, exception_value, exception_traceback) -> bool:
+        """__exit__ method.
+
+        Note:
+            Delegates the __exit__ method to the wrapped object.
+
+            If an exception is supplied, and the method wishes to suppress the exception
+            (i.e., prevent it from being propagated), it should return a true value.
+            Otherwise, the exception will be processed normally upon exit from this method.
+        """
+        return False
 
     @classmethod
     def allInstances(aclass: str) -> set:
@@ -1952,6 +2005,7 @@ print(astr.concat(OclWrapper_String(' I\'m a another string.')))
 print(OclWrapper_String('Hello World!').size())
 print(OclWrapper_String(OclWrapper('Hello World!')).size())
 """
+
 
 
 if __name__ == '__main__':

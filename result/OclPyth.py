@@ -456,6 +456,10 @@ class OclWrapper(object):
         Args:
             key (object): Key of the item to delete.
 
+        >>> a = OclWrapper([1, 2, 3])
+        >>> del a[1]
+        >>> print(a)
+        [1, 3]
         >>> a = OclWrapper({'a': 1, 'b': 2, 'c': 3})
         >>> del a['b']
         >>> print(a)

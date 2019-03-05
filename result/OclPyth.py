@@ -524,6 +524,20 @@ class OclWrapper(object):
         """
         return self._wrapped.__next__()
 
+    def __reversed__(self):
+        """__reversed__ method.
+
+        Note:
+            Delegates the __reversed__ method to the wrapped object.
+
+        >>> it = reversed(OclWrapper([2, 3, 1]))
+        >>> next(it)
+        1
+        >>> next(it)
+        3
+        """
+        return self._wrapped.__reversed__()
+
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.
 

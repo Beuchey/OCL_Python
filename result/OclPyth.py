@@ -1140,7 +1140,334 @@ class OclWrapper(object):
         >>> print(OclWrapper(3) ^ OclWrapper(1))
         2
         """
-        return OclWrapper(self._wrapped ^ otherObject)
+        return OclWrapper(otherObject ^ self._wrapped)
+
+    def __iadd__(self, otherObject) -> OclWrapper:
+        """__iadd__ method.
+
+        Note:
+            Delegates the __iadd__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "iadd" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(1)
+        >>> a += 2
+        >>> print(a)
+        3
+        >>> a = OclWrapper(1)
+        >>> a += OclWrapper(2)
+        >>> print(a)
+        3
+        >>> a = OclWrapper('Hello')
+        >>> a += ' world!'
+        >>> print(a)
+        Hello world!
+        >>> a = OclWrapper('Hello')
+        >>> a += OclWrapper(' world!')
+        >>> print(a)
+        Hello world!
+        >>> a = OclWrapper((1, 2))
+        >>> a += (3, 4)
+        >>> print(a)
+        (1, 2, 3, 4)
+        >>> a = OclWrapper((1, 2))
+        >>> a += OclWrapper((3, 4))
+        >>> print(a)
+        (1, 2, 3, 4)
+        >>> a = OclWrapper([1, 2])
+        >>> a += [3, 4]
+        >>> print(a)
+        [1, 2, 3, 4]
+        >>> a = OclWrapper([1, 2])
+        >>> a += OclWrapper([3, 4])
+        >>> print(a)
+        [1, 2, 3, 4]
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped + otherObject)
+        return self
+
+    def __isub__(self, otherObject) -> OclWrapper:
+        """__isub__ method.
+
+        Note:
+            Delegates the __isub__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "isub" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(1)
+        >>> a -= 2
+        >>> print(a)
+        -1
+        >>> a = OclWrapper(1)
+        >>> a -= OclWrapper(2)
+        >>> print(a)
+        -1
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped - otherObject)
+        return self
+
+    def __imul__(self, otherObject) -> OclWrapper:
+        """__imul__ method.
+
+        Note:
+            Delegates the __imul__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "imul" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(1)
+        >>> a *= 2
+        >>> print(a)
+        2
+        >>> a = OclWrapper(1)
+        >>> a *= OclWrapper(2)
+        >>> print(a)
+        2
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped * otherObject)
+        return self
+
+    def __imatmul__(self, otherObject) -> OclWrapper:
+        """__imatmul__ method.
+
+        Note:
+            Delegates the __imatmul__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "imatmul" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped @ otherObject)
+        return self
+
+    def __itruediv__(self, otherObject) -> OclWrapper:
+        """__itruediv__ method.
+
+        Note:
+            Delegates the __itruediv__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "itruediv" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(1)
+        >>> a /= 2
+        >>> print(a)
+        0.5
+        >>> a = OclWrapper(1)
+        >>> a /= OclWrapper(2)
+        >>> print(a)
+        0.5
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped / otherObject)
+        return self
+
+    def __ifloordiv__(self, otherObject) -> OclWrapper:
+        """__ifloordiv__ method.
+
+        Note:
+            Delegates the __ifloordiv__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "ifloordiv" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(1)
+        >>> a //= 2
+        >>> print(a)
+        0
+        >>> a = OclWrapper(1)
+        >>> a //= OclWrapper(2)
+        >>> print(a)
+        0
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped // otherObject)
+        return self
+
+    def __imod__(self, otherObject) -> OclWrapper:
+        """__imod__ method.
+
+        Note:
+            Delegates the __imod__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "imod" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(7)
+        >>> a %= 2
+        >>> print(a)
+        1
+        >>> a = OclWrapper(7)
+        >>> a %= OclWrapper(2)
+        >>> print(a)
+        1
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped % otherObject)
+        return self
+
+    def __ipow__(self, otherObject) -> OclWrapper:
+        """__ipow__ method.
+
+        Note:
+            Delegates the __ipow__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "ipow" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(2)
+        >>> a **= 3
+        >>> print(a)
+        8
+        >>> a = OclWrapper(2)
+        >>> a **= OclWrapper(3)
+        >>> print(a)
+        8
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped ** otherObject)
+        return self
+
+    def __ilshift__(self, otherObject) -> OclWrapper:
+        """__ilshift__ method.
+
+        Note:
+            Delegates the __ilshift__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "ilshift" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(1)
+        >>> a <<= 2
+        >>> print(a)
+        4
+        >>> a = OclWrapper(1)
+        >>> a <<= OclWrapper(2)
+        >>> print(a)
+        4
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped << otherObject)
+        return self
+
+    def __irshift__(self, otherObject) -> OclWrapper:
+        """__irshift__ method.
+
+        Note:
+            Delegates the __irshift__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "irshift" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(2)
+        >>> a >>= 1
+        >>> print(a)
+        1
+        >>> a = OclWrapper(2)
+        >>> a >>= OclWrapper(1)
+        >>> print(a)
+        1
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped >> otherObject)
+        return self
+
+    def __iand__(self, otherObject) -> OclWrapper:
+        """__iand__ method.
+
+        Note:
+            Delegates the __iand__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "iand" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(3)
+        >>> a &= 1
+        >>> print(a)
+        1
+        >>> a = OclWrapper(3)
+        >>> a &= OclWrapper(1)
+        >>> print(a)
+        1
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped & otherObject)
+        return self
+
+    def __ior__(self, otherObject) -> OclWrapper:
+        """__ior__ method.
+
+        Note:
+            Delegates the __ior__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "ior" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(3)
+        >>> a |= 1
+        >>> print(a)
+        3
+        >>> a = OclWrapper(3)
+        >>> a |= OclWrapper(1)
+        >>> print(a)
+        3
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped | otherObject)
+        return self
+
+    def __ixor__(self, otherObject) -> OclWrapper:
+        """__ixor__ method.
+
+        Note:
+            Delegates the __ixor__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "ixor" this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> a = OclWrapper(3)
+        >>> a ^= 1
+        >>> print(a)
+        2
+        >>> a = OclWrapper(3)
+        >>> a ^= OclWrapper(1)
+        >>> print(a)
+        2
+        """
+        object.__setattr__(self, '_wrapped', self._wrapped ^ otherObject)
+        return self
 
     @classmethod
     def allInstances(aclass: str) -> set:

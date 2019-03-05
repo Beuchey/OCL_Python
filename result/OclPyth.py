@@ -221,8 +221,8 @@ class OclWrapper(object):
         Returns:
             The result of the operation on the wrapped object.
 
-        >>> OclWrapper('Hello {0}').format('world!')
-        'Hello world!'
+        >>> OclWrapper('Hello {0}, I am {1}').format('world', 'John')
+        'Hello world, I am John'
         >>> OclWrapper('User ID: {uid}   Last seen: {last_login}').format(uid="root", last_login = "5 Mar 2008 07:20")
         'User ID: root   Last seen: 5 Mar 2008 07:20'
         >>> OclWrapper('Empty dict: {{}}').format()

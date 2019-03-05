@@ -1152,7 +1152,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "iadd" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(1)
         >>> a += 2
@@ -1200,7 +1200,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "isub" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(1)
         >>> a -= 2
@@ -1224,7 +1224,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "imul" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(1)
         >>> a *= 2
@@ -1263,7 +1263,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "itruediv" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(1)
         >>> a /= 2
@@ -1311,7 +1311,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "imod" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(7)
         >>> a %= 2
@@ -1335,7 +1335,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "ipow" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(2)
         >>> a **= 3
@@ -1359,7 +1359,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "ilshift" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(1)
         >>> a <<= 2
@@ -1383,7 +1383,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "irshift" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(2)
         >>> a >>= 1
@@ -1407,7 +1407,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "iand" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(3)
         >>> a &= 1
@@ -1431,7 +1431,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "ior" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(3)
         >>> a |= 1
@@ -1455,7 +1455,7 @@ class OclWrapper(object):
             otherObject (object): The other object to "ixor" this one.
 
         Returns:
-            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+            Updates the wrapped object with the operation and returns self.
 
         >>> a = OclWrapper(3)
         >>> a ^= 1
@@ -1468,6 +1468,118 @@ class OclWrapper(object):
         """
         object.__setattr__(self, '_wrapped', self._wrapped ^ otherObject)
         return self
+
+    def __neg__(self) -> OclWrapper:
+        """__neg__ method.
+
+        Note:
+            Delegates the __neg__ method to the wrapped object and creates an OclWrapper.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(-OclWrapper(3))
+        -3
+        >>> print(-OclWrapper(-3))
+        3
+        """
+        return OclWrapper(-self._wrapped)
+
+    def __pos__(self) -> OclWrapper:
+        """__pos__ method.
+
+        Note:
+            Delegates the __pos__ method to the wrapped object and creates an OclWrapper.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(+OclWrapper(3))
+        3
+        >>> print(+OclWrapper(-3))
+        -3
+        """
+        return OclWrapper(+self._wrapped)
+
+    def __abs__(self) -> OclWrapper:
+        """__abs__ method.
+
+        Note:
+            Delegates the __abs__ method to the wrapped object and creates an OclWrapper.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(abs(OclWrapper(3)))
+        3
+        >>> print(abs(OclWrapper(-3)))
+        3
+        """
+        return OclWrapper(abs(self._wrapped))
+
+    def __invert__(self) -> OclWrapper:
+        """__invert__ method.
+
+        Note:
+            Delegates the __invert__ method to the wrapped object and creates an OclWrapper.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(~OclWrapper(3))
+        -4
+        >>> print(~OclWrapper(-3))
+        2
+        """
+        return OclWrapper(~self._wrapped)
+
+    def __int__(self) -> int:
+        """__int__ method.
+
+        Note:
+            Delegates the __int__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(int(OclWrapper(3)))
+        3
+        >>> print(int(OclWrapper(3.5)))
+        3
+        """
+        return int(self._wrapped)
+
+    def __float__(self) -> float:
+        """__float__ method.
+
+        Note:
+            Delegates the __int__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(float(OclWrapper(3)))
+        3.0
+        >>> print(float(OclWrapper(3.5)))
+        3.5
+        """
+        return float(self._wrapped)
+
+    def __complex__(self) -> complex:
+        """__complex__ method.
+
+        Note:
+            Delegates the __complex__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(complex(OclWrapper(3)))
+        (3+0j)
+        >>> print(complex(OclWrapper(3.5)))
+        (3.5+0j)
+        """
+        return complex(self._wrapped)
 
     @classmethod
     def allInstances(aclass: str) -> set:

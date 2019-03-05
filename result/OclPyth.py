@@ -1581,6 +1581,20 @@ class OclWrapper(object):
         """
         return complex(self._wrapped)
 
+    def __index__(self) -> int:
+        """__index__ method.
+
+        Note:
+            Delegates the __index__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(3).__index__())
+        3
+        """
+        return self._wrapped.__index__()
+
     @classmethod
     def allInstances(aclass: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.

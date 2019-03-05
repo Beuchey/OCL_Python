@@ -638,6 +638,86 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped - otherObject)
 
+    def __mul__(self, otherObject: object) -> OclWrapper:
+        """__mul__ method.
+
+        Note:
+            Delegates the __mul__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to mul this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(1) * 2)
+        2
+        >>> print(OclWrapper(1) * OclWrapper(2))
+        2
+        """
+        return OclWrapper(self._wrapped * otherObject)
+
+    def __matmul__(self, otherObject: object) -> OclWrapper:
+        """__matmul__ method.
+
+        Note:
+            Delegates the __matmul__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to mul this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+        """
+        return OclWrapper(self._wrapped * otherObject)
+
+    def __truediv__(self, otherObject: object) -> OclWrapper:
+        """__truediv__ method.
+
+        Note:
+            Delegates the __truediv__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to div this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+        """
+        return OclWrapper(self._wrapped / otherObject)
+
+    def __floordiv__(self, otherObject: object) -> OclWrapper:
+        """__floordiv__ method.
+
+        Note:
+            Delegates the __floordiv__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to div this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+        """
+        return OclWrapper(self._wrapped / otherObject)
+
+    def __mod__(self, otherObject: object) -> OclWrapper:
+        """__mod__ method.
+
+        Note:
+            Delegates the __mod__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to mod this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(3) % 2)
+        1
+        >>> print(OclWrapper(3) % OclWrapper(2))
+        1
+        """
+        return OclWrapper(self._wrapped % otherObject)
+
     def __radd__(self, otherObject) -> OclWrapper:
         """__radd__ method.
 
@@ -645,12 +725,12 @@ class OclWrapper(object):
             Delegates the __radd__ method to the wrapped object and creates an OclWrapper.
 
         Args:
-            otherObject (object): The other object to add to this one.
+            otherObject (object): The other object to add this one to.
 
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(OclWrapper(1) + 2)
+        >>> print(2 + OclWrapper(1))
         3
         >>> print(OclWrapper(1) + OclWrapper(2))
         3
@@ -678,7 +758,7 @@ class OclWrapper(object):
             Delegates the __rsub__ method to the wrapped object and creates an OclWrapper.
 
         Args:
-            otherObject (object): The other object to sub from this one.
+            otherObject (object): The other object to sub this one from.
 
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
@@ -689,6 +769,86 @@ class OclWrapper(object):
         1
         """
         return OclWrapper(otherObject - self._wrapped)
+
+    def __rmul__(self, otherObject: object) -> OclWrapper:
+        """__rmul__ method.
+
+        Note:
+            Delegates the __rmul__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to mul this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(2 * OclWrapper(1))
+        2
+        >>> print(OclWrapper(2) * OclWrapper(1))
+        2
+        """
+        return OclWrapper(otherObject * self._wrapped)
+
+    def __rmatmul__(self, otherObject: object) -> OclWrapper:
+        """__rmatmul__ method.
+
+        Note:
+            Delegates the __rmatmul__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to mul this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+        """
+        return OclWrapper(otherObject * self._wrapped)
+
+    def __rtruediv__(self, otherObject: object) -> OclWrapper:
+        """__rtruediv__ method.
+
+        Note:
+            Delegates the __rtruediv__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to div this one by.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+        """
+        return OclWrapper(otherObject / self._wrapped)
+
+    def __rfloordiv__(self, otherObject: object) -> OclWrapper:
+        """__rfloordiv__ method.
+
+        Note:
+            Delegates the __rfloordiv__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to div this one by.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+        """
+        return OclWrapper(otherObject / self._wrapped)
+
+    def __rmod__(self, otherObject: object) -> OclWrapper:
+        """__rmod__ method.
+
+        Note:
+            Delegates the __rmod__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to mod by this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(3 % OclWrapper(2))
+        1
+        >>> print(OclWrapper(3) % OclWrapper(2))
+        1
+        """
+        return OclWrapper(otherObject % self._wrapped)
 
     @classmethod
     def allInstances(aclass: str) -> set:

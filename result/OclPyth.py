@@ -810,6 +810,25 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped >> otherObject)
 
+    def __and__(self, otherObject: object) -> OclWrapper:
+        """__and__ method.
+
+        Note:
+            Delegates the __and__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "and" with.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(2) & 1)
+        1
+        >>> print(OclWrapper(2) & OclWrapper(1))
+        1
+        """
+        return OclWrapper(self._wrapped & otherObject)
+
     def __radd__(self, otherObject) -> OclWrapper:
         """__radd__ method.
 
@@ -1027,6 +1046,25 @@ class OclWrapper(object):
         1
         """
         return OclWrapper(otherObject >> self._wrapped)
+
+    def __rand__(self, otherObject: object) -> OclWrapper:
+        """__rand__ method.
+
+        Note:
+            Delegates the __rand__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to "rand" with.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(1 & OclWrapper(2))
+        1
+        >>> print(OclWrapper(1) & OclWrapper(2))
+        1
+        """
+        return OclWrapper(otherObject & self._wrapped)
 
     @classmethod
     def allInstances(aclass: str) -> set:

@@ -84,6 +84,10 @@ class OclWrapper(object):
         'Hello'
         >>> OclWrapper((1, 2, 3))._wrapped
         (1, 2, 3)
+        >>> OclWrapper([1, 2, 3])._wrapped
+        [1, 2, 3]
+        >>> OclWrapper({'a': 1, 'b': 2, 'c': 3})._wrapped
+        {'a': 1, 'b': 2, 'c': 3}
         """
         return object.__getattribute__(self, attName)
 
@@ -125,7 +129,11 @@ class OclWrapper(object):
 
         >>> del OclWrapper(True)._wrapped
         Traceback (most recent call last):
-        AttributeError"""
+        AttributeError
+        >>> del OclWrapper(True).__instances
+        Traceback (most recent call last):
+        AttributeError
+        """
         if (OclWrapper._isLocked(name)):
             raise AttributeError
         else:
@@ -145,6 +153,10 @@ class OclWrapper(object):
         'WRAPPED : 1'
         >>> repr(OclWrapper((1, 2, 3)))
         'WRAPPED : (1, 2, 3)'
+        >>> repr(OclWrapper([1, 2, 3]))
+        'WRAPPED : [1, 2, 3]'
+        >>> repr(OclWrapper({'a': 1, 'b': 2, 'c': 3}))
+        "WRAPPED : {'a': 1, 'b': 2, 'c': 3}"
         """
         return 'WRAPPED : ' + self._wrapped.__repr__()
 
@@ -165,6 +177,10 @@ class OclWrapper(object):
         Hello
         >>> print(OclWrapper((1, 2, 3)))
         (1, 2, 3)
+        >>> print(OclWrapper([1, 2, 3]))
+        [1, 2, 3]
+        >>> print(OclWrapper({'a': 1, 'b': 2, 'c': 3}))
+        {'a': 1, 'b': 2, 'c': 3}
         """
         return self._wrapped.__str__()
 
@@ -350,6 +366,8 @@ class OclWrapper(object):
         'Hello world!'
         >>> OclWrapper(lambda x : x + (3,))((1, 2))
         (1, 2, 3)
+        >>> OclWrapper(lambda x : x + [3])([1, 2])
+        [1, 2, 3]
         """
         return self._wrapped.__call__(*args)
 
@@ -368,6 +386,10 @@ class OclWrapper(object):
         5
         >>> len(OclWrapper((1, 2, 3)))
         3
+        >>> len(OclWrapper([1, 2, 3, 4]))
+        4
+        >>> len(OclWrapper({'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6}))
+        6
         """
         return self._wrapped.__len__()
 
@@ -443,6 +465,31 @@ class OclWrapper(object):
             key (object): Key of the missing item.
         """
         return self._wrapped.__missing__(key)
+
+    def __iter__(self):
+        """__iter__ method.
+
+        Note:
+            Delegates the __iter__ method to the wrapped object.
+
+        >>> next(iter(OclWrapper([2, 3, 1])))
+        2
+        >>> next(iter(OclWrapper((2, 3, 1))))
+        2
+        >>> next(iter(OclWrapper({'a':2, 'b':3, 'c':1})))
+        'a'
+        >>> next(iter(OclWrapper('Hello world!')))
+        'H'
+        """
+        return self._wrapped.__iter__()
+
+    def __next__(self):
+        """__next__ method.
+
+        Note:
+            Delegates the __next__ method to the wrapped object.
+        """
+        return self._wrapped.__next__()
 
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.
@@ -783,7 +830,6 @@ print(astr.concat(OclWrapper_String(' I\'m a another string.')))
 print(OclWrapper_String('Hello World!').size())
 print(OclWrapper_String(OclWrapper('Hello World!')).size())
 """
-
 
 
 if __name__ == '__main__':

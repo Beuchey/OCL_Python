@@ -586,6 +586,8 @@ class OclWrapper(object):
         """
         return self._wrapped.__contains__(item)
 
+    # Emulating numeric types
+
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.
 
@@ -616,6 +618,37 @@ class OclWrapper(object):
         [1, 2, 3, 4]
         """
         return OclWrapper(self._wrapped + otherObject)
+
+    def __sub__(self, otherObject: object) -> OclWrapper:
+        """__sub__ method.
+
+        Note:
+            Delegates the __sub__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to sub from this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(OclWrapper(1) - 2)
+        3
+        >>> print(OclWrapper(1) - OclWrapper(2))
+        3
+        >>> print(OclWrapper('Hello') - ' world!')
+        Hello world!
+        >>> print(OclWrapper('Hello') - OclWrapper(' world!'))
+        Hello world!
+        >>> print(OclWrapper((1, 2)) - (3, 4))
+        (1, 2, 3, 4)
+        >>> print(OclWrapper((1, 2)) - OclWrapper((3, 4)))
+        (1, 2, 3, 4)
+        >>> print(OclWrapper([1, 2]) - [3, 4])
+        [1, 2, 3, 4]
+        >>> print(OclWrapper([1, 2]) - OclWrapper([3, 4]))
+        [1, 2, 3, 4]
+        """
+        return OclWrapper(self._wrapped - otherObject)
 
     def __ladd__(self, otherObject) -> OclWrapper:
         """__ladd__ method.

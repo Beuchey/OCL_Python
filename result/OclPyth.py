@@ -212,6 +212,17 @@ class OclWrapper(object):
         """
         return bytes(self._wrapped)
 
+    def __format__(self, *format_spec: str) -> str:
+        """__format__ method.
+
+        Note:
+            Delegates the __format__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object.
+        """
+        return self._wrapped.__format__(*format_spec)
+
     # Boolean identity
 
     def __lt__(self, otherObject) -> OclWrapper:

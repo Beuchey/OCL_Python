@@ -31,7 +31,8 @@ class OclWrapper(object):
         else:
             object.__setattr__(self, '_wrapped', awrapped)
         """object: The wrapped object.
-            We test if the wrapped object is already an OclWrapper, in which case we flatten it, so we don't end with unnecessary multiple wrapping levels.
+            We test if the wrapped object is already an OclWrapper, in which case we flatten it,
+            so we don't end with unnecessary multiple wrapping levels.
         """
 
     # Basic wrapping mechanism : if the attribute is one of the wrapper, get this one, if not, look in the wrapped

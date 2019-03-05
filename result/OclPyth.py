@@ -220,6 +220,9 @@ class OclWrapper(object):
 
         Returns:
             The result of the operation on the wrapped object.
+
+        >>> OclWrapper('Hello {0}').format('world!')
+        'Hello world!'
         """
         return self._wrapped.__format__(*format_spec)
 

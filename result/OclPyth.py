@@ -26,8 +26,13 @@ class OclWrapper(object):
             awrapped (object): The target object of this wrapper.
         """
         self.__instances.add(weakref.ref(self)) # Keeps track of all the instances of this classinfo (OCL functionnality -> 'allInstances')
-        object.__setattr__(self, '_wrapped', awrapped)
-        """object: The wrapped object."""
+        if(isinstance(awrapped, OclWrapper)):
+            object.__setattr__(self, '_wrapped', awrapped._wrapped)
+        else:
+            object.__setattr__(self, '_wrapped', awrapped)
+        """object: The wrapped object.
+            We test if the wrapped object is already an OclWrapper, in which case we flatten it, so we don't end with unnecessary multiple wrapping levels.
+        """
 
     # Basic wrapping mechanism : if the attribute is one of the wrapper, get this one, if not, look in the wrapped
 
@@ -747,6 +752,25 @@ class OclWrapper(object):
         """
         return OclWrapper(divmod(self._wrapped, otherObject))
 
+    def __pow__(self, otherObject: object) -> OclWrapper:
+        """__pow__ method.
+
+        Note:
+            Delegates the __pow__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to pow this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(pow(OclWrapper(2), 3))
+        8
+        >>> print(pow(OclWrapper(2), OclWrapper(3)))
+        8
+        """
+        return OclWrapper(pow(self._wrapped, otherObject))
+
     def __radd__(self, otherObject) -> OclWrapper:
         """__radd__ method.
 
@@ -907,6 +931,25 @@ class OclWrapper(object):
         (3, 1)
         """
         return OclWrapper(divmod(otherObject,self._wrapped))
+
+    def __rpow__(self, otherObject: object) -> OclWrapper:
+        """__rpow__ method.
+
+        Note:
+            Delegates the __rpow__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to be pow by this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(pow(2, OclWrapper(3)))
+        8
+        >>> print(pow(OclWrapper(2), OclWrapper(3)))
+        8
+        """
+        return OclWrapper(pow(otherObject, self._wrapped))
 
     @classmethod
     def allInstances(aclass: str) -> set:

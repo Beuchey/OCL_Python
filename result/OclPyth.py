@@ -501,13 +501,25 @@ class OclWrapper(object):
         Note:
             Delegates the __next__ method to the wrapped object.
 
-        >>> next(next(iter(OclWrapper([2, 3, 1]))))
+        >>> it = iter(OclWrapper([2, 3, 1]))
+        >>> next(it)
+        2
+        >>> next(it)
         3
-        >>> next(next(iter(OclWrapper((2, 3, 1)))))
+        >>> it = iter(OclWrapper((2, 3, 1)))
+        >>> next(it)
+        2
+        >>> next(it)
         3
-        >>> next(next(iter(OclWrapper({'a':2, 'b':3, 'c':1}))))
+        >>> it = iter(OclWrapper({'a':2, 'b':3, 'c':1}))
+        >>> next(it)
+        'a'
+        >>> next(it)
         'b'
-        >>> next(next(iter(OclWrapper('Hello world!'))))
+        >>> it = iter(OclWrapper('Hello world!'))
+        >>> next(it)
+        'H'
+        >>> next(it)
         'e'
         """
         return self._wrapped.__next__()

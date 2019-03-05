@@ -1661,6 +1661,8 @@ class OclWrapper(object):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
+        >>> print(floor(OclWrapper(3)))
+        3
         >>> print(floor(OclWrapper(3.1)))
         3
         >>> print(floor(OclWrapper(3.4)))
@@ -1671,6 +1673,28 @@ class OclWrapper(object):
         3
         """
         return floor(self._wrapped)
+
+    def __ceil__(self) -> int:
+        """__ceil__ method.
+
+        Note:
+            Delegates the __ceil__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(ceil(OclWrapper(3)))
+        3
+        >>> print(ceil(OclWrapper(3.1)))
+        4
+        >>> print(ceil(OclWrapper(3.4)))
+        4
+        >>> print(ceil(OclWrapper(3.5)))
+        4
+        >>> print(ceil(OclWrapper(3.9)))
+        4
+        """
+        return ceil(self._wrapped)
 
     @classmethod
     def allInstances(aclass: str) -> set:

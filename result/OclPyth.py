@@ -1587,6 +1587,9 @@ class OclWrapper(object):
         Note:
             Delegates the __index__ method to the wrapped object.
 
+            In order to have a coherent integer type class, when __index__() is defined __int__() should also be defined,
+            and both should return the same value.
+
         Returns:
             The result of the operation on the wrapped object and the other object.
 
@@ -1594,6 +1597,26 @@ class OclWrapper(object):
         3
         """
         return self._wrapped.__index__()
+
+    def __round__(self) -> int:
+        """__round__ method.
+
+        Note:
+            Delegates the __round__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(round(OclWrapper(3.1)))
+        3
+        >>> print(round(OclWrapper(3.4)))
+        3
+        >>> print(round(OclWrapper(3.5)))
+        4
+        >>> print(round(OclWrapper(3.9)))
+        4
+        """
+        return self._wrapped.__round__()
 
     @classmethod
     def allInstances(aclass: str) -> set:

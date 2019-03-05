@@ -96,6 +96,9 @@ class OclWrapper(object):
         Args:
             name (str): The name of the attribute to check.
 
+        Returns:
+            True if the name is one of the locked attributes, False otherwise.
+
         >>> OclWrapper._isLocked('_wrapped')
         True
         >>> OclWrapper._isLocked('__instances')
@@ -133,6 +136,9 @@ class OclWrapper(object):
     def __repr__(self) -> str:
         """__repr__ method.
 
+        Returns:
+            The "official" string representation of the instanced object.
+
         >>> repr(OclWrapper(True))
         'WRAPPED : True'
         >>> repr(OclWrapper(1))
@@ -147,6 +153,9 @@ class OclWrapper(object):
 
         Note:
             Delegates the __str__ method to the wrapped object.
+
+        Returns:
+            The quick string representation of the instanced object.
 
         >>> print(OclWrapper(True))
         True
@@ -170,6 +179,9 @@ class OclWrapper(object):
         Args:
             otherObject (object): The other object to compare this one to.
 
+        Returns:
+            An OclWrapper wrapping the result of the original wrapped object compared to the other object.
+
         >>> print(OclWrapper(1) < 2)
         True
         >>> print(OclWrapper(1) < OclWrapper(2))
@@ -189,6 +201,9 @@ class OclWrapper(object):
 
         Args:
             otherObject (object): The other object to compare this one to.
+
+        Returns:
+            An OclWrapper wrapping the result of the original wrapped object compared to the other object.
 
         >>> print(OclWrapper(1) <= 2)
         True
@@ -214,6 +229,9 @@ class OclWrapper(object):
         Args:
             otherObject (object): The other object to compare this one to.
 
+        Returns:
+            An OclWrapper wrapping the result of the original wrapped object compared to the other object.
+
         >>> print(OclWrapper(1) == 1)
         True
         >>> print(OclWrapper(1) == OclWrapper(1))
@@ -234,6 +252,9 @@ class OclWrapper(object):
             Otherwise, class is delared unshashable and can't be used in hashable collections, and
             its instances can't be correctly compared to any other instances of any object.
 
+        Returns:
+            The hash value of the instanced object.
+
         >>> print(hash(OclWrapper(1)) == hash(OclWrapper(1)))
         True
         >>> a = OclWrapper(1)
@@ -252,6 +273,9 @@ class OclWrapper(object):
         Note:
             Delegates the __bool__ method to the wrapped object.
 
+        Returns:
+            The boolean signification of the wrapped object.
+
         >>> print('Yes' if OclWrapper(True) else 'No')
         Yes
         >>> print('Yes' if OclWrapper(False) else 'No')
@@ -267,6 +291,9 @@ class OclWrapper(object):
 
         Args:
             otherObject (object): The other object to compare this one to.
+
+        Returns:
+            An OclWrapper wrapping the result of the original wrapped object compared to the other object.
 
         >>> print(OclWrapper(1) >= 2)
         False
@@ -292,6 +319,9 @@ class OclWrapper(object):
         Args:
             otherObject (object): The other object to compare this one to and creates an OclWrapper.
 
+        Returns:
+            An OclWrapper wrapping the result of the original wrapped object compared to the other object.
+
         >>> print(OclWrapper(1) > 2)
         False
         >>> print(OclWrapper(1) > OclWrapper(2))
@@ -311,6 +341,9 @@ class OclWrapper(object):
         Note:
             Delegates the __call__ method to the wrapped object.
 
+        Returns:
+            The return value of the call to the wrapped objet with those arguments.
+
         >>> OclWrapper(lambda x : x + 1)(2)
         3
         >>> OclWrapper(lambda x : x + ' world!')('Hello')
@@ -328,6 +361,9 @@ class OclWrapper(object):
         Note:
             Delegates the __len__ method to the wrapped object.
 
+        Returns:
+            The length of the wrapped objet.
+
         >>> len(OclWrapper('Hello'))
         5
         >>> len(OclWrapper((1, 2, 3)))
@@ -340,6 +376,9 @@ class OclWrapper(object):
 
         Note:
             Delegates the __length_hint__ method to the wrapped object.
+
+        Returns:
+            The length hint of the wrapped objet.
         """
         return self._wrapped.__length_hint__()
 
@@ -352,6 +391,9 @@ class OclWrapper(object):
         Args:
             key (object): Key of the item to get.
 
+        Returns:
+            The object returned by the wrapped object.
+
         >>> print(OclWrapper((1, 2, 3))[1])
         2
         >>> print(OclWrapper('Hello world!')[1])
@@ -359,7 +401,7 @@ class OclWrapper(object):
         """
         return self._wrapped.__getitem__(key)
 
-    def __setitem__(self, key: object, item: object) -> object:
+    def __setitem__(self, key: object, item: object):
         """__setitem__ method.
 
         Note:
@@ -375,7 +417,7 @@ class OclWrapper(object):
         """
         self._wrapped.__setitem__(key, item)
 
-    def __delitem__(self, key: object) -> object:
+    def __delitem__(self, key: object):
         """__delitem__ method.
 
         Note:
@@ -391,19 +433,16 @@ class OclWrapper(object):
         """
         return self._wrapped.__delitem__(key)
 
-    def __missing__(self, key: object) -> bool:
+    def __missing__(self, key: object):
         """__missing__ method.
 
         Note:
             Delegates the __missing__ method to the wrapped object.
 
         Args:
-            key (object): Key of the item to delete.
-
-        >>> __missing__(OclWrapper({'a': 1, 'b': 2, 'c': 3}, 'd')
-        {'a': 1, 'c': 3}
+            key (object): Key of the missing item.
         """
-        return self._wrapped.__delitem__(key)
+        return self._wrapped.__missing__(key)
 
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.
@@ -413,6 +452,9 @@ class OclWrapper(object):
 
         Args:
             otherObject (object): The other object to add to this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
 
         >>> print(OclWrapper(1) + 2)
         3
@@ -438,6 +480,9 @@ class OclWrapper(object):
         Args:
             otherObject (object): The other object to add this one to.
 
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
         >>> print(2 + OclWrapper(1))
         3
         >>> print(OclWrapper(1) + OclWrapper(2))
@@ -461,6 +506,9 @@ class OclWrapper(object):
 
         Args:
             otherObject (object): The other object to add to this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
 
         >>> print(OclWrapper(1) + 2)
         3

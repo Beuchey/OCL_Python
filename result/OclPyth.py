@@ -538,6 +538,54 @@ class OclWrapper(object):
         """
         return self._wrapped.__reversed__()
 
+    def contains(self, item: object) -> bool:
+        """__contains__ method.
+
+        Note:
+            Delegates the __contains__ method to the wrapped object.
+
+        Args:
+            item (object) : The object to check if it is contained by the wrapped object.
+
+        Returns:
+            True if the wrapped object contains the item, False otherwise.
+
+        >>> OclWrapper([2, 3, 1]).contains(3)
+        True
+        >>> OclWrapper([2, 3, 1]).contains(4)
+        False
+        >>> OclWrapper((2, 3, 1)).contains(3)
+        True
+        >>> OclWrapper((2, 3, 1)).contains(4)
+        False
+        >>> OclWrapper({'a':2, 'b':3, 'c':1}).contains('b')
+        True
+        >>> OclWrapper({'a':2, 'b':3, 'c':1}).contains('d')
+        False
+        >>> OclWrapper('Hello world!').contains('o')
+        True
+        >>> OclWrapper('Hello world!').contains('z')
+        False
+
+        >>> OclWrapper([2, 3, 1]).__contains__(3)
+        True
+        >>> OclWrapper([2, 3, 1]).__contains__(4)
+        False
+        >>> OclWrapper((2, 3, 1)).__contains__(3)
+        True
+        >>> OclWrapper((2, 3, 1)).__contains__(4)
+        False
+        >>> OclWrapper({'a':2, 'b':3, 'c':1}).__contains__('b')
+        True
+        >>> OclWrapper({'a':2, 'b':3, 'c':1}).__contains__('d')
+        False
+        >>> OclWrapper('Hello world!').__contains__('o')
+        True
+        >>> OclWrapper('Hello world!').__contains__('z')
+        False
+        """
+        return self._wrapped.__contains__(item)
+
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.
 

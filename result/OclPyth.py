@@ -440,6 +440,10 @@ class OclWrapper(object):
         >>> a[1] = 'A'
         >>> print(a)
         [1, 'A', 3]
+        >>> a = OclWrapper({'a': 1, 'b': 2, 'c': 3})
+        >>> a['b'] = 'A'
+        >>> print(a)
+        {'a': 1, 'b': 'A', 'c': 3}
         """
         self._wrapped.__setitem__(key, item)
 

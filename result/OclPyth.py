@@ -1618,6 +1618,26 @@ class OclWrapper(object):
         """
         return self._wrapped.__round__()
 
+    def __trunc__(self) -> int:
+        """__trunc__ method.
+
+        Note:
+            Delegates the __trunc__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(trunc(OclWrapper(3.1)))
+        3
+        >>> print(trunc(OclWrapper(3.4)))
+        3
+        >>> print(trunc(OclWrapper(3.5)))
+        3
+        >>> print(trunc(OclWrapper(3.9)))
+        3
+        """
+        return self._wrapped.__trunc__()
+
     @classmethod
     def allInstances(aclass: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.

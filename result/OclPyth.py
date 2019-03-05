@@ -391,6 +391,20 @@ class OclWrapper(object):
         """
         return self._wrapped.__delitem__(key)
 
+    def __missing__(self, key: object) -> bool:
+        """__missing__ method.
+
+        Note:
+            Delegates the __missing__ method to the wrapped object.
+
+        Args:
+            key (object): Key of the item to delete.
+
+        >>> __missing__(OclWrapper({'a': 1, 'b': 2, 'c': 3}, 'd')
+        {'a': 1, 'c': 3}
+        """
+        return self._wrapped.__delitem__(key)
+
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.
 

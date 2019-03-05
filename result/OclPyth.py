@@ -416,9 +416,11 @@ class OclWrapper(object):
         Returns:
             The object returned by the wrapped object.
 
-        >>> print(OclWrapper((1, 2, 3))[1])
+        >>> OclWrapper((1, 2, 3))[1]
         2
-        >>> print(OclWrapper('Hello world!')[1])
+        >>> OclWrapper('Hello world!')[1]
+        e
+        >>> OclWrapper('Hello world!')[1]
         e
         """
         return self._wrapped.__getitem__(key)

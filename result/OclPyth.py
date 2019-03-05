@@ -527,6 +527,10 @@ class OclWrapper(object):
         (1, 2, 3, 4)
         >>> print(OclWrapper((1, 2)) + OclWrapper((3, 4)))
         (1, 2, 3, 4)
+        >>> print(OclWrapper([1, 2]) + [3, 4])
+        [1, 2, 3, 4]
+        >>> print(OclWrapper([1, 2]) + OclWrapper([3, 4]))
+        [1, 2, 3, 4]
         """
         return OclWrapper(self._wrapped + otherObject)
 
@@ -554,14 +558,18 @@ class OclWrapper(object):
         (1, 2, 3, 4)
         >>> print(OclWrapper((1, 2)) + OclWrapper((3, 4)))
         (1, 2, 3, 4)
+        >>> print(OclWrapper([1, 2]) + [3, 4])
+        [1, 2, 3, 4]
+        >>> print(OclWrapper([1, 2]) + OclWrapper([3, 4]))
+        [1, 2, 3, 4]
         """
         return OclWrapper(self._wrapped + otherObject)
 
     def __radd__(self, otherObject) -> OclWrapper:
-        """__add__ method.
+        """__radd__ method.
 
         Note:
-            Delegates the __add__ method to the wrapped object and creates an OclWrapper.
+            Delegates the __radd__ method to the wrapped object and creates an OclWrapper.
 
         Args:
             otherObject (object): The other object to add to this one.
@@ -573,6 +581,8 @@ class OclWrapper(object):
         3
         >>> print(OclWrapper(1) + OclWrapper(2))
         3
+        >>> print(sum([OclWrapper(1), OclWrapper(2)]))
+        3
         >>> print('Hello' + OclWrapper(' world!'))
         Hello world!
         >>> print(OclWrapper('Hello') + OclWrapper(' world!'))
@@ -581,8 +591,10 @@ class OclWrapper(object):
         (1, 2, 3, 4)
         >>> print(OclWrapper((1, 2)) + OclWrapper((3, 4)))
         (1, 2, 3, 4)
-        >>> print(sum([OclWrapper(1), OclWrapper(2)]))
-        3
+        >>> print([1, 2] + OclWrapper([3, 4]))
+        [1, 2, 3, 4]
+        >>> print(OclWrapper([1, 2]) + OclWrapper([3, 4]))
+        [1, 2, 3, 4]
         """
         return OclWrapper(otherObject + self._wrapped)
 

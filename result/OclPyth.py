@@ -2,7 +2,7 @@
 from __future__ import annotations # To be able to return the current class in class method. This import should become unnecessary in Python 4.0 to be able to di this.
 import doctest
 import weakref
-
+from math import trunc, floor, ceil
 
 
 class OclWrapper(object):
@@ -1598,7 +1598,7 @@ class OclWrapper(object):
         """
         return self._wrapped.__index__()
 
-    def __round__(self) -> int:
+    def __round__(self, *ndigits) -> int:
         """__round__ method.
 
         Note:
@@ -1607,16 +1607,28 @@ class OclWrapper(object):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(round(OclWrapper(3.1)))
+        >>> print(round(OclWrapper(3)))
         3
-        >>> print(round(OclWrapper(3.4)))
+        >>> print(round(OclWrapper(3.111111)))
         3
-        >>> print(round(OclWrapper(3.5)))
+        >>> print(round(OclWrapper(3.444444)))
+        3
+        >>> print(round(OclWrapper(3.555555)))
         4
-        >>> print(round(OclWrapper(3.9)))
+        >>> print(round(OclWrapper(3.999999)))
         4
+        >>> print(round(OclWrapper(3), 3))
+        3
+        >>> print(round(OclWrapper(3.111111), 3))
+        3.111
+        >>> print(round(OclWrapper(3.444444), 3))
+        3.444
+        >>> print(round(OclWrapper(3.555555), 3))
+        3.556
+        >>> print(round(OclWrapper(3.999999), 3))
+        4.0
         """
-        return self._wrapped.__round__()
+        return self._wrapped.__round__(*ndigits)
 
     def __trunc__(self) -> int:
         """__trunc__ method.
@@ -1627,6 +1639,8 @@ class OclWrapper(object):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
+        >>> print(trunc(OclWrapper(3)))
+        3
         >>> print(trunc(OclWrapper(3.1)))
         3
         >>> print(trunc(OclWrapper(3.4)))
@@ -1637,6 +1651,26 @@ class OclWrapper(object):
         3
         """
         return self._wrapped.__trunc__()
+
+    def __floor__(self) -> int:
+        """__floor__ method.
+
+        Note:
+            Delegates the __floor__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(floor(OclWrapper(3.1)))
+        3
+        >>> print(floor(OclWrapper(3.4)))
+        3
+        >>> print(floor(OclWrapper(3.5)))
+        3
+        >>> print(floor(OclWrapper(3.9)))
+        3
+        """
+        return floor(self._wrapped)
 
     @classmethod
     def allInstances(aclass: str) -> set:

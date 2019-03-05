@@ -223,6 +223,8 @@ class OclWrapper(object):
 
         >>> OclWrapper('Hello {0}').format('world!')
         'Hello world!'
+        >>> OclWrapper('User ID: {uid}   Last seen: {last_login}').format(uid="root", last_login = "5 Mar 2008 07:20")
+        'User ID: root   Last seen: 5 Mar 2008 07:20'
         """
         return self._wrapped.__format__(*format_spec)
 

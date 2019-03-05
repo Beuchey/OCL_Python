@@ -140,7 +140,7 @@ class OclWrapper(object):
         >>> repr(OclWrapper((1, 2, 3)))
         'WRAPPED : (1, 2, 3)'
         """
-        return 'WRAPPED : ' + repr(self._wrapped)
+        return 'WRAPPED : ' + self._wrapped.__repr__()
 
     def __str__(self) -> str:
         """__str__ method.
@@ -205,7 +205,7 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped <= otherObject)
 
-    def __eq__(self, other):
+    def __eq__(self, otherObject: object) -> bool:
         """__eq__ method.
 
         Note:
@@ -223,7 +223,7 @@ class OclWrapper(object):
         >>> print(OclWrapper(1) == OclWrapper(2))
         False
         """
-        return self._wrapped == other
+        return self._wrapped == otherObject
 
     def __hash__(self):
         """__hash__ method.
@@ -318,7 +318,7 @@ class OclWrapper(object):
         >>> OclWrapper(lambda x : x + (3,))((1, 2))
         (1, 2, 3)
         """
-        return self._wrapped(*args)
+        return self._wrapped.__call__(*args)
 
     #  Emulating container types
 
@@ -342,6 +342,54 @@ class OclWrapper(object):
             Delegates the __length_hint__ method to the wrapped object.
         """
         return self._wrapped.__length_hint__()
+
+    def __getitem__(self, key: object) -> object:
+        """__getitem__ method.
+
+        Note:
+            Delegates the __getitem__ method to the wrapped object.
+
+        Args:
+            key (object): Key of the item to get.
+
+        >>> print(OclWrapper((1, 2, 3))[1])
+        2
+        >>> print(OclWrapper('Hello world!')[1])
+        e
+        """
+        return self._wrapped.__getitem__(key)
+
+    def __setitem__(self, key: object, item: object) -> object:
+        """__setitem__ method.
+
+        Note:
+            Delegates the __setitem__ method to the wrapped object.
+
+        Args:
+            key (object): Key of the item to set.
+
+        >>> a = OclWrapper([1, 2, 3])
+        >>> a[1] = 'A'
+        >>> print(a)
+        [1, 'A', 3]
+        """
+        self._wrapped.__setitem__(key, item)
+
+    def __delitem__(self, key: object) -> object:
+        """__delitem__ method.
+
+        Note:
+            Delegates the __delitem__ method to the wrapped object.
+
+        Args:
+            key (object): Key of the item to delete.
+
+        >>> a = OclWrapper({'a': 1, 'b': 2, 'c': 3})
+        >>> del a['b']
+        >>> print(a)
+        {'a': 1, 'c': 3}
+        """
+        return self._wrapped.__delitem__(key)
 
     def __add__(self, otherObject: object) -> OclWrapper:
         """__add__ method.
@@ -416,38 +464,6 @@ class OclWrapper(object):
         3
         """
         return OclWrapper(otherObject + self._wrapped)
-
-    def __getitem__(self, key: object) -> object:
-        """__getitem__ method.
-
-        Note:
-            Delegates the __getitem__ method to the wrapped object.
-
-        Args:
-            key (object): Key of the item to get.
-
-        >>> print(OclWrapper((1, 2, 3))[1])
-        2
-        >>> print(OclWrapper('Hello world!')[1])
-        e
-        """
-        return self._wrapped[key]
-
-    def __setitem__(self, key: object, item: object) -> object:
-        """__setitem__ method.
-
-        Note:
-            Delegates the __setitem__ method to the wrapped object.
-
-        Args:
-            key (object): Key of the item to set.
-
-        >>> a = OclWrapper([1, 2, 3])
-        >>> a[1] = 'A'
-        >>> print(a)
-        [1, 'A', 3]
-        """
-        self._wrapped[key] = item
 
     @classmethod
     def allInstances(aclass: str) -> set:

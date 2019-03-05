@@ -711,10 +711,29 @@ class OclWrapper(object):
         Returns:
             An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(OclWrapper(3) % 2)
+        >>> OclWrapper(3) % 2
         1
-        >>> print(OclWrapper(3) % OclWrapper(2))
+        >>> OclWrapper(3) % OclWrapper(2)
         1
+        """
+        return OclWrapper(self._wrapped % otherObject)
+
+    def __divmod__(self, otherObject: object) -> OclWrapper:
+        """__divmod__ method.
+
+        Note:
+            Delegates the __divmod__ method to the wrapped object and creates an OclWrapper.
+
+        Args:
+            otherObject (object): The other object to mod this one.
+
+        Returns:
+            An OclWrapper wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> divmod(OclWrapper(7), 2)
+        (3, 1)
+        >>> divmod(OclWrapper(7), 2)
+        (3, 1)
         """
         return OclWrapper(self._wrapped % otherObject)
 

@@ -9,7 +9,7 @@ import OclPyth
 
 class OclWrapper_String(OclPyth.OclWrapper):
 
-    def toInteger(self) -> int:
+    def toInteger(self) -> OclPyth.OclWrapper:
         """Parses a String into an Integer, if possible.
 
         Note:
@@ -23,7 +23,7 @@ class OclWrapper_String(OclPyth.OclWrapper):
         >>> print(OclWrapper_String(OclWrapper_String('3')).toInteger())
         3
         """
-        return int(self._wrapped)
+        return OclPyth.OclWrapper(int(self._wrapped))
 
 
 

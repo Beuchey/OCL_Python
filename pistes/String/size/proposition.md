@@ -9,7 +9,7 @@ import OclPyth
 
 class OclWrapper_String(OclPyth.OclWrapper):
 
-    def size(self) -> int:
+    def size(self) -> OclPyth.OclWrapper:
         """Returns the size, aka le length, of the wrapped object.
 
         Note:
@@ -21,7 +21,7 @@ class OclWrapper_String(OclPyth.OclWrapper):
         >>> OclWrapper_String('Hello World!')
         12
         """
-        return len(self._wrapped)
+        return OclPyth.OclWrapper(len(self._wrapped))
 
 
 

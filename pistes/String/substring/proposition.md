@@ -9,7 +9,7 @@ import OclPyth
 
 class OclWrapper_String(OclPyth.OclWrapper):
 
-    def substring(self, start: int, end: int) -> str:
+    def substring(self, start: int, end: int) -> OclWrapper_String:
         """Slices the _wrapped object from start to end.
 
         Note:
@@ -29,7 +29,7 @@ class OclWrapper_String(OclPyth.OclWrapper):
         >>> print(OclWrapper_String(OclWrapper_String('test')).substring(2,4))
         est
         """
-        return self._wrapped[start-1:end]
+        return OclWrapper_String(self._wrapped[start-1:end])
 
 
 

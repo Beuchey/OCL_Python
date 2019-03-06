@@ -1783,6 +1783,66 @@ class OclWrapper(object):
         """
         return False
 
+    # Emulating descriptors
+
+    def __get__(self, instance: object, owner: str) -> object:
+        """Called when we call __getattr__ on an instance of a class, or directly on a class,
+            owning an attribute instance of this class, that we are trying to access to.
+
+            The default behaviour is to simply return self (allow simple access),
+            but this may be customized.
+
+        Args:
+            instance (objet): the instance through wich the call has been made
+            (None if the call has been made directly through the class itself).
+
+            owner (str): Class through which the call has been made, directly or from an instance.
+
+        Returns:
+            The value asked, eventully computed.
+        """
+        return self._wrapped.__get__(instance, owner)
+
+    def __set__(self, instance: object, value: object):
+        """Called when we call __setattr__ on an instance of a class, or directly on a class,
+            owning an attribute instance of this class, that we are trying to access to.
+
+            The default behaviour is to simply modify self (allow simple modification),
+            but this may be customized.
+            For example, a read-only descriptor could raise an AttributeError in its
+            __set__ method do disallow any setting of an instance of this class.
+
+            Example: If the class MyClass defines __set__, the in any call, on an instance I of
+            MyClass ou directly on MyClass, like "I = qqch", it will be this __set__ method
+            that will be called, instead of simply modify I's value.
+
+            This allows, for example, to perform in-place modifications instead of replace
+            the all value of an instance, or to create restrictions about which values
+            the instances can have.
+
+        Args:
+            instance (objet): the instance through wich the call has been made
+            (None if the call has been made directly through the class itself).
+
+            value (str): The new value concerning the modification.
+        """
+        return self._wrapped.__set__(instance, value)
+
+    def __delete__(self, instance: object, value: object):
+        """Called when we call __delattr__ on an instance of a class, or directly on a class,
+            owning an attribute instance of this class, that we are trying to access to.
+
+            The default behaviour is to do nothing (allow simple deletion),
+            but this may be customized.
+
+        Args:
+            instance (objet): the instance through wich the call has been made
+            (None if the call has been made directly through the class itself).
+
+            value (str): The new value concerning the modification.
+        """
+        return self._wrapped.__delete__(instance, value)
+
     @classmethod
     def allInstances(aclass: str) -> set:
         """Allows to get, at any instant, a set of all the object of the calling class.

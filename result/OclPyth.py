@@ -1589,7 +1589,7 @@ class OclWrapper(object):
         """
         return OclWrapper(~self._wrapped)
 
-    def __int__(self) -> OclWrapper:
+    def __int__(self) -> int:
         """__int__ method.
 
         Note:
@@ -1603,7 +1603,7 @@ class OclWrapper(object):
         >>> print(int(OclWrapper(3.5)))
         3
         """
-        return OclWrapper(int(self._wrapped))
+        return int(self._wrapped)
 
     def __float__(self) -> float:
         """__float__ method.
@@ -1754,7 +1754,7 @@ class OclWrapper(object):
 
     # Emulating context manager
 
-    def __enter__(self) -> object:
+    def __enter__(self) -> OclWrapper:
         """__enter__ method.
 
         Note:
@@ -1767,11 +1767,11 @@ class OclWrapper(object):
         False
         """
         try:
-            return self._wrapped.__enter__()
+            return OclWrapper(self._wrapped.__enter__())
         except AttributeError:
-            return self._wrapped
+            return self
 
-    def __exit__(self, exception_type, exception_value, exception_traceback) -> bool:
+    def __exit__(self, exception_type, exception_value, exception_traceback) -> OclWrapper:
         """__exit__ method.
 
         Note:
@@ -1781,11 +1781,11 @@ class OclWrapper(object):
             (i.e., prevent it from being propagated), it should return a true value.
             Otherwise, the exception will be processed normally upon exit from this method.
         """
-        return False
+        return OclWrapper(False)
 
     # Emulating descriptors
 
-    def __get__(self, instance: object, owner: str) -> object:
+    def __get__(self, instance: object, owner: str) -> OclWrapper:
         """Called when we call __getattr__ on an instance of a class, or directly on a class,
             owning an attribute instance of this class, that we are trying to access to.
 
@@ -1802,7 +1802,7 @@ class OclWrapper(object):
             The value asked, eventully computed.
         """
         try:
-            return self._wrapped.__get__(instance, owner)
+            return OclWrapper(self._wrapped.__get__(instance, owner))
         except AttributeError:
             return self
 
@@ -1901,7 +1901,7 @@ class OclWrapper(object):
         if(isinstance(self, aclass)):
             return self
 
-    def oclIsKindOf(self, aclass: str) -> bool:
+    def oclIsKindOf(self, aclass: str) -> OclWrapper:
         """Checks if the object is an instance of the class. Just an alias for isinstance(), actually.
 
         Note:
@@ -1913,14 +1913,14 @@ class OclWrapper(object):
         Returns:
             True if the object is an instance of the class, False otherwise.
 
-        >>> OclWrapper(True).oclIsKindOf(OclWrapper)
+        >>> print(OclWrapper(True).oclIsKindOf(OclWrapper))
         True
-        >>> OclWrapper(True).oclIsKindOf(bool)
+        >>> print(OclWrapper(True).oclIsKindOf(bool))
         False
         """
-        return isinstance(self, aclass)
+        return OclWrapper(isinstance(self, aclass))
 
-    def oclIsTypeOf(self, aclass: str) -> bool:
+    def oclIsTypeOf(self, aclass: str) -> OclWrapper:
         """Checks if the object is exactly an instance of the class. Exactly means that it will return False even if the object is a generalization or specialization of the desired class.
 
         Note:
@@ -1932,14 +1932,14 @@ class OclWrapper(object):
         Returns:
             True if the type of the object is exactly the given class, False otherwise.
 
-        >>> OclWrapper(True).oclIsTypeOf(OclWrapper)
+        >>> print(OclWrapper(True).oclIsTypeOf(OclWrapper))
         True
-        >>> OclWrapper(True).oclIsTypeOf(bool)
+        >>> print(OclWrapper(True).oclIsTypeOf(bool))
         False
         """
-        return type(self) is aclass
+        return OclWrapper(type(self) is aclass)
 
-    def oclIsInvalid(self) -> bool:
+    def oclIsInvalid(self) -> OclWrapper:
         """Checks if the wrapped object is invalid, aka is None.
 
         Note:
@@ -1948,14 +1948,14 @@ class OclWrapper(object):
         Returns:
             True if the wrapped object is invalid, aka is None, Fale otherwise.
 
-        >>> OclWrapper(True).oclIsInvalid()
+        >>> print(OclWrapper(True).oclIsInvalid())
         False
-        >>> OclWrapper(None).oclIsInvalid()
+        >>> print(OclWrapper(None).oclIsInvalid())
         True
         """
-        return self._wrapped is None
+        return OclWrapper(self._wrapped is None)
 
-    def oclIsUndefined(self) -> bool:
+    def oclIsUndefined(self) -> OclWrapper:
         """Checks if the wrapped object is undefined, aka is None.
 
         Note:
@@ -1964,12 +1964,12 @@ class OclWrapper(object):
         Returns:
             True if the wrapped object is undefined, aka is None, Fale otherwise.
 
-        >>> OclWrapper(True).oclIsUndefined()
+        >>> print(OclWrapper(True).oclIsUndefined())
         False
-        >>> OclWrapper(None).oclIsUndefined()
+        >>> print(OclWrapper(None).oclIsUndefined())
         True
         """
-        return self._wrapped is None
+        return OclWrapper(self._wrapped is None)
 
 
 class OclWrapper_Extended(OclWrapper):
@@ -2004,7 +2004,7 @@ class OclWrapper_String(OclWrapper):
         """
         return OclWrapper_String(self._wrapped + otherObject)
 
-    def size(self) -> int:
+    def size(self) -> OclWrapper:
         """Returns the size, aka le length, of the wrapped object.
 
         Note:
@@ -2013,16 +2013,16 @@ class OclWrapper_String(OclWrapper):
         Returns:
             The size, aka le length, of the wrapped object.
 
-        >>> OclWrapper_String('Hello World!').size()
+        >>> print(OclWrapper_String('Hello World!').size())
         12
-        >>> OclWrapper_String('').size()
+        >>> print(OclWrapper_String('').size())
         0
-        >>> OclWrapper_String(OclWrapper('Hello World!')).size()
+        >>> print(OclWrapper_String(OclWrapper('Hello World!')).size())
         12
         """
-        return len(self._wrapped)
+        return OclWrapper(len(self._wrapped))
 
-    def substring(self, start: int, end: int) -> str:
+    def substring(self, start: int, end: int) -> OclWrapper:
         """Slices the _wrapped object from start to end.
 
         Note:
@@ -2045,9 +2045,9 @@ class OclWrapper_String(OclWrapper):
         >>> print(s.substring(1, s.size()))
         test
         """
-        return self._wrapped[start-1:end]
+        return OclWrapper(self._wrapped[start-1:end])
 
-    def toInteger(self) -> int:
+    def toInteger(self) -> OclWrapper:
         """Parses a String into an Integer, if possible.
 
         Note:
@@ -2061,7 +2061,7 @@ class OclWrapper_String(OclWrapper):
         >>> print(OclWrapper_String(OclWrapper_String('3')).toInteger())
         3
         """
-        return int(self._wrapped)
+        return OclWrapper(int(self._wrapped))
 
 
 

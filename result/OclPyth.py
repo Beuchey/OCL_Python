@@ -1589,7 +1589,7 @@ class OclWrapper(object):
         """
         return OclWrapper(~self._wrapped)
 
-    def __int__(self) -> int:
+    def __int__(self) -> OclWrapper:
         """__int__ method.
 
         Note:
@@ -1603,7 +1603,7 @@ class OclWrapper(object):
         >>> print(int(OclWrapper(3.5)))
         3
         """
-        return int(self._wrapped)
+        return OclWrapper(int(self._wrapped))
 
     def __float__(self) -> float:
         """__float__ method.

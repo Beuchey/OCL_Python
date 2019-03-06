@@ -24,7 +24,7 @@
 |concat|String|String|`self._wrapped + otherObject`<br /><br />`self._wrapped + otherObject._wrapped`|object<br /><br />OCLWrapper|OclWrapper_String|
 |size||Integer|`len(self._wrapped)`||int|
 |substring|lower:Integer,upper:Integer|String|`self._wrapped[start-1:end]`|||
-|toInteger||Integer||||
+|toInteger||Integer|`int(self._wrapped)`|||
 |toLower||String||||
 |toReal||Real||||
 |toUpper||String||||

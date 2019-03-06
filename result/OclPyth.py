@@ -298,7 +298,7 @@ class OclWrapper(object):
         """
         return OclWrapper(self._wrapped <= otherObject)
 
-    def __eq__(self, otherObject: object) -> bool:
+    def __eq__(self, otherObject: object) -> OclWrapper:
         """__eq__ method.
 
         Note:
@@ -319,7 +319,7 @@ class OclWrapper(object):
         >>> print(OclWrapper(1) == OclWrapper(2))
         False
         """
-        return self._wrapped == otherObject
+        return OclWrapper(self._wrapped == otherObject)
 
     def __hash__(self):
         """__hash__ method.
@@ -413,7 +413,7 @@ class OclWrapper(object):
 
     # Emulating callable objects
 
-    def __call__(self, *args: object) -> object:
+    def __call__(self, *args: object) -> OclWrapper:
         """__call__ method.
 
         Note:
@@ -422,16 +422,16 @@ class OclWrapper(object):
         Returns:
             The return value of the call to the wrapped objet with those arguments.
 
-        >>> OclWrapper(lambda x : x + 1)(2)
+        >>> print(OclWrapper(lambda x : x + 1)(2))
         3
-        >>> OclWrapper(lambda x : x + ' world!')('Hello')
-        'Hello world!'
-        >>> OclWrapper(lambda x : x + (3,))((1, 2))
+        >>> print(OclWrapper(lambda x : x + ' world!')('Hello'))
+        Hello world!
+        >>> print(OclWrapper(lambda x : x + (3,))((1, 2)))
         (1, 2, 3)
-        >>> OclWrapper(lambda x : x + [3])([1, 2])
+        >>> print(OclWrapper(lambda x : x + [3])([1, 2]))
         [1, 2, 3]
         """
-        return self._wrapped.__call__(*args)
+        return OclWrapper(self._wrapped.__call__(*args))
 
     #  Emulating container types
 
@@ -466,7 +466,7 @@ class OclWrapper(object):
         """
         return self._wrapped.__length_hint__()
 
-    def __getitem__(self, key: object) -> object:
+    def __getitem__(self, key: object) -> OclWrapper:
         """__getitem__ method.
 
         Note:
@@ -478,16 +478,16 @@ class OclWrapper(object):
         Returns:
             The object returned by the wrapped object.
 
-        >>> OclWrapper((1, 2, 3))[1]
+        >>> print(OclWrapper((1, 2, 3))[1])
         2
-        >>> OclWrapper('Hello world!')[1]
-        'e'
-        >>> OclWrapper([1, 2, 3])[2]
+        >>> print(OclWrapper('Hello world!')[1])
+        e
+        >>> print(OclWrapper([1, 2, 3])[2])
         3
-        >>> OclWrapper({'a': 1, 'b': 2, 'c': 3})['c']
+        >>> print(OclWrapper({'a': 1, 'b': 2, 'c': 3})['c'])
         3
         """
-        return self._wrapped.__getitem__(key)
+        return OclWrapper(self._wrapped.__getitem__(key))
 
     def __setitem__(self, key: object, item: object):
         """__setitem__ method.
@@ -540,67 +540,67 @@ class OclWrapper(object):
         """
         return self._wrapped.__missing__(key)
 
-    def __iter__(self):
+    def __iter__(self) -> OclWrapper:
         """__iter__ method.
 
         Note:
             Delegates the __iter__ method to the wrapped object.
 
-        >>> next(iter(OclWrapper([2, 3, 1])))
+        >>> print(next(iter(OclWrapper([2, 3, 1]))))
         2
-        >>> next(iter(OclWrapper((2, 3, 1))))
+        >>> print(next(iter(OclWrapper((2, 3, 1)))))
         2
-        >>> next(iter(OclWrapper({'a':2, 'b':3, 'c':1})))
-        'a'
-        >>> next(iter(OclWrapper('Hello world!')))
-        'H'
+        >>> print(next(iter(OclWrapper({'a':2, 'b':3, 'c':1}))))
+        a
+        >>> print(next(iter(OclWrapper('Hello world!'))))
+        H
         """
-        return self._wrapped.__iter__()
+        return OclWrapper(self._wrapped.__iter__())
 
-    def __next__(self):
+    def __next__(self) -> OclWrapper:
         """__next__ method.
 
         Note:
             Delegates the __next__ method to the wrapped object.
 
         >>> it = iter(OclWrapper([2, 3, 1]))
-        >>> next(it)
+        >>> print(next(it))
         2
-        >>> next(it)
+        >>> print(next(it))
         3
         >>> it = iter(OclWrapper((2, 3, 1)))
-        >>> next(it)
+        >>> print(next(it))
         2
-        >>> next(it)
+        >>> print(next(it))
         3
         >>> it = iter(OclWrapper({'a':2, 'b':3, 'c':1}))
-        >>> next(it)
-        'a'
-        >>> next(it)
-        'b'
+        >>> print(next(it))
+        a
+        >>> print(next(it))
+        b
         >>> it = iter(OclWrapper('Hello world!'))
-        >>> next(it)
-        'H'
-        >>> next(it)
-        'e'
+        >>> print(next(it))
+        H
+        >>> print(next(it))
+        e
         """
-        return self._wrapped.__next__()
+        return OclWrapper(self._wrapped.__next__())
 
-    def __reversed__(self):
+    def __reversed__(self) -> OclWrapper:
         """__reversed__ method.
 
         Note:
             Delegates the __reversed__ method to the wrapped object.
 
         >>> it = reversed(OclWrapper([2, 3, 1]))
-        >>> next(it)
+        >>> print(next(it))
         1
-        >>> next(it)
+        >>> print(next(it))
         3
         """
-        return self._wrapped.__reversed__()
+        return OclWrapper(self._wrapped.__reversed__())
 
-    def contains(self, item: object) -> bool:
+    def contains(self, item: object) -> OclWrapper:
         """__contains__ method.
 
         Note:
@@ -612,41 +612,41 @@ class OclWrapper(object):
         Returns:
             True if the wrapped object contains the item, False otherwise.
 
-        >>> OclWrapper([2, 3, 1]).contains(3)
+        >>> print(OclWrapper([2, 3, 1]).contains(3))
         True
-        >>> OclWrapper([2, 3, 1]).contains(4)
+        >>> print(OclWrapper([2, 3, 1]).contains(4))
         False
-        >>> OclWrapper((2, 3, 1)).contains(3)
+        >>> print(OclWrapper((2, 3, 1)).contains(3))
         True
-        >>> OclWrapper((2, 3, 1)).contains(4)
+        >>> print(OclWrapper((2, 3, 1)).contains(4))
         False
-        >>> OclWrapper({'a':2, 'b':3, 'c':1}).contains('b')
+        >>> print(OclWrapper({'a':2, 'b':3, 'c':1}).contains('b'))
         True
-        >>> OclWrapper({'a':2, 'b':3, 'c':1}).contains('d')
+        >>> print(OclWrapper({'a':2, 'b':3, 'c':1}).contains('d'))
         False
-        >>> OclWrapper('Hello world!').contains('o')
+        >>> print(OclWrapper('Hello world!').contains('o'))
         True
-        >>> OclWrapper('Hello world!').contains('z')
+        >>> print(OclWrapper('Hello world!').contains('z'))
         False
 
-        >>> OclWrapper([2, 3, 1]).__contains__(3)
+        >>> print(OclWrapper([2, 3, 1]).__contains__(3))
         True
-        >>> OclWrapper([2, 3, 1]).__contains__(4)
+        >>> print(OclWrapper([2, 3, 1]).__contains__(4))
         False
-        >>> OclWrapper((2, 3, 1)).__contains__(3)
+        >>> print(OclWrapper((2, 3, 1)).__contains__(3))
         True
-        >>> OclWrapper((2, 3, 1)).__contains__(4)
+        >>> print(OclWrapper((2, 3, 1)).__contains__(4))
         False
-        >>> OclWrapper({'a':2, 'b':3, 'c':1}).__contains__('b')
+        >>> print(OclWrapper({'a':2, 'b':3, 'c':1}).__contains__('b'))
         True
-        >>> OclWrapper({'a':2, 'b':3, 'c':1}).__contains__('d')
+        >>> print(OclWrapper({'a':2, 'b':3, 'c':1}).__contains__('d'))
         False
-        >>> OclWrapper('Hello world!').__contains__('o')
+        >>> print(OclWrapper('Hello world!').__contains__('o'))
         True
-        >>> OclWrapper('Hello world!').__contains__('z')
+        >>> print(OclWrapper('Hello world!').__contains__('z'))
         False
         """
-        return self._wrapped.__contains__(item)
+        return OclWrapper(self._wrapped.__contains__(item))
 
     # Emulating numeric types
 

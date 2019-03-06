@@ -2,28 +2,28 @@
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type|
 | - | - | - | - | - | - | - |
-|allInstances||Set{T}|__instances = set()||set()|
+|allInstances||Set{T}|`__instances = set()`||set()|
 
 # OclAny -> OclWrapper
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - | - |
-|oclAsType|t : Classifier|t|if(isinstance(self, aclass)): return self|classinfo|{self, None}|
-|oclIsKindOf|Classifier|Boolean|isinstance(self, aclass)|classinfo|{True, False}|
-|oclIsInvalid||Boolean|self._wrapped is None||{True, False}|
-|oclIsTypeOf|t : Classifier|Boolean|type(self) is aclass|classinfo|{True, False}|
-|oclIsUndefined||Boolean|self._wrapped is None||{True, False}|
-|<>|OclAny|Boolean|!=|object|{True, False}|
-|=|OclAny|Boolean|==|object|{True, False}|
-|<|T|Boolean|<|object|{True, False}|
-|>|T|Boolean|>|object|{True, False}|
-|<=|T|Boolean|<=|object|{True, False}|
-|>=|T|Boolean|>=|object|{True, False}|
+|oclAsType|t : Classifier|t|`if(isinstance(self, aclass)): return self`|classinfo|{self, None}|
+|oclIsKindOf|Classifier|Boolean|`isinstance(self, aclass)`|classinfo|{True, False}|
+|oclIsInvalid||Boolean|`self._wrapped is None`||{True, False}|
+|oclIsTypeOf|t : Classifier|Boolean|`type(self) is aclass`|classinfo|{True, False}|
+|oclIsUndefined||Boolean|`self._wrapped is None`||{True, False}|
+|<>|OclAny|Boolean|`__ne__`|object|{True, False}|
+|=|OclAny|Boolean|`__eq__` (and so `__hash__`)|object|{True, False}|
+|<|T|Boolean|`__lt__`|object|{True, False}|
+|>|T|Boolean|`__gt__`|object|{True, False}|
+|<=|T|Boolean|`__le__`|object|{True, False}|
+|>=|T|Boolean|`__ge__`|object|{True, False}|
 # String -> OclWrapper_String
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - | - |
-|concat|String|String|self._wrapped + otherObject<br /><br />self._wrapped + otherObject._wrapped|object<br /><br />OCLWrapper|OclWrapper_String|
-|size||Integer|len(self._wrapped)||int|
-|substring|lower:Integer,upper:Integer|String||||
+|concat|String|String|`self._wrapped + otherObject`<br /><br />`self._wrapped + otherObject._wrapped`|object<br /><br />OCLWrapper|OclWrapper_String|
+|size||Integer|`len(self._wrapped)`||int|
+|substring|lower:Integer,upper:Integer|String|`self._wrapped[start-1:end]`|||
 |toInteger||Integer||||
 |toLower||String||||
 |toReal||Real||||

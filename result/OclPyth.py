@@ -1801,7 +1801,6 @@ class OclWrapper(object):
         Returns:
             The value asked, eventully computed.
         """
-        print("get :    instance : ", instance, "owner : ", owner)
         try:
             return self._wrapped.__get__(instance, owner)
         except AttributeError:
@@ -1830,7 +1829,6 @@ class OclWrapper(object):
 
             value (str): The new value concerning the modification.
         """
-        print("set : ", value)
         try:
             return self._wrapped.__set__(instance, value)
         except AttributeError:
@@ -1849,7 +1847,6 @@ class OclWrapper(object):
 
             value (str): The new value concerning the modification.
         """
-        print("delete : ", instance)
         try:
             self._wrapped.__delete__(instance)
         except AttributeError:
@@ -2025,7 +2022,46 @@ class OclWrapper_String(OclWrapper):
         """
         return len(self._wrapped)
 
+    def substring(self, start: int, end: int) -> str:
+        """Slices the _wrapped object from start to end.
 
+        Note:
+            In OCL, indexes like in Strings begin at 1, not 0, and OCL's substring includes the end index in the result.
+
+            OCL functionnality -> 'substring'
+
+        Args:
+            start (integer): The first element index to include (starting at 1)
+            end (integer): The last element index to include (starting at 1)
+
+        Returns:
+            The result of the slicing from start to end on the wrapped object.
+
+        >>> print(OclWrapper_String('test').substring(1,1))
+        t
+        >>> print(OclWrapper_String(OclWrapper_String('test')).substring(2,4))
+        est
+        >>> s = OclWrapper_String('test')
+        >>> print(s.substring(1, s.size()))
+        test
+        """
+        return self._wrapped[start-1:end]
+
+    def toInteger(self) -> int:
+        """Parses a String into an Integer, if possible.
+
+        Note:
+            OCL functionnality -> 'toInteger'
+
+        Returns:
+            The Integer value of the wrapped object.
+
+        >>> print(OclWrapper_String('3').toInteger())
+        3
+        >>> print(OclWrapper_String(OclWrapper_String('3')).toInteger())
+        3
+        """
+        return int(self._wrapped)
 
 
 
@@ -2111,39 +2147,21 @@ print(astr.concat(OclWrapper_String(' I\'m a another string.')))
 print(OclWrapper_String('Hello World!').size())
 print(OclWrapper_String(OclWrapper('Hello World!')).size())
 """
+"""
+# Ocl functionnality -> substring
+print(OclWrapper_String('test').substring(1,1))
+print(OclWrapper_String(OclWrapper_String('test')).substring(2,4))
+s = OclWrapper_String('test')
+print(s.substring(1, s.size()))
+"""
+"""
+# Ocl functionnality -> toInteger
+print(OclWrapper_String('3').toInteger())
+print(OclWrapper_String(OclWrapper_String('3')).toInteger())
+"""
+
 
 
 
 if __name__ == '__main__':
     doctest.testmod()
-
-
-
-
-
-class W:
-    wrapper = OclWrapper(6)
-    other = 2
-
-wrap = W()
-
-print(wrap.wrapper)
-print(wrap.other)
-
-wrap.wrapper = 4
-wrap.other = 1
-
-print(wrap.wrapper)
-print(wrap.other)
-
-del wrap.wrapper
-del wrap.other
-
-print(wrap.wrapper)
-print(wrap.other)
-
-wrap.wrapper = 4
-wrap.other = 1
-
-print(wrap.wrapper)
-print(wrap.other)

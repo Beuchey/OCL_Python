@@ -1801,7 +1801,11 @@ class OclWrapper(object):
         Returns:
             The value asked, eventully computed.
         """
-        return self._wrapped.__get__(instance, owner)
+        print("get :    instance : ", instance, "owner : ", owner)
+        try:
+            return self._wrapped.__get__(instance, owner)
+        except AttributeError:
+            return self
 
     def __set__(self, instance: object, value: object):
         """Called when we call __setattr__ on an instance of a class, or directly on a class,
@@ -1826,9 +1830,13 @@ class OclWrapper(object):
 
             value (str): The new value concerning the modification.
         """
-        return self._wrapped.__set__(instance, value)
+        print("set : ", value)
+        try:
+            return self._wrapped.__set__(instance, value)
+        except AttributeError:
+            return object.__setattr__(self, '_wrapped', value)
 
-    def __delete__(self, instance: object, value: object):
+    def __delete__(self, instance: object):
         """Called when we call __delattr__ on an instance of a class, or directly on a class,
             owning an attribute instance of this class, that we are trying to access to.
 
@@ -1841,7 +1849,11 @@ class OclWrapper(object):
 
             value (str): The new value concerning the modification.
         """
-        return self._wrapped.__delete__(instance, value)
+        print("delete : ", instance)
+        try:
+            self._wrapped.__delete__(instance)
+        except AttributeError:
+            pass
 
     @classmethod
     def allInstances(aclass: str) -> set:
@@ -2104,3 +2116,34 @@ print(OclWrapper_String(OclWrapper('Hello World!')).size())
 
 if __name__ == '__main__':
     doctest.testmod()
+
+
+
+
+
+class W:
+    wrapper = OclWrapper(6)
+    other = 2
+
+wrap = W()
+
+print(wrap.wrapper)
+print(wrap.other)
+
+wrap.wrapper = 4
+wrap.other = 1
+
+print(wrap.wrapper)
+print(wrap.other)
+
+del wrap.wrapper
+del wrap.other
+
+print(wrap.wrapper)
+print(wrap.other)
+
+wrap.wrapper = 4
+wrap.other = 1
+
+print(wrap.wrapper)
+print(wrap.other)

@@ -2091,7 +2091,7 @@ type_wrappers = {
 
 
 def ocl_wrap(future_wrapped: object) -> OclWrapper:
-    return type_wrappers.get(type(futureWrapped), OclWrapper)(futureWrapped)
+    return type_wrappers.get(type(future_wrapped), OclWrapper)(future_wrapped)
 
 
 class OclWrapper_Creator:

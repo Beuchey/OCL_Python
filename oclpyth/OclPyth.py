@@ -57,7 +57,9 @@ class OclWrapper_Any(object):
         """Tries to get an attribute from the wrapped object only.
 
         Note:
-            Method automatically invoked by __getattribute__ when it doesn't find the attribute inside the current class.
+            Method automatically invoked by __getattribute__ when it doesn't find the attribute inside the current class,
+            which is the case if we ask for an attibute which is not in our wrapper class, and so returns the call
+            of this attribute on the wrapped object instead.
 
             Base wrap mechanism functionnality.
 
@@ -72,8 +74,9 @@ class OclWrapper_Any(object):
         """
         return object.__getattribute__(self._wrapped, attName)
 
+        """
     def __getattribute__(self, attName: str) -> object:
-        """Tries to get an object from the wrapper object, and if fails, tries to get it from the wrapped object instead.
+        """"""Tries to get an object from the wrapper object, and if fails, tries to get it from the wrapped object instead.
 
         Note:
             Method automatically invoked with '.' operator.
@@ -110,8 +113,9 @@ class OclWrapper_Any(object):
         [1, 2, 3]
         >>> OclWrapper_Any({'a': 1, 'b': 2, 'c': 3})._wrapped
         {'a': 1, 'b': 2, 'c': 3}
-        """
+        """"""
         return object.__getattribute__(self, attName)
+        """
 
     # Lock some attributes, avoiding simple settings et deletings
 
@@ -2271,7 +2275,17 @@ print(OclWrapper_String(OclWrapper_String('3')).toInteger())
 
 
 
+class Example_Wrapped:
+    class_attribute = 3
+    def __init__(self, value):
+        self.instance_attribute = value
 
+
+
+wrap = OclWrapper_Any(Example_Wrapped(6))
+print(wrap)
+print(wrap.class_attribute)
+print(wrap.instance_attribute)
 
 
 

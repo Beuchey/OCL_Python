@@ -2111,6 +2111,15 @@ class OclWrapper_String(OclWrapper_Primitive):
         return OclWrapper_Creator(int(self._wrapped))
 
 
+type_wrappers = {
+    str: OclWrapper_String
+}
+
+
+def ocl_wrap(future_wrapped: object) -> OclWrapper:
+    return type_wrappers.get(type(future_wrapped), OclWrapper)(future_wrapped)
+
+
 class OclWrapper_Creator:
     """Creator to which we can delegate the choice and creation of the appropriate OclWrapper_Any subclass according
        to the type of the wrapped object and the class attribute dictionnary.

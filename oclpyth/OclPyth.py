@@ -2114,46 +2114,33 @@ class OclWrapper_String(OclWrapper_Primitive):
 type_wrappers = {
     str: OclWrapper_String
 }
+"""dict: dictionnary to use in order to pick the correct OclWrapper_Any class to use to wrap the futureWrapped object,
+    according to it's type as a key in this dictionnary.
+    Should contain pairs of { key (futureWrapped object's type) : OclWrapper_Any class } only for types which need a
+    specific OclWrapper_Any subclass to wrap them, the others beeing defaulted to a basic OclWrapper_Any.
+"""
 
 
-def ocl_wrap(future_wrapped: object) -> OclWrapper:
-    return type_wrappers.get(type(future_wrapped), OclWrapper)(future_wrapped)
-
-
-class OclWrapper_Creator:
+def OclWrapper_Creator(futureWrapped: object) -> OclWrapper:
     """Creator to which we can delegate the choice and creation of the appropriate OclWrapper_Any subclass according
        to the type of the wrapped object and the class attribute dictionnary.
 
        If the type of the wrapped object is not in the dictionnary, a default OclWrapper_Any will be created.
+
+    Args:
+       futureWrapped (object): The object to be wrapped in the OclWrapper_Any that will be created according to
+           this object's type.
+
+    Returns:
+       An OclWrapper_Any of a class corresponding to the type of the futureWrapped object, according to a dictionnary.
+
+    >>> print(repr(OclWrapper_Creator(True)))
+    WRAPPED : True
+    >>> print(repr(OclWrapper_Creator('Hello world!')))
+    WRAPPED_STRING : 'Hello world!'
     """
+    return type_wrappers.get(type(futureWrapped), OclWrapper_Any)(futureWrapped)
 
-    dictionnary = {str: OclWrapper_String}
-    """dict: dictionnary to use in order to pick the correct OclWrapper_Any class to use to wrap the futureWrapped object,
-        according to it's type as a key in this dictionnary.
-        Should contain pairs of { key (futureWrapped object's type) : OclWrapper_Any class } only for types which need a
-        specific OclWrapper_Any subclass to wrap them, the others beeing defaulted to a basic OclWrapper_Any.
-    """
-
-    def __new__(self, futureWrapped: object) -> OclWrapper_Any:
-        """The __new__ method returns directly the result of the picking, because so we don't actually need
-            to instanciate any instance of the OclWrapper_Creator class.
-
-        Args:
-            futureWrapped (object): The object to be wrapped in the OclWrapper_Any that will be created according to
-                this object's type.
-
-        Returns:
-            An OclWrapper_Any of a class corresponding to the type of the futureWrapped object, according to a dictionnary.
-
-        >>> print(repr(OclWrapper_Creator(True)))
-        WRAPPED : True
-        >>> print(repr(OclWrapper_Creator('Hello world!')))
-        WRAPPED_STRING : 'Hello world!'
-        """
-        try:
-            return OclWrapper_Creator.dictionnary[type(futureWrapped)](futureWrapped)
-        except KeyError:
-            return OclWrapper_Any(futureWrapped)
 
 
 

@@ -71,6 +71,19 @@ class OclWrapper_Any(object):
 
         Raises:
             TypeError: If the wrapped doesn't support the attribute reference
+
+        >>> OclWrapper_Any(True)._wrapped
+        True
+        >>> OclWrapper_Any(1)._wrapped
+        1
+        >>> OclWrapper_Any('Hello')._wrapped
+        'Hello'
+        >>> OclWrapper_Any((1, 2, 3))._wrapped
+        (1, 2, 3)
+        >>> OclWrapper_Any([1, 2, 3])._wrapped
+        [1, 2, 3]
+        >>> OclWrapper_Any({'a': 1, 'b': 2, 'c': 3})._wrapped
+        {'a': 1, 'b': 2, 'c': 3}
         """
         return object.__getattribute__(self._wrapped, attName)
 
@@ -2131,7 +2144,7 @@ type_wrappers = {
 
 def oclWrapper_Creator(futureWrapped: object) -> OclWrapper_Any:
     """Creator to which we can delegate the choice and creation of the appropriate OclWrapper_Any subclass according
-       to the type of the wrapped object and the class attribute dictionnary.
+       to the type of the wrapped object and the type_wrappers dictionnary.
 
        If the type of the wrapped object is not in the dictionnary, a default OclWrapper_Any will be created.
 
@@ -2140,7 +2153,7 @@ def oclWrapper_Creator(futureWrapped: object) -> OclWrapper_Any:
            this object's type.
 
     Returns:
-       An OclWrapper_Any of a class corresponding to the type of the futureWrapped object, according to a dictionnary.
+       An OclWrapper_Any of a class corresponding to the type of the futureWrapped object, according to the type_wrappers dictionnary.
 
     >>> print(repr(oclWrapper_Creator(True)))
     WRAPPED : True
@@ -2181,6 +2194,19 @@ class OclWrapper_OrderedSet(OclWrapper_Collection):
 
 
 
+
+
+"""
+# Basic wrapping mechanism
+class Example_Wrapped:
+    class_attribute = 3
+    def __init__(self, value):
+        self.instance_attribute = value
+wrap = OclWrapper_Any(Example_Wrapped(6))
+print(wrap)
+print(wrap.class_attribute)
+print(wrap.instance_attribute)
+"""
 """
 # Ocl functionnality -> allInstances
 a = oclWrapper_Creator("a")
@@ -2271,23 +2297,6 @@ print(s.substring(1, s.size()))
 print(OclWrapper_String('3').toInteger())
 print(OclWrapper_String(OclWrapper_String('3')).toInteger())
 """
-
-
-
-
-class Example_Wrapped:
-    class_attribute = 3
-    def __init__(self, value):
-        self.instance_attribute = value
-
-
-
-wrap = OclWrapper_Any(Example_Wrapped(6))
-print(wrap)
-print(wrap.class_attribute)
-print(wrap.instance_attribute)
-
-
 
 
 

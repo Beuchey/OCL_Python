@@ -1989,7 +1989,29 @@ class OclWrapper_Any_Extended(OclWrapper_Any):
 
 
 
-class OclWrapper_String(OclWrapper_Any):
+
+
+class OclWrapper_Primitive(OclWrapper_Any):
+    pass
+
+class OclWrapper_Numeric(OclWrapper_Primitive):
+    pass
+
+class OclWrapper_Boolean(OclWrapper_Numeric):
+    # bool
+    pass
+
+class OclWrapper_Integer(OclWrapper_Numeric):
+    # int
+    pass
+
+class OclWrapper_Real(OclWrapper_Numeric):
+    # float
+    pass
+
+
+class OclWrapper_String(OclWrapper_Primitive):
+    # str
 
     def __repr__(self) -> str:
         """__repr__ method.
@@ -2123,6 +2145,30 @@ class OclWrapper_Creator:
             return OclWrapper_Creator.dictionnary[type(futureWrapped)](futureWrapped)
         except KeyError:
             return OclWrapper_Any(futureWrapped)
+
+
+
+
+class OclWrapper_Collection(OclWrapper_Any):
+    pass
+
+class OclWrapper_Sequence(OclWrapper_Collection):
+    # List
+    pass
+
+class OclWrapper_Set(OclWrapper_Collection):
+    # Set
+    pass
+
+class OclWrapper_Bag(OclWrapper_Collection):
+    # List
+    pass
+
+class OclWrapper_OrderedSet(OclWrapper_Collection):
+    # List or OrderedSet from other library
+    pass
+
+
 
 
 

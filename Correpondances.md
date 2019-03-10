@@ -1,12 +1,13 @@
-# Classifier -> OclWrapper
+# Classifier -> OclWrapper_Any (object)
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type|
-| - | - | - | - | - | - | - |
+| - | - | - | - | - | - |
 |allInstances||Set{T}|`__instances = set()`||set()|
 
-# OclAny -> OclWrapper
+# OclAny -> OclWrapper_Any (object)
+
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
-|-| - | - | - | - | - | - |
+|-| - | - | - | - | - |
 |oclAsType|t : Classifier|t|`if(isinstance(self, aclass)): return self`|classinfo|{self, None}|
 |oclIsKindOf|Classifier|Boolean|`isinstance(self, aclass)`|classinfo|{True, False}|
 |oclIsInvalid||Boolean|`self._wrapped is None`||{True, False}|
@@ -18,9 +19,11 @@
 |>|T|Boolean|`__gt__`|object|{True, False}|
 |<=|T|Boolean|`__le__`|object|{True, False}|
 |>=|T|Boolean|`__ge__`|object|{True, False}|
-# String -> OclWrapper_String
+
+# String -> OclWrapper_String (str)
+
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
-|-| - | - | - | - | - | - |
+|-| - | - | - | - | - |
 |concat|String|String|`self._wrapped + otherObject`<br /><br />`self._wrapped + otherObject._wrapped`|object<br /><br />OCLWrapper|OclWrapper_String|
 |size||Integer|`len(self._wrapped)`||int|
 |substring|lower:Integer,upper:Integer|String|`self._wrapped[start-1:end]`|start:int, end:int|OclWrapper_String|
@@ -28,16 +31,20 @@
 |toLower||String||||
 |toReal||Real||||
 |toUpper||String||||
+
 # Number
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
-|-| - | - | - | - | - | - |
+
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
+|-| - | - | - | - | - |
 |Number::abs||Number|||||
 |Number::floor||Integer|||||
 |Number::max|Number|Number|||||
 |Number::min|Number|Number|||||
 |Number::round||Integer|||||
 |Number::div|Integer|Integer|||||
+
 # Collections{T}
+
 Please note that OCL collections can contain the *null* value (null) but not the *invalid* value (|invalid|). Trying to add |invalid| within a new or existing collection will yield |invalid| as a result. OCL proposes four distinct kinds of collections offering all possibilities of ordering/unicity.
 
 |Collection type|Ordered|Unique
@@ -47,8 +54,8 @@ Please note that OCL collections can contain the *null* value (null) but not the
 |Bag|false|false
 |Set|false|true
 
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
-|-| - | - | - | - | - | - |
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
+|-| - | - | - | - | - |
 |any|OclExpression|T|||||
 |asBag||Bag{T}|||||
 |asOrderedSet||OrderedSet{T}|||||
@@ -76,9 +83,11 @@ Please note that OCL collections can contain the *null* value (null) but not the
 |size||Integer|||||
 |sortedBy|OclExpression|Collection{T}|||||
 |sum||Real|||||
+
 # Sequence{T}
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
-|-| - | - | - | - | - | - |
+
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
+|-| - | - | - | - | - |
 |=|Sequence{T}|Boolean|||||
 |<>|Sequence{T}|Boolean|||||
 |append|T|Sequence{T}|||||
@@ -89,18 +98,22 @@ Please note that OCL collections can contain the *null* value (null) but not the
 |last||T|||||
 |prepend|T|Sequence{T}|||||
 |subSequence|start:Integer,end:Integer|Sequence{T}|||||
+
 # Bag{T}
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
-|-| - | - | - | - | - | - |
+
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
+|-| - | - | - | - | - |
 |=|Bag{T}|Boolean|||||
 |<>|Bag{T}|Boolean|||||
 |intersection|Bag{T}|Bag{T}|||||
 |intersection|Set{T}|Set{T}|||||
 |union|Bag{T}|Bag{T}|||||
 |union|Set{T}|Set{T}|||||
+
 # OrderedSet{T}
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
-|-| - | - | - | - | - | - |
+
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
+|-| - | - | - | - | - |
 |=|Set{T}|Boolean|||||
 |=|OrderedSet{T}|Boolean|||||
 |<>|Set{T}|Boolean|||||
@@ -119,9 +132,11 @@ Please note that OCL collections can contain the *null* value (null) but not the
 |symmetricDifference|Set{T}|Set{T}|||||
 |union|Bag{T}|Bag{T}|||||
 |union|Set{T}|Set{T}|||||
+
 # Set{T}
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
-|-| - | - | - | - | - | - |
+
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
+|-| - | - | - | - | - |
 |=|Set{T}|Boolean|||||
 |<>|Set{T}|Boolean|||||
 |-|Set{T}|Set{T}|||||
@@ -130,9 +145,11 @@ Please note that OCL collections can contain the *null* value (null) but not the
 |symmetricDifference|Set{T}|Set{T}|||||
 |union|Bag{T}|Bag{T}|||||
 |union|Set{T}|Set{T}|||||
+
 # Boolean
-|OCL expression|OCL parameter(s)|OCL return type|Python3 target|Python3 expression|Python3 parameter(s)|Python3 return type
-|-| - | - | - | - | - | - |
+
+|OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
+|-| - | - | - | - | - |
 |And|Boolean|Boolean|||||
 |Implies|Boolean|Boolean|||||
 |Or|Boolean|Boolean|||||

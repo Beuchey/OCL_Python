@@ -7,23 +7,20 @@ from OclPyth import OclWrapper_Any
 class OclWrapper_String(OclWrapper_Any):
 
     def toLower(self) -> OclWrapper_String:
-        """Concatenates the other object (eventually already wrapped) to the wrapped string.
+        """Turns the wrapped string into a full lowercase version of itelf.
 
         Note:
-            OCL functionnality -> 'concat'
-
-        Args:
-            otherObject (object): The other object to concatenate to the wrapped object.
+            OCL functionnality -> 'toLower'
 
         Returns:
-            An OclWrapper_String wrapping the original wrapped object concatenated with the other object (eventually already wrapped).
+            An OclWrapper_Any wrapping a full lowercase version of the original wrapped object.
 
-        >>> print(OclWrapper_String('WWWW').toLower())
-        wwww
-        >>> print(OclWrapper_String('wwww').toLower())
-        wwww
-        >>> print(OclWrapper_String('Wwww').toLower())
-        wwww
+        >>> print(OclWrapper_String('IWIW').toLower())
+        iwiw
+        >>> print(OclWrapper_String('iwiw').toLower())
+        iwiw
+        >>> print(OclWrapper_String('IwIw').toLower())
+        iwiw
         """
         return OclWrapper_String(self._wrapped.lower())
 

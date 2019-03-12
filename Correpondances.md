@@ -24,11 +24,11 @@
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - |
-|concat|String|String|`self._wrapped + otherObject`<br /><br />`self._wrapped + otherObject._wrapped`|object<br /><br />OCLWrapper|OclWrapper_String|
-|size||Integer|`len(self._wrapped)`||int|
-|substring|lower:Integer,upper:Integer|String|`self._wrapped[start-1:end]`|start:int, end:int|OclWrapper_String|
-|toInteger||Integer|`int(self._wrapped)`||OclWrapper_String|
-|toLower||String||||
+|concat|String|String|`self._wrapped + otherObject`<br /><br />`self._wrapped + otherObject._wrapped`|object<br /><br />OCLWrapper|OclWrapper_Any|
+|size||Integer|`len(self._wrapped)`||OclWrapper_Any|
+|substring|lower:Integer,upper:Integer|String|`self._wrapped[start-1:end]`|start:int, end:int|OclWrapper_Any|
+|toInteger||Integer|`int(self._wrapped)`||OclWrapper_Any|
+|toLower||String|self._wrapped.lower()||OclWrapper_Any|
 |toReal||Real||||
 |toUpper||String||||
 

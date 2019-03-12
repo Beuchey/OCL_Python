@@ -1,8 +1,3 @@
-# oclAsType
-
-The function oclAsType is basically a static cast allowing the user to check if an object is an instance of a class.
-
-```Python
 class A(object):
   def oclAsType(self, aclass: str) -> object:
         """Statically cast self as the desired class.
@@ -62,6 +57,3 @@ if(a_2 == None):
     print("a is not a A_2")
 else:
     print("a is a A_2")
-```
-
-This means we would have to create this kind of class to be a wrapper for all the classes we would like to invoke oclAsType on.

@@ -1,8 +1,3 @@
-# oclIsKindOf
-
-The function oclIsKindOf in OCL is has the same purpose than the function isinstance in Python.
-
-```Python
 class A(object):
   def oclIsKindOf(self, aclass: str) -> bool:
         """Checks if the object is an instance of the Class. Just an alias for isinstance(), actually.
@@ -47,6 +42,3 @@ print(a_1.oclIsKindOf(B))
 print(a_2.oclIsKindOf(A))
 print(a_2.oclIsKindOf(A_1))
 print(a_2.oclIsKindOf(B))
-```
-
-This means we would have to create this kind of class to be a wrapper for all the classes we would like to invoke oclIsKindOf on.

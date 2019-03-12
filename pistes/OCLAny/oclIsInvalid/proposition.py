@@ -1,8 +1,3 @@
-# oclIsInvalid
-
-Use a wrapper with "is None".
-
-```Python
 class Wrapper(object):
 
     def __init__(self, awrapped : object):
@@ -31,4 +26,3 @@ b = Wrapper(None)
 
 print(a.oclIsUndefined())
 print(b.oclIsUndefined())
-```

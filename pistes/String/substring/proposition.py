@@ -1,13 +1,10 @@
-# substring
+from __future__ import annotations # To be able to return the current class in class method. This import should become unnecessary in Python 4.0 to be able to di this.
 
-In OCL, indexes like in Strings begin at 1, not 0, and OCL's substring includes the end index in the result.
-
-```Python
 import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../../..', 'result'))
-import OclPyth
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..', 'oclpyth'))
+from OclPyth import OclWrapper_Any
 
-class OclWrapper_String(OclPyth.OclWrapper):
+class OclWrapper_String(OclWrapper_Any):
 
     def substring(self, start: int, end: int) -> OclWrapper_String:
         """Slices the _wrapped object from start to end.
@@ -40,4 +37,3 @@ class OclWrapper_String(OclPyth.OclWrapper):
 
 print(OclWrapper_String('test').substring(1,1))
 print(OclWrapper_String(OclWrapper_String('test')).substring(2,4))
-```

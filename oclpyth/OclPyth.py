@@ -2049,7 +2049,7 @@ class OclWrapper_String(OclWrapper_Primitive):
         """
         return 'WRAPPED_STRING : ' + self._wrapped.__repr__()
 
-    def concat(self, otherObject: object) -> OclWrapper_String:
+    def concat(self, otherObject: object) -> OclWrapper_Any:
         """Concatenates the other object (eventually already wrapped) to the wrapped string.
 
         Note:
@@ -2059,14 +2059,14 @@ class OclWrapper_String(OclWrapper_Primitive):
             otherObject (object): The other object to concatenate to the wrapped object.
 
         Returns:
-            An OclWrapper_String wrapping the original wrapped object concatenated with the other object (eventually already wrapped).
+            An OclWrapper_Any wrapping the original wrapped object once concatenated with the other object (eventually already wrapped).
 
         >>> print(OclWrapper_String('Hello World!').concat(' I am a string.'))
         Hello World! I am a string.
         >>> print(OclWrapper_String('Hello World!').concat(OclWrapper_String(' I am another string.')))
         Hello World! I am another string.
         """
-        return OclWrapper_String(self._wrapped + otherObject)
+        return oclWrapper_Creator(self._wrapped + otherObject)
 
     def size(self) -> OclWrapper_Any:
         """Returns the size, aka le length, of the wrapped object.
@@ -2075,7 +2075,7 @@ class OclWrapper_String(OclWrapper_Primitive):
             OCL functionnality -> 'size'
 
         Returns:
-            The size, aka le length, of the wrapped object.
+            An OclWrapper_Any wrapping the size, aka the length, of the wrapped object.
 
         >>> print(OclWrapper_String('Hello World!').size())
         12
@@ -2099,7 +2099,7 @@ class OclWrapper_String(OclWrapper_Primitive):
             end (integer): The last element index to include (starting at 1)
 
         Returns:
-            The result of the slicing from start to end on the wrapped object.
+            An OclWrapper_Any wrapping the result of the slicing from start to end on the wrapped object.
 
         >>> print(OclWrapper_String('test').substring(1,1))
         t
@@ -2118,7 +2118,7 @@ class OclWrapper_String(OclWrapper_Primitive):
             OCL functionnality -> 'toInteger'
 
         Returns:
-            The Integer value of the wrapped object.
+            An OclWrapper_Any wrapping the Integer value of the wrapped object.
 
         >>> print(OclWrapper_String('3').toInteger())
         3
@@ -2126,6 +2126,28 @@ class OclWrapper_String(OclWrapper_Primitive):
         3
         """
         return oclWrapper_Creator(int(self._wrapped))
+
+    def toLower(self) -> OclWrapper_Any:
+        """Turns the wrapped string into a full lowercase version of itelf.
+
+        Note:
+            OCL functionnality -> 'toLower'
+
+        Returns:
+            An OclWrapper_Any wrapping a full lowercase version of the original wrapped object.
+
+        >>> print(OclWrapper_String('IWIW').toLower())
+        iwiw
+        >>> print(OclWrapper_String('iwiw').toLower())
+        iwiw
+        >>> print(OclWrapper_String('IwIw').toLower())
+        iwiw
+        """
+        return oclWrapper_Creator(self._wrapped.lower())
+
+
+
+
 
 
 
@@ -2297,8 +2319,10 @@ print(s.substring(1, s.size()))
 print(OclWrapper_String('3').toInteger())
 print(OclWrapper_String(OclWrapper_String('3')).toInteger())
 """
-
-
+"""
+# Ocl functionnality -> toLower
+print(OclWrapper_String('Hello World!').toLower())
+"""
 
 
 

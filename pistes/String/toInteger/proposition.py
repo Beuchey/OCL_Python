@@ -1,10 +1,12 @@
+from __future__ import annotations # To be able to return the current class in class method. This import should become unnecessary in Python 4.0 to be able to di this.
+
 import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../../..', 'result'))
-import OclPyth
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..', 'oclpyth'))
+from OclPyth import OclWrapper_Any
 
-class OclWrapper_String(OclPyth.OclWrapper):
+class OclWrapper_String(OclWrapper_Any):
 
-    def toInteger(self) -> int:
+    def toInteger(self) -> OclWrapper_Any:
         """Parses a String into an Integer, if possible.
 
         Note:
@@ -18,7 +20,8 @@ class OclWrapper_String(OclPyth.OclWrapper):
         >>> print(OclWrapper_String(OclWrapper_String('3')).toInteger())
         3
         """
-        return int(self._wrapped)
+        return OclWrapper_Any(int(self._wrapped))
+
 
 
 

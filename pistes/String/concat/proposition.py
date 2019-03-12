@@ -1,16 +1,10 @@
-# concat
-
-In Python, the concatenation opration is made with the '+' operator, and can easily be generalized to all types.
-We just need to check if the contenated object is an OclWrapper, in which case we consider the wrapped object.
-
-```Python
 from __future__ import annotations # To be able to return the current class in class method. This import should become unnecessary in Python 4.0 to be able to di this.
 
 import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..', 'result'))
-import OclPyth
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../..', 'oclpyth'))
+from OclPyth import OclWrapper_Any
 
-class OclWrapper_String(OclPyth.OclWrapper):
+class OclWrapper_String(OclWrapper_Any):
 
     def concat(self, otherObject: object) -> OclWrapper_String:
         """Concatenates the other object (eventually already wrapped) to the wrapped string.
@@ -39,4 +33,3 @@ class OclWrapper_String(OclPyth.OclWrapper):
 astr = OclWrapper_String('Hello World!')
 print(astr.concat(' I\'m a string.'))
 print(astr.concat(OclWrapper_String(' I\'m a another string.')))
-```

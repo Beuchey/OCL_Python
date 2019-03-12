@@ -1,8 +1,3 @@
-# allInstances
-
-Python does not keep track of all instances of a class (or of a built-in type), so we would have to implement it ourselves. In order to ccomplish this, we can store a weak reference to each instance in class attribute. Here’s an example:
-
-```Python
 import weakref
 
 class MyClass:
@@ -50,6 +45,3 @@ del b
 
 for obj in MyClass.allInstances():
     print(obj.name) # prints 'a' and 'c'
-```
-
-This means we would have to create this kind of class to be a wrapper for all the classes we would like to keep track this way.

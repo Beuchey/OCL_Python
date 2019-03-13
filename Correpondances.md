@@ -30,7 +30,7 @@
 |toInteger||Integer|`int(self._wrapped)`||int|
 |toLower||String|self._wrapped.lower()||str|
 |toReal||Real||||
-|toUpper||String||||
+|toUpper||String|self._wrapped.upper()||str|
 
 # Number
 

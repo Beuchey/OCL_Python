@@ -2145,6 +2145,23 @@ class OclWrapper_String(OclWrapper_Primitive):
         """
         return oclWrapper_Creator(self._wrapped.lower())
 
+    def toUpper(self) -> OclWrapper_Any:
+        """Turns the wrapped string into a full uppercase version of itelf.
+
+        Note:
+            OCL functionnality -> 'toUpper'
+
+        Returns:
+            An OclWrapper_Any wrapping a full uppercase version of the original wrapped object.
+
+        >>> print(OclWrapper_String('IWIW').toUpper())
+        IWIW
+        >>> print(OclWrapper_String('iwiw').toUpper())
+        IWIW
+        >>> print(OclWrapper_String('IwIw').toUpper())
+        IWIW
+        """
+        return oclWrapper_Creator(self._wrapped.upper())
 
 
 
@@ -2322,6 +2339,10 @@ print(OclWrapper_String(OclWrapper_String('3')).toInteger())
 """
 # Ocl functionnality -> toLower
 print(OclWrapper_String('Hello World!').toLower())
+"""
+"""
+# Ocl functionnality -> toUpper
+print(OclWrapper_String('Hello World!').toUpper())
 """
 
 

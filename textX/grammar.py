@@ -1,4 +1,4 @@
-from textx import metamodel_from_str
+from textX import metamodel_from_str
 
 grammar = """
 Expression:

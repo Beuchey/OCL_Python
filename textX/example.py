@@ -1,10 +1,9 @@
 # https://github.com/pyecore/pyuml2
-import pyuml2.uml as uml
 import pyuml2.types as types
+import pyuml2.uml as uml
+import result.OclPyth as oclpyth
 from pyecore.resources import ResourceSet
 from pyecore.resources.resource import HttpURI
-import result.OclPyth as oclpyth
-
 
 rset = ResourceSet()
 rset.metamodel_registry[uml.nsURI] = uml

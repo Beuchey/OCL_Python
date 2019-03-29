@@ -167,6 +167,9 @@ class OclWrapper_Any(object):
         >>> oclWrapper_Creator(True)._lockedGet("_wrapped")
         Traceback (most recent call last):
         AttributeError
+        >>> oclWrapper_Creator(True)._lockedGet("__instances")
+        Traceback (most recent call last):
+        AttributeError
         """
         if (OclWrapper_Any._isLocked(name)):
             raise AttributeError
@@ -180,7 +183,7 @@ class OclWrapper_Any(object):
         Traceback (most recent call last):
         AttributeError
         """
-        object.__setattr__(self,OclWrapper_Any._lockedGet(name), value)
+        object.__setattr__(self, OclWrapper_Any._lockedGet(name), value)
 
     def __delattr__(self, name):
         """Avoids direct deleting of the _wrapped attribute.
@@ -192,7 +195,7 @@ class OclWrapper_Any(object):
         Traceback (most recent call last):
         AttributeError
         """
-        object.__delattr__(self,OclWrapper_Any._lockedGet(name), value)
+        object.__delattr__(self, OclWrapper_Any._lockedGet(name), value)
 
     # Basic customization
 

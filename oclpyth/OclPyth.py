@@ -1791,11 +1791,11 @@ class OclWrapper_Any(object):
             True if the type of the object is exactly the given class, False otherwise.
 
         >>> print(oclWrapper_Creator(True).oclIsTypeOf(OclWrapper_Any))
-        True
-        >>> print(oclWrapper_Creator(True).oclIsTypeOf(bool))
         False
+        >>> print(oclWrapper_Creator(True).oclIsTypeOf(bool))
+        True
         """
-        return oclWrapper_Creator(type(self) is aclass)
+        return oclWrapper_Creator(type(self._wrapped) is aclass)
 
     def oclIsInvalid(self) -> OclWrapper_Any:
         """Checks if the wrapped object is invalid, aka is None.

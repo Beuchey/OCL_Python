@@ -2011,11 +2011,11 @@ class OclWrapper_Any_Extended(OclWrapper_Any):
 class OclWrapper_Primitive(OclWrapper_Any):
     pass
 
-class OclWrapper_Numeric(OclWrapper_Primitive):
+class OclWrapper_Boolean(OclWrapper_Primitive):
+    # bool
     pass
 
-class OclWrapper_Boolean(OclWrapper_Numeric):
-    # bool
+class OclWrapper_Numeric(OclWrapper_Primitive):
     pass
 
 class OclWrapper_Integer(OclWrapper_Numeric):
@@ -2164,6 +2164,25 @@ class OclWrapper_String(OclWrapper_Primitive):
         return oclWrapper_Creator(self._wrapped.upper())
 
 
+class OclWrapper_Collection(OclWrapper_Any):
+    pass
+
+class OclWrapper_Sequence(OclWrapper_Collection):
+    # List
+    pass
+
+class OclWrapper_Set(OclWrapper_Collection):
+    # Set
+    pass
+
+class OclWrapper_Bag(OclWrapper_Collection):
+    # List
+    pass
+
+class OclWrapper_OrderedSet(OclWrapper_Collection):
+    # List or OrderedSet from other library
+    pass
+
 
 
 
@@ -2172,6 +2191,12 @@ class OclWrapper_String(OclWrapper_Primitive):
 
 
 type_wrappers = {
+    bool: OclWrapper_Boolean,
+    int: OclWrapper_Integer,
+    float: OclWrapper_Real,
+    str: OclWrapper_String,
+    list: OclWrapper_Sequence,
+    set: OclWrapper_Set,
     str: OclWrapper_String
 }
 """dict: dictionnary to use in order to pick the correct OclWrapper_Any class to use to wrap the futureWrapped object,
@@ -2209,24 +2234,7 @@ def oclWrapper_Creator(futureWrapped: object) -> OclWrapper_Any:
 
 
 
-class OclWrapper_Collection(OclWrapper_Any):
-    pass
 
-class OclWrapper_Sequence(OclWrapper_Collection):
-    # List
-    pass
-
-class OclWrapper_Set(OclWrapper_Collection):
-    # Set
-    pass
-
-class OclWrapper_Bag(OclWrapper_Collection):
-    # List
-    pass
-
-class OclWrapper_OrderedSet(OclWrapper_Collection):
-    # List or OrderedSet from other library
-    pass
 
 
 

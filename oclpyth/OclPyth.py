@@ -51,7 +51,7 @@ class OclWrapper_Any(object):
             so we don't end with unnecessary multiple wrapping levels.
         """
 
-    # Basic wrapping mechanism : if the attribute is one of the wrapper, get this one, if not, look in the wrapped
+    # Wrapping mechanism : if the attribute is one of the wrapper, get this one, if not, look in the wrapped
 
     def __getattr__(self, attName: str) -> object:
         """Tries to get an attribute from the wrapped object only.
@@ -85,9 +85,9 @@ class OclWrapper_Any(object):
         >>> oclWrapper_Creator({'a': 1, 'b': 2, 'c': 3})._wrapped
         {'a': 1, 'b': 2, 'c': 3}
         """
-        return object.__getattribute__(self._wrapped, attName)
+        return self._wrapped.__getattribute__(attName)
 
-    """
+    """ Seems to be useless since it is the default behaviour
     def __getattribute__(self, attName: str) -> object:
         """"""Tries to get an object from the wrapper object, and if fails, tries to get it from the wrapped object instead.
 

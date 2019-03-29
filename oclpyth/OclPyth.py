@@ -151,6 +151,28 @@ class OclWrapper_Any(object):
         """
         return name=="_wrapped" or name=="__instances"
 
+    @classmethod
+    def _lockedGet(self, name: str) -> str:
+        """Uses the isLocked method to automatically wrap the access to the attributes with this checking.
+
+        Args:
+            name (str): The name of the attribute to check.
+
+        Returns:
+            The name of the attribute if it is not a locked attribute.
+
+        Raises:
+            An AttributeError if the attribute is one of the locked ones.
+
+        >>> oclWrapper_Creator(True)._lockedGet("_wrapped")
+        Traceback (most recent call last):
+        AttributeError
+        """
+        if (OclWrapper_Any._isLocked(name)):
+            raise AttributeError
+        else:
+            return name
+
     def __setattr__(self, name: str, value: object):
         """Avoids direct setting of the _wrapped attribute.
 
@@ -158,10 +180,7 @@ class OclWrapper_Any(object):
         Traceback (most recent call last):
         AttributeError
         """
-        if (OclWrapper_Any._isLocked(name)):
-            raise AttributeError
-        else:
-            object.__setattr__(self, name, value)
+        object.__setattr__(self,OclWrapper_Any._lockedGet(name), value)
 
     def __delattr__(self, name):
         """Avoids direct deleting of the _wrapped attribute.
@@ -173,10 +192,7 @@ class OclWrapper_Any(object):
         Traceback (most recent call last):
         AttributeError
         """
-        if (OclWrapper_Any._isLocked(name)):
-            raise AttributeError
-        else:
-            object.__delattr__(self, name)
+        object.__delattr__(self,OclWrapper_Any._lockedGet(name), value)
 
     # Basic customization
 

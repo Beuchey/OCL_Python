@@ -1623,6 +1623,16 @@ class OclWrapper_Any(object):
         return oclWrapper_Creator(self._wrapped is None)
 
 
+
+
+
+
+
+
+
+
+
+
 class OclWrapper_Any_Extended(OclWrapper_Any):
     """ Example of OclWrapper_Any with additionnal functionnality """
 
@@ -1636,14 +1646,25 @@ class OclWrapper_Any_Extended(OclWrapper_Any):
 
 
 
+
+
+
+
+
+
 class OclWrapper_Primitive(OclWrapper_Any):
     """ A wrapper to emulate primitive types in OCL :
-        Integers
-        Reals
+        Booleans (in Python : "bool")
+        Integers (in Python : "int")
+        Reals (in Python : "float")
+        Strings (in Python : "str")
+        Collections (in Python : <multiple types possibles depending on the collection>)
 
+        STILL USEFULL ??????????
     """
 
 class OclWrapper_Boolean(OclWrapper_Primitive):
+    """ A wrapper to emulate Boolean type in OCL (in python "bool")."""
 
     def __bool__(self) -> Bool:
         """__bool__ method.
@@ -1658,11 +1679,13 @@ class OclWrapper_Boolean(OclWrapper_Primitive):
         Yes
         >>> print('Yes' if oclWrapper_Creator(False) else 'No')
         No
+        >>> print('Yes' if oclWrapper_Creator(3) else 'No')
+        No
         """
         return self._wrapped.__bool__()
 
 class OclWrapper_Numeric(OclWrapper_Primitive):
-    
+
     def __lt__(self, otherObject) -> OclWrapper_Any:
         """__lt__ method.
 
@@ -1817,6 +1840,8 @@ class OclWrapper_Integer(OclWrapper_Numeric):
 class OclWrapper_Real(OclWrapper_Numeric):
     # float
     pass
+
+
 
 
 class OclWrapper_Multiple(OclWrapper_Primitive):
@@ -2047,7 +2072,6 @@ class OclWrapper_String(OclWrapper_Multiple):
         IWIW
         """
         return oclWrapper_Creator(self._wrapped.upper())
-
 
 class OclWrapper_Collection(OclWrapper_Multiple):
 

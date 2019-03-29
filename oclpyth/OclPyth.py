@@ -1890,6 +1890,23 @@ class OclWrapper_Multiple(OclWrapper_Primitive):
         True
         >>> print(oclWrapper_Creator('Hello world!').__contains__('z'))
         False
+
+        >>> print(3 in oclWrapper_Creator([2, 3, 1]))
+        True
+        >>> print(4 in oclWrapper_Creator([2, 3, 1]))
+        False
+        >>> print(3 in oclWrapper_Creator((2, 3, 1)))
+        True
+        >>> print(4 in oclWrapper_Creator((2, 3, 1)))
+        False
+        >>> print('b' in oclWrapper_Creator({'a':2, 'b':3, 'c':1}))
+        True
+        >>> print('d' in oclWrapper_Creator({'a':2, 'b':3, 'c':1}))
+        False
+        >>> print('o' in oclWrapper_Creator('Hello world!'))
+        True
+        >>> print('z' in oclWrapper_Creator('Hello world!'))
+        False
         """
         return oclWrapper_Creator(self._wrapped.__contains__(item))
 

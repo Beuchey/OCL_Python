@@ -1654,6 +1654,7 @@ class OclWrapper_Any_Extended(OclWrapper_Any):
 
 class OclWrapper_Primitive(OclWrapper_Any):
     """ A wrapper to emulate primitive types in OCL :
+
         Booleans (in Python : "bool")
         Integers (in Python : "int")
         Reals (in Python : "float")
@@ -1679,12 +1680,15 @@ class OclWrapper_Boolean(OclWrapper_Primitive):
         Yes
         >>> print('Yes' if oclWrapper_Creator(False) else 'No')
         No
-        >>> print('Yes' if oclWrapper_Creator(3) else 'No')
-        No
         """
         return self._wrapped.__bool__()
 
 class OclWrapper_Numeric(OclWrapper_Primitive):
+    """ A wrapper to emulate Numeric types in OCL  :
+
+        Integers (in Python : "int")
+        Reals (in Python : "float")
+    """
 
     def __lt__(self, otherObject) -> OclWrapper_Any:
         """__lt__ method.

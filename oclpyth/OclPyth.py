@@ -8,7 +8,7 @@ from sys import stdout
 
 
 class OclWrapper_Any(object):
-    """ A wrapper for any other objects to which we need to add functionnalities in order to match Ocl's """
+    """ A wrapper for any other objects to which we need to add functionnalities in order to match Ocl's."""
 
     # Class attributes
 
@@ -1637,9 +1637,32 @@ class OclWrapper_Any_Extended(OclWrapper_Any):
 
 
 class OclWrapper_Primitive(OclWrapper_Any):
+    """ A wrapper to emulate primitive types in OCL :
+        Integers
+        Reals
 
-    # Boolean identity
+    """
 
+class OclWrapper_Boolean(OclWrapper_Primitive):
+
+    def __bool__(self) -> Bool:
+        """__bool__ method.
+
+        Note:
+            Delegates the __bool__ method to the wrapped object.
+
+        Returns:
+            The boolean signification of the wrapped object.
+
+        >>> print('Yes' if oclWrapper_Creator(True) else 'No')
+        Yes
+        >>> print('Yes' if oclWrapper_Creator(False) else 'No')
+        No
+        """
+        return self._wrapped.__bool__()
+
+class OclWrapper_Numeric(OclWrapper_Primitive):
+    
     def __lt__(self, otherObject) -> OclWrapper_Any:
         """__lt__ method.
 
@@ -1786,27 +1809,6 @@ class OclWrapper_Primitive(OclWrapper_Any):
         True
         """
         return oclWrapper_Creator(self._wrapped > otherObject)
-
-class OclWrapper_Boolean(OclWrapper_Primitive):
-
-    def __bool__(self) -> Bool:
-        """__bool__ method.
-
-        Note:
-            Delegates the __bool__ method to the wrapped object.
-
-        Returns:
-            The boolean signification of the wrapped object.
-
-        >>> print('Yes' if oclWrapper_Creator(True) else 'No')
-        Yes
-        >>> print('Yes' if oclWrapper_Creator(False) else 'No')
-        No
-        """
-        return self._wrapped.__bool__()
-
-class OclWrapper_Numeric(OclWrapper_Primitive):
-    pass
 
 class OclWrapper_Integer(OclWrapper_Numeric):
     # int

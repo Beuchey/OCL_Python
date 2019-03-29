@@ -204,19 +204,8 @@ class OclWrapper_Any(object):
 
         Returns:
             The "official" string representation of the instanced object.
-
-        >>> repr(oclWrapper_Creator(True))
-        'WRAPPED : True'
-        >>> repr(oclWrapper_Creator(1))
-        'WRAPPED : 1'
-        >>> repr(oclWrapper_Creator((1, 2, 3)))
-        'WRAPPED : (1, 2, 3)'
-        >>> repr(oclWrapper_Creator([1, 2, 3]))
-        'WRAPPED : [1, 2, 3]'
-        >>> repr(oclWrapper_Creator({'a': 1, 'b': 2, 'c': 3}))
-        "WRAPPED : {'a': 1, 'b': 2, 'c': 3}"
         """
-        return 'WRAPPED : ' + self._wrapped.__repr__()
+        return '<%s.%s object at %s>' % (self.__class__.__module__, self.__class__.__name__, hex(id(self))) + '  WRAPPING : ' + str(self._wrapped)
 
     def __str__(self) -> str:
         """__str__ method.
@@ -2234,11 +2223,6 @@ def oclWrapper_Creator(futureWrapped: object) -> OclWrapper_Any:
 
     Returns:
        An OclWrapper_Any of a class corresponding to the type of the futureWrapped object, according to the type_wrappers dictionnary.
-
-    >>> print(repr(oclWrapper_Creator(True)))
-    WRAPPED : True
-    >>> print(repr(oclWrapper_Creator('Hello world!')))
-    WRAPPED_STRING : 'Hello world!'
     """
     return type_wrappers.get(type(futureWrapped), OclWrapper_Any)(futureWrapped)
 

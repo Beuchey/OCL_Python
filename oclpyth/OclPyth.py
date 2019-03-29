@@ -1862,7 +1862,7 @@ class OclWrapper_Multiple(OclWrapper_Primitive):
         """
         return oclWrapper_Creator(self._wrapped.__getitem__(key))
 
-    def contains(self, item: object) -> OclWrapper_Any:
+    def __contains__(self, item: object) -> OclWrapper_Any:
         """__contains__ method.
 
         Note:
@@ -1873,23 +1873,6 @@ class OclWrapper_Multiple(OclWrapper_Primitive):
 
         Returns:
             True if the wrapped object contains the item, False otherwise.
-
-        >>> print(oclWrapper_Creator([2, 3, 1]).contains(3))
-        True
-        >>> print(oclWrapper_Creator([2, 3, 1]).contains(4))
-        False
-        >>> print(oclWrapper_Creator((2, 3, 1)).contains(3))
-        True
-        >>> print(oclWrapper_Creator((2, 3, 1)).contains(4))
-        False
-        >>> print(oclWrapper_Creator({'a':2, 'b':3, 'c':1}).contains('b'))
-        True
-        >>> print(oclWrapper_Creator({'a':2, 'b':3, 'c':1}).contains('d'))
-        False
-        >>> print(oclWrapper_Creator('Hello world!').contains('o'))
-        True
-        >>> print(oclWrapper_Creator('Hello world!').contains('z'))
-        False
 
         >>> print(oclWrapper_Creator([2, 3, 1]).__contains__(3))
         True

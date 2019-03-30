@@ -66,7 +66,29 @@ AdditiveExpression:
 MultiplicativeExpression:
     unaryExpression=UnaryExpression ( multiplyOperator=MultiplyOperator unaryExpression=UnaryExpression)*
 ;
-UnaryExpression        := ( unaryOperatorpostfixExpression)| postfixExpressionpostfixExpression      := primaryExpression( ("." | "->")propertyCall )*primaryExpression      := literalCollection| literal| propertyCall| "("  expression  ")"| ifExpressionpropertyCallParameters := "(" ( declarator )?( actualParameterList )? ")"literal                := string| number| enumLiteralenumLiteral            := name "::" name ( "::" name )*simpleTypeSpecifier    := pathNameliteralCollection      := collectionKind "{"( collectionItem
+UnaryExpression:
+            ( unaryOperator=UnaryOperator postfixExpression=PostfixExpression) | postfixExpression=PostfixExpression
+;
+PostfixExpression:
+    primaryExpression=PrimaryExpression ( ( "." | "->" ) propertyCall=PropertyCall )*
+;
+PrimaryExpression:
+    literalCollection=LiteralCollection | literal=Literal | propertyCall=PropertyCall | "(" expression=Expression ")" | ifExpression=IfExpression
+;
+PropertyCallParameters:
+    "(" ( declarator=Declarator )? ( actualParameterList=ActualParameterList )? ")"
+;
+Literal:
+    string=String | number=Number | enumLiteral=EnumLiteral
+;
+EnumLiteral:
+    name=Name "::" name=Name ( "::" name=Name )*
+;
+SimpleTypeSpecifier:
+    pathName=PathName
+;
+LiteralCollection:
+        collectionKind=CollectionKind "{" ( collectionItem=CollectionItem
 -3("," collectionItem )*)?"}"collectionItem         := expression (".." expression )?propertyCall           := pathName( timeExpression )?( qualifiers )?( propertyCallParameters )?qualifiers             := "[" actualParameterList "]"declarator             := name ( "," name )*( ":" simpleTypeSpecifier )?( ";" name ":" typeSpecifier "="expression)?"|"pathName               := name ( "::" name )*timeExpression         := "@" "pre"actualParameterList    := expression ("," expression)*logicalOperator        := "and" | "or" | "xor" | "implies"collectionKind         := "Set" | "Bag" | "Sequence" | "Collection"relationalOperator     := "=" | ">" | "<" | ">=" | "<=" | "<>"addOperator            := "+" |  "-"multiplyOperator       := "*" | "/"unaryOperator          := "-" | "not"name                   := ["a"-"z", "A"-"Z", "_"]( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*number                 := ["0"-"9"] (["0"-"9"])*( "." ["0"-"9"] (["0"-"9"])* )?( ("e" | "E") ( "+" | "-" )? ["0"-"9"](["0"-"9"])*)?string                 := "'"(( ~["’","\\","\n","\r"] )|("\\"( ["n","t","b","r","f","\\","’","\""]| ["0"-"7"]( ["0"-"7"] ( ["0"-"7"] )? )?)))*"'"
 """)
 

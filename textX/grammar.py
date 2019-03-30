@@ -1,20 +1,42 @@
-from textX import metamodel_from_str
+from textx import metamodel_from_str
 
 grammar = """
-Expression:
-    access+=AttributeAccess
+HelloWorldModel:
+  'hello' to_greet+=Who[',']
 ;
 
-AttributeAccess: instance=/\w+/ '.' att_name=STRING
+Who:
+  name = /[^,]*/
+;
+"""
+
+grammar2="""
+Program:
+    expression*=Expression
+;
+
+Expression:
+    AttributeAccess | Addition
+;
+
+AttributeAccess:
+    instanceName=/\w+/ '.' attributeName=/\w+/
+;
+
+Addition:
+    operande1=/\w+/ '+' operande2=/\w+/
 ;
 
 """
 
-mm = metamodel_from_str(grammar)
+mm = metamodel_from_str(grammar2)
 
 # Meta-model knows how to parse and instantiate models.
 model = mm.model_from_str("""
-    toto."titi"
+    titi.toto
+    titi+toto
+    toto.titi
 """)
 
-print(model.access[0].att_name)
+for e in model.expression :
+    print(e)

@@ -111,15 +111,38 @@ TimeExpression:
 ActualParameterList:
         := expression=Expression ( "," expression=Expression )*
 ;
-logicalOperator        := "and" | "or" | "xor" | "implies"collectionKind         := "Set" | "Bag" | "Sequence" | "Collection"relationalOperator     := "=" | ">" | "<" | ">=" | "<=" | "<>"addOperator            := "+" |  "-"multiplyOperator       := "*" | "/"unaryOperator          := "-" | "not"name                   := ["a"-"z", "A"-"Z", "_"]( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*number                 := ["0"-"9"] (["0"-"9"])*( "." ["0"-"9"] (["0"-"9"])* )?( ("e" | "E") ( "+" | "-" )? ["0"-"9"](["0"-"9"])*)?string                 := "'"(( ~["’","\\","\n","\r"] )|("\\"( ["n","t","b","r","f","\\","’","\""]| ["0"-"7"]( ["0"-"7"] ( ["0"-"7"] )? )?)))*"'"
+LogicalOperator:
+    "and" | "or" | "xor" | "implies"
+;
+CollectionKind:
+    "Set" | "Bag" | "Sequence" | "Collection"
+;
+RelationalOperator:
+    "=" | ">" | "<" | ">=" | "<=" | "<>"
+;
+AddOperator:
+    "+" |  "-"
+;
+MultiplyOperator:
+    "*" | "/"
+;
+UnaryOperator:
+    "-" | "not"
+;
+Name:
+    ["a"-"z", "A"-"Z", "_"] ( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*
+;
+Number:
+    ["0"-"9"] (["0"-"9"])* ( "." ["0"-"9"] (["0"-"9"])* )? ( ("e" | "E") ( "+" | "-" )? ["0"-"9"] (["0"-"9"])* )?
+;
+String:
+    "'"(( ~["’","\\","\n","\r"] )|("\\"( ["n","t","b","r","f","\\","’","\""]| ["0"-"7"]( ["0"-"7"] ( ["0"-"7"] )? )?)))*"'"
+;
 """)
 
 model = metamodel.model_from_str("""
 package apackage::subpackage
 
-titi.toto
-titi+toto
-toto.titi
 
 endpackage
 """)
@@ -137,9 +160,6 @@ def handleAddition(elements):
     return "Context : Addition\n\t" + "Operand 1 = " + elements["operand1"] + "\tOperand 2 = " + elements["operand2"] + "\n"
 
 methods = {
-    "PackageName": handlePackageName,
-    "AttributeAccess": handleAttributeAccess,
-    "Addition": handleAddition
 }
 
 
@@ -152,6 +172,7 @@ for e in model.packageName:
     result += methods[extractNameFromRepr(repr(e))](vars(e))
 
 for e in model.oclExpressions:
-    result += methods[extractNameFromRepr(repr(e))](vars(e))
+    result += extractNameFromRepr(repr(e)) + '\n'
+    #result += methods[extractNameFromRepr(repr(e))](vars(e))
 
 print(result)

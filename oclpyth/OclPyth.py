@@ -1660,22 +1660,6 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         """
         return oclWrapper_Creator(~self._wrapped)
 
-    def __int__(self) -> int:
-        """__int__ method.
-
-        Note:
-            Delegates the __int__ method to the wrapped object.
-
-        Returns:
-            The result of the operation on the wrapped object and the other object.
-
-        >>> print(int(oclWrapper_Creator(3)))
-        3
-        >>> print(int(oclWrapper_Creator(3.5)))
-        3
-        """
-        return int(self._wrapped)
-
     def __float__(self) -> float:
         """__float__ method.
 
@@ -1725,6 +1709,27 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         """
         return self._wrapped.__index__()
 
+
+
+class OclWrapper_Integer(OclWrapper_Numeric):
+    pass
+
+class OclWrapper_Real(OclWrapper_Numeric):
+
+    def __int__(self) -> int:
+        """__int__ method.
+
+        Note:
+            Delegates the __int__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(int(oclWrapper_Creator(3.5)))
+        3
+        """
+        return int(self._wrapped)
+
     def __round__(self, *ndigits) -> real:
         """__round__ method.
 
@@ -1734,8 +1739,6 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(round(oclWrapper_Creator(3)))
-        3
         >>> print(round(oclWrapper_Creator(3.111111)))
         3
         >>> print(round(oclWrapper_Creator(3.444444)))
@@ -1744,8 +1747,6 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         4
         >>> print(round(oclWrapper_Creator(3.999999)))
         4
-        >>> print(round(oclWrapper_Creator(3), 3))
-        3
         >>> print(round(oclWrapper_Creator(3.111111), 3))
         3.111
         >>> print(round(oclWrapper_Creator(3.444444), 3))
@@ -1766,8 +1767,6 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(trunc(oclWrapper_Creator(3)))
-        3
         >>> print(trunc(oclWrapper_Creator(3.1)))
         3
         >>> print(trunc(oclWrapper_Creator(3.4)))
@@ -1788,8 +1787,6 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(floor(oclWrapper_Creator(3)))
-        3
         >>> print(floor(oclWrapper_Creator(3.1)))
         3
         >>> print(floor(oclWrapper_Creator(3.4)))
@@ -1810,8 +1807,6 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(ceil(oclWrapper_Creator(3)))
-        3
         >>> print(ceil(oclWrapper_Creator(3.1)))
         4
         >>> print(ceil(oclWrapper_Creator(3.4)))
@@ -1822,16 +1817,6 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         4
         """
         return ceil(self._wrapped)
-
-
-
-class OclWrapper_Integer(OclWrapper_Numeric):
-    # int
-    pass
-
-class OclWrapper_Real(OclWrapper_Numeric):
-    # float
-    pass
 
 
 

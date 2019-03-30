@@ -12,7 +12,7 @@ class OclWrapper_Any(object):
 
     # Class attributes
 
-    __slots__ = ['__weakref__', '_wrapped']
+    __slots__ = ['_wrapped', '__weakref__']
     """
         Use __slots__ method to store attributes for class instances :
         Prevents from the default Python's behaviour to use a dictionnary to store them and
@@ -24,6 +24,10 @@ class OclWrapper_Any(object):
         We need to add '__weakref__' in order to allow weak references on class instances.
 
         We need to also declare each possible instance attribute, like the wrapped object '_wrapped'.
+    """
+
+    __lockedAttributes = ['_wrapped', '__instances']
+    """dict: Dictionnary containing the names of all the attributes that are locked (protected against __setattr__ and __delattr__ functions).
     """
 
     __instances = set()
@@ -133,25 +137,6 @@ class OclWrapper_Any(object):
     # Lock some attributes, avoiding simple settings et deletings
 
     @classmethod
-    def _isLocked(self, name: str) -> bool:
-        """Check if the attribute name is one of the locked ones.
-
-        Args:
-            name (str): The name of the attribute to check.
-
-        Returns:
-            True if the name is one of the locked attributes, False otherwise.
-
-        >>> OclWrapper_Any._isLocked('_wrapped')
-        True
-        >>> OclWrapper_Any._isLocked('__instances')
-        True
-        >>> OclWrapper_Any._isLocked('anyThingElse')
-        False
-        """
-        return name=="_wrapped" or name=="__instances"
-
-    @classmethod
     def _lockedGet(self, name: str) -> str:
         """Uses the isLocked method to automatically wrap the access to the attributes with this checking.
 
@@ -171,10 +156,9 @@ class OclWrapper_Any(object):
         Traceback (most recent call last):
         AttributeError
         """
-        if (OclWrapper_Any._isLocked(name)):
+        if (OclWrapper_Any.__lockedAttributes.__contains__(name)):
             raise AttributeError
-        else:
-            return name
+        return name
 
     def __setattr__(self, name: str, value: object):
         """Avoids direct setting of the _wrapped attribute.

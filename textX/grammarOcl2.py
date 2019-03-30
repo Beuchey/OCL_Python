@@ -42,8 +42,19 @@ CollectionType:
 OclExpression:
     ( letExpression=LetExpression )* expression=Expression
 ;
-returnType             := typeSpecifierexpression             := logicalExpressionletExpression          := "let" name( "(" formalParameterList ")" )?( ":" typeSpecifier )?
--2   OCL Grammar"=" expression ";"ifExpression           := "if" expression"then" expression"else" expression"endif"logicalExpression      := relationalExpression( logicalOperatorrelationalExpression)*relationalExpression  := additiveExpression( relationalOperatoradditiveExpression)?additiveExpression     := multiplicativeExpression( addOperatormultiplicativeExpression)*multiplicativeExpression:= unaryExpression( multiplyOperatorunaryExpression)*unaryExpression        := ( unaryOperatorpostfixExpression)| postfixExpressionpostfixExpression      := primaryExpression( ("." | "->")propertyCall )*primaryExpression      := literalCollection| literal| propertyCall| "("  expression  ")"| ifExpressionpropertyCallParameters := "(" ( declarator )?( actualParameterList )? ")"literal                := string| number| enumLiteralenumLiteral            := name "::" name ( "::" name )*simpleTypeSpecifier    := pathNameliteralCollection      := collectionKind "{"( collectionItem
+ReturnType:
+    typeSpecifier=TypeSpecifier
+;
+Expression:
+    logicalExpression=LogicalExpression
+;
+LetExpression:
+    "let" name=Name ( "(" formalParameterList=FormalParameterList ")" )? ( ":" typeSpecifier=TypeSpecifier )? "=" expression=Expression ";"
+;
+IfExpression:
+    "if" expression=Expression "then" expression=Expression "else" expression=Expression "endif"
+;
+LogicalExpression      := relationalExpression( logicalOperatorrelationalExpression)*relationalExpression  := additiveExpression( relationalOperatoradditiveExpression)?additiveExpression     := multiplicativeExpression( addOperatormultiplicativeExpression)*multiplicativeExpression:= unaryExpression( multiplyOperatorunaryExpression)*unaryExpression        := ( unaryOperatorpostfixExpression)| postfixExpressionpostfixExpression      := primaryExpression( ("." | "->")propertyCall )*primaryExpression      := literalCollection| literal| propertyCall| "("  expression  ")"| ifExpressionpropertyCallParameters := "(" ( declarator )?( actualParameterList )? ")"literal                := string| number| enumLiteralenumLiteral            := name "::" name ( "::" name )*simpleTypeSpecifier    := pathNameliteralCollection      := collectionKind "{"( collectionItem
 -3("," collectionItem )*)?"}"collectionItem         := expression (".." expression )?propertyCall           := pathName( timeExpression )?( qualifiers )?( propertyCallParameters )?qualifiers             := "[" actualParameterList "]"declarator             := name ( "," name )*( ":" simpleTypeSpecifier )?( ";" name ":" typeSpecifier "="expression)?"|"pathName               := name ( "::" name )*timeExpression         := "@" "pre"actualParameterList    := expression ("," expression)*logicalOperator        := "and" | "or" | "xor" | "implies"collectionKind         := "Set" | "Bag" | "Sequence" | "Collection"relationalOperator     := "=" | ">" | "<" | ">=" | "<=" | "<>"addOperator            := "+" |  "-"multiplyOperator       := "*" | "/"unaryOperator          := "-" | "not"name                   := ["a"-"z", "A"-"Z", "_"]( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*number                 := ["0"-"9"] (["0"-"9"])*( "." ["0"-"9"] (["0"-"9"])* )?( ("e" | "E") ( "+" | "-" )? ["0"-"9"](["0"-"9"])*)?string                 := "'"(( ~["’","\\","\n","\r"] )|("\\"( ["n","t","b","r","f","\\","’","\""]| ["0"-"7"]( ["0"-"7"] ( ["0"-"7"] )? )?)))*"'"
 """)
 

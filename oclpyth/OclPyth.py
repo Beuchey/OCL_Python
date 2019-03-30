@@ -2046,6 +2046,7 @@ class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_In
         return oclWrapper_Creator(self._wrapped.upper())
 
 class OclWrapper_Collection(OclWrapper_Multiple):
+    """ A wrapper to emulate Collection type in OCL (in python <multiple types possibles depending on the collection>)."""
 
     #  Emulating container types
 

@@ -88,8 +88,30 @@ SimpleTypeSpecifier:
     pathName=PathName
 ;
 LiteralCollection:
-        collectionKind=CollectionKind "{" ( collectionItem=CollectionItem
--3("," collectionItem )*)?"}"collectionItem         := expression (".." expression )?propertyCall           := pathName( timeExpression )?( qualifiers )?( propertyCallParameters )?qualifiers             := "[" actualParameterList "]"declarator             := name ( "," name )*( ":" simpleTypeSpecifier )?( ";" name ":" typeSpecifier "="expression)?"|"pathName               := name ( "::" name )*timeExpression         := "@" "pre"actualParameterList    := expression ("," expression)*logicalOperator        := "and" | "or" | "xor" | "implies"collectionKind         := "Set" | "Bag" | "Sequence" | "Collection"relationalOperator     := "=" | ">" | "<" | ">=" | "<=" | "<>"addOperator            := "+" |  "-"multiplyOperator       := "*" | "/"unaryOperator          := "-" | "not"name                   := ["a"-"z", "A"-"Z", "_"]( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*number                 := ["0"-"9"] (["0"-"9"])*( "." ["0"-"9"] (["0"-"9"])* )?( ("e" | "E") ( "+" | "-" )? ["0"-"9"](["0"-"9"])*)?string                 := "'"(( ~["’","\\","\n","\r"] )|("\\"( ["n","t","b","r","f","\\","’","\""]| ["0"-"7"]( ["0"-"7"] ( ["0"-"7"] )? )?)))*"'"
+        collectionKind=CollectionKind "{" ( collectionItem=CollectionItem ("," collectionItem=CollectionItem )* )? "}"
+;
+CollectionItem:
+    expression=Expression (".." expression=Expression )?
+;
+PropertyCall:
+    pathName=PathName ( timeExpression=TimeExpression )? ( qualifiers=Qualifiers )? ( propertyCallParameters=PropertyCallParameters )?
+;
+Qualifiers:
+    "[" actualParameterList "]"
+;
+Declarator:
+    name=Name ( "," name=Name )* ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )? ( ";" name=Name ":" typeSpecifier=TypeSpecifier "=" expression=Expression)? "|"
+;
+PathName:
+    name=Name ( "::" name=Name )*
+;
+TimeExpression:
+    "@" "pre"
+;
+ActualParameterList:
+        := expression=Expression ( "," expression=Expression )*
+;
+logicalOperator        := "and" | "or" | "xor" | "implies"collectionKind         := "Set" | "Bag" | "Sequence" | "Collection"relationalOperator     := "=" | ">" | "<" | ">=" | "<=" | "<>"addOperator            := "+" |  "-"multiplyOperator       := "*" | "/"unaryOperator          := "-" | "not"name                   := ["a"-"z", "A"-"Z", "_"]( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*number                 := ["0"-"9"] (["0"-"9"])*( "." ["0"-"9"] (["0"-"9"])* )?( ("e" | "E") ( "+" | "-" )? ["0"-"9"](["0"-"9"])*)?string                 := "'"(( ~["’","\\","\n","\r"] )|("\\"( ["n","t","b","r","f","\\","’","\""]| ["0"-"7"]( ["0"-"7"] ( ["0"-"7"] )? )?)))*"'"
 """)
 
 model = metamodel.model_from_str("""

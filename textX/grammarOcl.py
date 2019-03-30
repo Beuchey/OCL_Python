@@ -1,29 +1,42 @@
 from textx import metamodel_from_str
 
 expressions = {
-    "AttributeAccess": {"rule": "instanceName=/\w+/ '.' attributeName=/\w+/", "method": lambda : print("Method corresponding to AttributeAccess")},
-    "Addition": {"rule":"operande1=/\w+/ '+' operande2=/\w+/", "method": lambda : print("Method corresponding to Addition")}
+    "AttributeAccess": {
+        "rule":
+            "instanceName=/\w+/ '.' attributeName=/\w+/",
+        "method":
+            lambda : print("Method corresponding to AttributeAccess")
+    },
+    "Addition": {
+        "rule":
+            "operande1=/\w+/ '+' operande2=/\w+/",
+        "method":
+            lambda : print("Method corresponding to Addition")
+    }
 }
 
-grammar = "Program:\n\texpression*=Expression\n;\n\nExpression:\n\t"
+def createGrammar(expressions):
 
-for e in expressions:
-    grammar += e + ' | '
+    grammar = "Program:\n\texpression*=Expression\n;\n\nExpression:\n\t"
 
-grammar = grammar[:len(grammar)-2]
+    for e in expressions:
+        grammar += e + ' | '
 
-grammar += "\n;"
+    grammar = grammar[:len(grammar)-2]
 
-for e in expressions:
-    grammar += "\n\n" + e + ':\n\t' + expressions[e]["rule"] + "\n;"
+    grammar += "\n;"
 
-print(grammar)
+    for e in expressions:
+        grammar += "\n\n" + e + ':\n\t' + expressions[e]["rule"] + "\n;"
+
+    return grammar
 
 
 
-metamodel = metamodel_from_str(grammar)
 
-model = metamodel.model_from_str("""
+
+
+model = metamodel_from_str(createGrammar(expressions)).model_from_str("""
 titi.toto
 titi+toto
 toto.titi

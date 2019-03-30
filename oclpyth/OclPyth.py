@@ -1713,7 +1713,8 @@ class OclWrapper_Integer(OclWrapper_Numeric, OclWrapper_Floatable):
         """
         return self._wrapped.__index__()
 
-class OclWrapper_Real(OclWrapper_Numeric):
+
+class OclWrapper_Intable(OclWrapper_Primitive):
 
     def __int__(self) -> int:
         """__int__ method.
@@ -1726,8 +1727,12 @@ class OclWrapper_Real(OclWrapper_Numeric):
 
         >>> print(int(oclWrapper_Creator(3.5)))
         3
+        >>> print(int(oclWrapper_Creator("3")))
+        3
         """
         return int(self._wrapped)
+
+class OclWrapper_Real(OclWrapper_Numeric):
 
     def __round__(self, *ndigits) -> real:
         """__round__ method.
@@ -1913,7 +1918,7 @@ class OclWrapper_Multiple(OclWrapper_Addable):
         """
         return oclWrapper_Creator(self._wrapped.__contains__(item))
 
-class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable):
+class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_Intable):
     # str
 
     def __repr__(self) -> str:

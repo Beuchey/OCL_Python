@@ -1660,22 +1660,6 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         """
         return oclWrapper_Creator(~self._wrapped)
 
-    def __float__(self) -> float:
-        """__float__ method.
-
-        Note:
-            Delegates the __int__ method to the wrapped object.
-
-        Returns:
-            The result of the operation on the wrapped object and the other object.
-
-        >>> print(float(oclWrapper_Creator(3)))
-        3.0
-        >>> print(float(oclWrapper_Creator(3.5)))
-        3.5
-        """
-        return float(self._wrapped)
-
     def __complex__(self) -> complex:
         """__complex__ method.
 
@@ -1691,6 +1675,26 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         (3.5+0j)
         """
         return complex(self._wrapped)
+
+class OclWrapper_Floatable(OclWrapper_Primitive):
+
+    def __float__(self) -> float:
+        """__float__ method.
+
+        Note:
+            Delegates the __int__ method to the wrapped object.
+
+        Returns:
+            The result of the operation on the wrapped object and the other object.
+
+        >>> print(float(oclWrapper_Creator(3)))
+        3.0
+        >>> print(float(oclWrapper_Creator("3")))
+        3.0
+        """
+        return float(self._wrapped)
+
+class OclWrapper_Integer(OclWrapper_Numeric, OclWrapper_Floatable):
 
     def __index__(self) -> int:
         """__index__ method.
@@ -1708,11 +1712,6 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         3
         """
         return self._wrapped.__index__()
-
-
-
-class OclWrapper_Integer(OclWrapper_Numeric):
-    pass
 
 class OclWrapper_Real(OclWrapper_Numeric):
 
@@ -1914,7 +1913,7 @@ class OclWrapper_Multiple(OclWrapper_Addable):
         """
         return oclWrapper_Creator(self._wrapped.__contains__(item))
 
-class OclWrapper_String(OclWrapper_Multiple):
+class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable):
     # str
 
     def __repr__(self) -> str:

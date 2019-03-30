@@ -1,10 +1,11 @@
 from textx import metamodel_from_str
 
 metamodel = metamodel_from_str("""
-oclFile:
-    ("package" packageName=PackageName
-    oclExpressions*=OclExpressions
-    "endpackage")+
+OclFile:
+    ( "package" packageName=PackageName
+    oclExpressions=OclExpressions
+    "endpackage"
+    )+
 ;
 PackageName:
     pathName=PathName
@@ -97,7 +98,7 @@ PropertyCall:
     pathName=PathName ( timeExpression=TimeExpression )? ( qualifiers=Qualifiers )? ( propertyCallParameters=PropertyCallParameters )?
 ;
 Qualifiers:
-    "[" actualParameterList "]"
+    "[" actualParameterList=ActualParameterList "]"
 ;
 Declarator:
     name=Name ( "," name=Name )* ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )? ( ";" name=Name ":" typeSpecifier=TypeSpecifier "=" expression=Expression)? "|"
@@ -109,7 +110,7 @@ TimeExpression:
     "@" "pre"
 ;
 ActualParameterList:
-        := expression=Expression ( "," expression=Expression )*
+        expression=Expression ( "," expression=Expression )*
 ;
 LogicalOperator:
     "and" | "or" | "xor" | "implies"
@@ -130,19 +131,30 @@ UnaryOperator:
     "-" | "not"
 ;
 Name:
-    ["a"-"z", "A"-"Z", "_"] ( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*
+    name=/["a"-"z", "A"-"Z", "_"] ( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*/
 ;
 Number:
-    ["0"-"9"] (["0"-"9"])* ( "." ["0"-"9"] (["0"-"9"])* )? ( ("e" | "E") ( "+" | "-" )? ["0"-"9"] (["0"-"9"])* )?
+    number=/["0"-"9"] (["0"-"9"])* ( "." ["0"-"9"] (["0"-"9"])* )? ( ("e" | "E") ( "+" | "-" )? ["0"-"9"] (["0"-"9"])* )?/
 ;
 String:
-    "'"(( ~["’","\\","\n","\r"] )|("\\"( ["n","t","b","r","f","\\","’","\""]| ["0"-"7"]( ["0"-"7"] ( ["0"-"7"] )? )?)))*"'"
+    string=/"'"(( ~["’","\\","\n","\r"] )|("\\"( ["n","t","b","r","f","\\","’","\""]| ["0"-"7"]( ["0"-"7"] ( ["0"-"7"] )? )?)))*"'"/
 ;
 """)
 
 model = metamodel.model_from_str("""
-package apackage::subpackage
+package xtext
 
+context ReferenceMetamodel
+inv NoAnonymousImports: alias <> null
+
+context Action
+inv NoActions : false
+
+context ParserRule
+inv CamelCaseName : name.matches('[A-Z][A-Za-z]*')
+
+context xtext::TerminalRule
+inv UpperName : name = name.toUpperCase()
 
 endpackage
 """)

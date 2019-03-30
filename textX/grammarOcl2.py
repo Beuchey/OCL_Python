@@ -72,10 +72,16 @@ IfExpression:
     "endif"
 ;
 LogicalExpression:
-    relationalExpression=RelationalExpression ( logicalOperator=LogicalOperator relationalExpression=RelationalExpression)*
+    relationalExpression=RelationalExpression
+    ( logicalOperator=LogicalOperator
+    relationalExpression=RelationalExpression
+    )*
 ;
 RelationalExpression:
-    additiveExpression=AdditiveExpression ( relationalOperator=RelationalOperator additiveExpression=AdditiveExpression)?
+    additiveExpression=AdditiveExpression
+    ( relationalOperator=RelationalOperator
+    additiveExpression=AdditiveExpression
+    )?
 ;
 AdditiveExpression:
     multiplicativeExpression=MultiplicativeExpression ( addOperator=AddOperator multiplicativeExpression=MultiplicativeExpression)*

@@ -5,15 +5,17 @@ expressions = {
         "rule":
             "instanceName=/\w+/ '.' attributeName=/\w+/",
         "method":
-            lambda : print("Method corresponding to AttributeAccess")
+            lambda : "Method corresponding to AttributeAccess"
     },
     "Addition": {
         "rule":
             "operande1=/\w+/ '+' operande2=/\w+/",
         "method":
-            lambda : print("Method corresponding to Addition")
+            lambda : "Method corresponding to Addition"
     }
 }
+
+
 
 def createGrammar(expressions):
 
@@ -46,7 +48,16 @@ toto.titi
 
 
 
-expressionNameNotFoundExcpetionRaiser = lambda : print("ExpressionNameNotFoundExcpetion raised")
+
+
+expressionNameNotFoundExcpetionRaiser = lambda : "ExpressionNameNotFoundExcpetion raised"
+
+
+
+
+
+
+res = ""
 
 for e in model.expression:
     expressionName = repr(e)
@@ -56,4 +67,8 @@ for e in model.expression:
     for i in elements:
         if i[0]!='_' and i!="parent":
             print('\t', i, '\t', elements[i])
-    expressions.get(expressionName, expressionNameNotFoundExcpetionRaiser)["method"]()
+    res += expressions.get(expressionName, expressionNameNotFoundExcpetionRaiser)["method"]()
+
+
+
+print(res)

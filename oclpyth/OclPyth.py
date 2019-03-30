@@ -137,7 +137,7 @@ class OclWrapper_Any(object):
     # Lock some attributes, avoiding simple settings et deletings
 
     @classmethod
-    def _lockedGet(self, name: str) -> str:
+    def _locked(self, name: str) -> str:
         """Uses the isLocked method to automatically wrap the access to the attributes with this checking.
 
         Args:
@@ -149,10 +149,10 @@ class OclWrapper_Any(object):
         Raises:
             An AttributeError if the attribute is one of the locked ones.
 
-        >>> oclWrapper_Creator(True)._lockedGet("_wrapped")
+        >>> oclWrapper_Creator(True)._locked("_wrapped")
         Traceback (most recent call last):
         AttributeError
-        >>> oclWrapper_Creator(True)._lockedGet("__instances")
+        >>> oclWrapper_Creator(True)._locked("__instances")
         Traceback (most recent call last):
         AttributeError
         """
@@ -167,7 +167,7 @@ class OclWrapper_Any(object):
         Traceback (most recent call last):
         AttributeError
         """
-        object.__setattr__(self, OclWrapper_Any._lockedGet(name), value)
+        object.__setattr__(self, OclWrapper_Any._locked(name), value)
 
     def __delattr__(self, name):
         """Avoids direct deleting of the _wrapped attribute.
@@ -179,7 +179,7 @@ class OclWrapper_Any(object):
         Traceback (most recent call last):
         AttributeError
         """
-        object.__delattr__(self, OclWrapper_Any._lockedGet(name), value)
+        object.__delattr__(self, OclWrapper_Any._locked(name), value)
 
     # Basic customization
 
@@ -257,10 +257,11 @@ class OclWrapper_Any(object):
         """
         return self._wrapped.__format__(*format_spec)
 
+    """ Never emulating callable objects ?
     # Emulating callable objects
 
     def __call__(self, *args: object) -> OclWrapper_Any:
-        """__call__ method.
+        """"""__call__ method.
 
         Note:
             Delegates the __call__ method to the wrapped object.
@@ -276,10 +277,295 @@ class OclWrapper_Any(object):
         (1, 2, 3)
         >>> print(oclWrapper_Creator(lambda x : x + [3])([1, 2]))
         [1, 2, 3]
-        """
+        """"""
         return oclWrapper_Creator(self._wrapped.__call__(*args))
+        """
 
-    # Emulating numeric types
+    # Emulating context manager
+
+    def __enter__(self) -> OclWrapper_Any:
+        """__enter__ method.
+
+        Note:
+            If the wrapped object has an __enter__ attribute, delegates the operation to it,
+            or returns directly the wrapped object if it has not.
+
+        >>> with oclWrapper_Creator(True) as o: print(o)
+        True
+        >>> with oclWrapper_Creator(oclWrapper_Creator(False)) as o: print(o)
+        False
+        """
+        try:
+            return oclWrapper_Creator(self._wrapped.__enter__())
+        except AttributeError:
+            return self
+
+    def __exit__(self, exception_type, exception_value, exception_traceback) -> OclWrapper_Any:
+        """__exit__ method.
+
+        Note:
+            Delegates the __exit__ method to the wrapped object.
+
+            If an exception is supplied, and the method wishes to suppress the exception
+            (i.e., prevent it from being propagated), it should return a true value.
+            Otherwise, the exception will be processed normally upon exit from this method.
+        """
+        return oclWrapper_Creator(False)
+
+    # Emulating descriptors
+
+    def __get__(self, instance: object, owner: str) -> OclWrapper_Any:
+        """Called when we call __getattr__ on an instance of a class, or directly on a class,
+            owning an attribute instance of this class, that we are trying to access to.
+
+            The default behaviour is to simply return self (allow simple access),
+            but this may be customized.
+
+        Args:
+            instance (objet): the instance through wich the call has been made
+            (None if the call has been made directly through the class itself).
+
+            owner (str): Class through which the call has been made, directly or from an instance.
+
+        Returns:
+            The value asked, eventully computed.
+        """
+        try:
+            return oclWrapper_Creator(self._wrapped.__get__(instance, owner))
+        except AttributeError:
+            return self
+
+    def __set__(self, instance: object, value: object):
+        """Called when we call __setattr__ on an instance of a class, or directly on a class,
+            owning an attribute instance of this class, that we are trying to access to.
+
+            The default behaviour is to simply modify self (allow simple modification),
+            but this may be customized.
+            For example, a read-only descriptor could raise an AttributeError in its
+            __set__ method do disallow any setting of an instance of this class.
+
+            Example: If the class MyClass defines __set__, the in any call, on an instance I of
+            MyClass ou directly on MyClass, like "I = qqch", it will be this __set__ method
+            that will be called, instead of simply modify I's value.
+
+            This allows, for example, to perform in-place modifications instead of replace
+            the all value of an instance, or to create restrictions about which values
+            the instances can have.
+
+        Args:
+            instance (objet): the instance through wich the call has been made
+            (None if the call has been made directly through the class itself).
+
+            value (str): The new value concerning the modification.
+        """
+        try:
+            return self._wrapped.__set__(instance, value)
+        except AttributeError:
+            return object.__setattr__(self, '_wrapped', value)
+
+    def __delete__(self, instance: object):
+        """Called when we call __delattr__ on an instance of a class, or directly on a class,
+            owning an attribute instance of this class, that we are trying to access to.
+
+            The default behaviour is to do nothing (allow simple deletion),
+            but this may be customized.
+
+        Args:
+            instance (objet): the instance through wich the call has been made
+            (None if the call has been made directly through the class itself).
+
+            value (str): The new value concerning the modification.
+        """
+        try:
+            self._wrapped.__delete__(instance)
+        except AttributeError:
+            pass
+
+    @classmethod
+    def allInstances(aclass: str) -> set:
+        """Allows to get, at any instant, a set of all the object of the calling class.
+
+        Note:
+            Iterates through the recorded instances of the general OclWrapper_Any class
+            and if the objects are instances of the calling classinfo
+            (eventually corresponding to a specialization of the general OclWrapper_Any class),
+            yields them.
+            Cleans up the references onto None objects before returning.
+
+            OCL functionnality -> 'allInstances'
+
+        Args:
+            aclass (str): class of the desired instances.
+
+        Returns:
+            set: Set of the instanced object of this class.
+        """
+        dead = set() # to remember the deads (T.T)
+        for ref in OclWrapper_Any.__instances: # for every recorded instance of this general class
+            obj = ref()
+            if obj is None: # if the object is dead, remember it
+                dead.add(ref)
+            else:
+                if isinstance(obj, aclass): # if still alive and is an instance of this eventually specialized class, yield it
+                    yield obj
+        OclWrapper_Any.__instances -= dead # remove the deads from the set of instances
+
+    def oclAsType(self, aclass: str) -> object:
+        """Statically cast self as the desired class.
+
+        Note:
+            OCL functionnality -> 'oclAsType'
+
+        Args:
+            aclass (str): class to cast the object to.
+
+        Returns:
+            object: Self if the object if an instance of the class, None otherwise.
+
+        >>> type(oclWrapper_Creator(True).oclAsType(OclWrapper_Any)).__name__
+        'OclWrapper_Any'
+        >>> type(oclWrapper_Creator(True).oclAsType(bool)).__name__
+        'NoneType'
+        """
+        if(isinstance(self, aclass)):
+            return aclass(self._wrapped)
+
+    def oclIsKindOf(self, aclass: str) -> OclWrapper_Any:
+        """Checks if the object is an instance of the class. Just an alias for isinstance(), actually.
+
+        Note:
+            OCL functionnality -> 'oclIsKindOf'
+
+        Args:
+            aclass (str): class to check of the object is an instance of.
+
+        Returns:
+            True if the object is an instance of the class, False otherwise.
+
+        >>> print(oclWrapper_Creator('Hello').oclIsKindOf(str))
+        True
+        >>> print(oclWrapper_Creator(1).oclIsKindOf(int))
+        True
+        >>> print(oclWrapper_Creator('Hello').oclIsKindOf(int))
+        False
+        >>> print(oclWrapper_Creator(1).oclIsKindOf(bool))
+        False
+        """
+        return oclWrapper_Creator(isinstance(self._wrapped, aclass))
+
+    def oclIsTypeOf(self, aclass: str) -> OclWrapper_Any:
+        """Checks if the object is exactly an instance of the class. Exactly means that it will return False even if the object is a generalization or specialization of the desired class.
+
+        Note:
+            OCL functionnality -> 'oclIsTypeOf'
+
+        Args:
+            aclass (str): class to check of the object has the type.
+
+        Returns:
+            True if the type of the object is exactly the given class, False otherwise.
+
+        >>> print(oclWrapper_Creator(True).oclIsTypeOf(OclWrapper_Any))
+        False
+        >>> print(oclWrapper_Creator(True).oclIsTypeOf(bool))
+        True
+        """
+        return oclWrapper_Creator(type(self._wrapped) is aclass)
+
+    def oclIsInvalid(self) -> OclWrapper_Any:
+        """Checks if the wrapped object is invalid, aka is None.
+
+        Note:
+            OCL functionnality -> 'oclIsInvalid'
+
+        Returns:
+            True if the wrapped object is invalid, aka is None, Fale otherwise.
+
+        >>> print(oclWrapper_Creator(True).oclIsInvalid())
+        False
+        >>> print(oclWrapper_Creator(None).oclIsInvalid())
+        True
+        """
+        return oclWrapper_Creator(self._wrapped is None)
+
+    def oclIsUndefined(self) -> OclWrapper_Any:
+        """Checks if the wrapped object is undefined, aka is None.
+
+        Note:
+            OCL functionnality -> 'oclIsUndefined'
+
+        Returns:
+            True if the wrapped object is undefined, aka is None, Fale otherwise.
+
+        >>> print(oclWrapper_Creator(True).oclIsUndefined())
+        False
+        >>> print(oclWrapper_Creator(None).oclIsUndefined())
+        True
+        """
+        return oclWrapper_Creator(self._wrapped is None)
+
+
+
+
+
+
+
+
+
+
+
+
+class OclWrapper_Any_Extended(OclWrapper_Any):
+    """ Example of OclWrapper_Any with additionnal functionnality """
+
+    def sayHello(self):
+        print("Hello from ", self._wrapped, "!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class OclWrapper_Primitive(OclWrapper_Any):
+    """ A wrapper to emulate primitive types in OCL :
+
+        Booleans (in Python : "bool")
+        Integers (in Python : "int")
+        Reals (in Python : "float")
+        Strings (in Python : "str")
+        Collections (in Python : <multiple types possibles depending on the collection>)
+
+        STILL USEFULL ??????????
+    """
+
+class OclWrapper_Boolean(OclWrapper_Primitive):
+    """ A wrapper to emulate Boolean type in OCL (in python "bool")."""
+
+    def __bool__(self) -> Bool:
+        """__bool__ method.
+
+        Note:
+            Delegates the __bool__ method to the wrapped object.
+
+        Returns:
+            The boolean signification of the wrapped object.
+
+        >>> print('Yes' if oclWrapper_Creator(True) else 'No')
+        Yes
+        >>> print('Yes' if oclWrapper_Creator(False) else 'No')
+        No
+        """
+        return self._wrapped.__bool__()
+
+class OclWrapper_Addable(OclWrapper_Primitive):
 
     def __add__(self, otherObject: object) -> OclWrapper_Any:
         """__add__ method.
@@ -311,6 +597,193 @@ class OclWrapper_Any(object):
         [1, 2, 3, 4]
         """
         return oclWrapper_Creator(self._wrapped + otherObject)
+
+    def __radd__(self, otherObject) -> OclWrapper_Any:
+        """__radd__ method.
+
+        Note:
+            Delegates the __radd__ method to the wrapped object and creates an OclWrapper_Any.
+
+        Args:
+            otherObject (object): The other object to add this one to.
+
+        Returns:
+            An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
+
+        >>> print(2 + oclWrapper_Creator(1))
+        3
+        >>> print(oclWrapper_Creator(1) + oclWrapper_Creator(2))
+        3
+        >>> print(sum([oclWrapper_Creator(1), oclWrapper_Creator(2)]))
+        3
+        >>> print('Hello' + oclWrapper_Creator(' world!'))
+        Hello world!
+        >>> print(oclWrapper_Creator('Hello') + oclWrapper_Creator(' world!'))
+        Hello world!
+        >>> print((1, 2) + oclWrapper_Creator((3, 4)))
+        (1, 2, 3, 4)
+        >>> print(oclWrapper_Creator((1, 2)) + oclWrapper_Creator((3, 4)))
+        (1, 2, 3, 4)
+        >>> print([1, 2] + oclWrapper_Creator([3, 4]))
+        [1, 2, 3, 4]
+        >>> print(oclWrapper_Creator([1, 2]) + oclWrapper_Creator([3, 4]))
+        [1, 2, 3, 4]
+        """
+        return oclWrapper_Creator(otherObject + self._wrapped)
+
+class OclWrapper_Numeric(OclWrapper_Addable):
+    """ A wrapper to emulate Numeric types in OCL  :
+
+        Integers (in Python : "int")
+        Reals (in Python : "float")
+    """
+
+    def __lt__(self, otherObject) -> OclWrapper_Any:
+        """__lt__ method.
+
+        Note:
+            Delegates the __lt__ method to the wrapped object and creates an OclWrapper_Any.
+
+        Args:
+            otherObject (object): The other object to compare this one to.
+
+        Returns:
+            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
+
+        >>> print(oclWrapper_Creator(1) < 2)
+        True
+        >>> print(oclWrapper_Creator(1) < oclWrapper_Creator(2))
+        True
+        >>> print(oclWrapper_Creator(2) < 1)
+        False
+        >>> print(oclWrapper_Creator(2) < oclWrapper_Creator(1))
+        False
+        """
+        return oclWrapper_Creator(self._wrapped < otherObject)
+
+    def __le__(self, otherObject) -> OclWrapper_Any:
+        """__te__ method.
+
+        Note:
+            Delegates the __te__ method to the wrapped object and creates an OclWrapper_Any.
+
+        Args:
+            otherObject (object): The other object to compare this one to.
+
+        Returns:
+            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
+
+        >>> print(oclWrapper_Creator(1) <= 2)
+        True
+        >>> print(oclWrapper_Creator(1) <= oclWrapper_Creator(2))
+        True
+        >>> print(oclWrapper_Creator(2) <= 1)
+        False
+        >>> print(oclWrapper_Creator(2) <= oclWrapper_Creator(1))
+        False
+        >>> print(oclWrapper_Creator(1) <= 1)
+        True
+        >>> print(oclWrapper_Creator(1) <= oclWrapper_Creator(1))
+        True
+        """
+        return oclWrapper_Creator(self._wrapped <= otherObject)
+
+    def __eq__(self, otherObject: object) -> OclWrapper_Any:
+        """__eq__ method.
+
+        Note:
+            Delegates the __eq__ method to the wrapped object and creates an OclWrapper_Any.
+
+        Args:
+            otherObject (object): The other object to compare this one to.
+
+        Returns:
+            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
+
+        >>> print(oclWrapper_Creator(1) == 1)
+        True
+        >>> print(oclWrapper_Creator(1) == oclWrapper_Creator(1))
+        True
+        >>> print(oclWrapper_Creator(1) == 2)
+        False
+        >>> print(oclWrapper_Creator(1) == oclWrapper_Creator(2))
+        False
+        """
+        return oclWrapper_Creator(self._wrapped == otherObject)
+
+    def __hash__(self):
+        """__hash__ method.
+
+        Note:
+            Delegates the __hash__ method to the parent class : object.
+            This is mandatory to keep the class hashable, since the __eq__ method has been overloaded.
+            Otherwise, class is delared unshashable and can't be used in hashable collections, and
+            its instances can't be correctly compared to any other instances of any object.
+
+        Returns:
+            The hash value of the instanced object.
+
+        >>> print(hash(oclWrapper_Creator(1)) == hash(oclWrapper_Creator(1)))
+        True
+        >>> a = oclWrapper_Creator(1)
+        >>> print(hash(a) == hash(a))
+        True
+        >>> a = oclWrapper_Creator(1)
+        >>> b = oclWrapper_Creator(1)
+        >>> print(hash(a) == hash(b))
+        False
+        """
+        return object.__hash__(self)
+
+    def __ge__(self, otherObject) -> OclWrapper_Any:
+        """__ge__ method.
+
+        Note:
+            Delegates the __ge__ method to the wrapped object and creates an OclWrapper_Any.
+
+        Args:
+            otherObject (object): The other object to compare this one to.
+
+        Returns:
+            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
+
+        >>> print(oclWrapper_Creator(1) >= 2)
+        False
+        >>> print(oclWrapper_Creator(1) >= oclWrapper_Creator(2))
+        False
+        >>> print(oclWrapper_Creator(2) >= 1)
+        True
+        >>> print(oclWrapper_Creator(2) >= oclWrapper_Creator(1))
+        True
+        >>> print(oclWrapper_Creator(1) >= oclWrapper_Creator(1))
+        True
+        >>> print(oclWrapper_Creator(1) >= 1)
+        True
+        """
+        return oclWrapper_Creator(self._wrapped >= otherObject)
+
+    def __gt__(self, otherObject) -> OclWrapper_Any:
+        """__gt__ method.
+
+        Note:
+            Delegates the __gt__ method to the wrapped object.
+
+        Args:
+            otherObject (object): The other object to compare this one to and creates an OclWrapper_Any.
+
+        Returns:
+            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
+
+        >>> print(oclWrapper_Creator(1) > 2)
+        False
+        >>> print(oclWrapper_Creator(1) > oclWrapper_Creator(2))
+        False
+        >>> print(oclWrapper_Creator(2) > 1)
+        True
+        >>> print(oclWrapper_Creator(2) > oclWrapper_Creator(1))
+        True
+        """
+        return oclWrapper_Creator(self._wrapped > otherObject)
 
     def __sub__(self, otherObject: object) -> OclWrapper_Any:
         """__sub__ method.
@@ -553,39 +1026,6 @@ class OclWrapper_Any(object):
         2
         """
         return oclWrapper_Creator(self._wrapped ^ otherObject)
-
-    def __radd__(self, otherObject) -> OclWrapper_Any:
-        """__radd__ method.
-
-        Note:
-            Delegates the __radd__ method to the wrapped object and creates an OclWrapper_Any.
-
-        Args:
-            otherObject (object): The other object to add this one to.
-
-        Returns:
-            An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
-
-        >>> print(2 + oclWrapper_Creator(1))
-        3
-        >>> print(oclWrapper_Creator(1) + oclWrapper_Creator(2))
-        3
-        >>> print(sum([oclWrapper_Creator(1), oclWrapper_Creator(2)]))
-        3
-        >>> print('Hello' + oclWrapper_Creator(' world!'))
-        Hello world!
-        >>> print(oclWrapper_Creator('Hello') + oclWrapper_Creator(' world!'))
-        Hello world!
-        >>> print((1, 2) + oclWrapper_Creator((3, 4)))
-        (1, 2, 3, 4)
-        >>> print(oclWrapper_Creator((1, 2)) + oclWrapper_Creator((3, 4)))
-        (1, 2, 3, 4)
-        >>> print([1, 2] + oclWrapper_Creator([3, 4]))
-        [1, 2, 3, 4]
-        >>> print(oclWrapper_Creator([1, 2]) + oclWrapper_Creator([3, 4]))
-        [1, 2, 3, 4]
-        """
-        return oclWrapper_Creator(otherObject + self._wrapped)
 
     def __rsub__(self, otherObject) -> OclWrapper_Any:
         """__rsub__ method.
@@ -1383,443 +1823,7 @@ class OclWrapper_Any(object):
         """
         return ceil(self._wrapped)
 
-    # Emulating context manager
 
-    def __enter__(self) -> OclWrapper_Any:
-        """__enter__ method.
-
-        Note:
-            If the wrapped object has an __enter__ attribute, delegates the operation to it,
-            or returns directly the wrapped object if it has not.
-
-        >>> with oclWrapper_Creator(True) as o: print(o)
-        True
-        >>> with oclWrapper_Creator(oclWrapper_Creator(False)) as o: print(o)
-        False
-        """
-        try:
-            return oclWrapper_Creator(self._wrapped.__enter__())
-        except AttributeError:
-            return self
-
-    def __exit__(self, exception_type, exception_value, exception_traceback) -> OclWrapper_Any:
-        """__exit__ method.
-
-        Note:
-            Delegates the __exit__ method to the wrapped object.
-
-            If an exception is supplied, and the method wishes to suppress the exception
-            (i.e., prevent it from being propagated), it should return a true value.
-            Otherwise, the exception will be processed normally upon exit from this method.
-        """
-        return oclWrapper_Creator(False)
-
-    # Emulating descriptors
-
-    def __get__(self, instance: object, owner: str) -> OclWrapper_Any:
-        """Called when we call __getattr__ on an instance of a class, or directly on a class,
-            owning an attribute instance of this class, that we are trying to access to.
-
-            The default behaviour is to simply return self (allow simple access),
-            but this may be customized.
-
-        Args:
-            instance (objet): the instance through wich the call has been made
-            (None if the call has been made directly through the class itself).
-
-            owner (str): Class through which the call has been made, directly or from an instance.
-
-        Returns:
-            The value asked, eventully computed.
-        """
-        try:
-            return oclWrapper_Creator(self._wrapped.__get__(instance, owner))
-        except AttributeError:
-            return self
-
-    def __set__(self, instance: object, value: object):
-        """Called when we call __setattr__ on an instance of a class, or directly on a class,
-            owning an attribute instance of this class, that we are trying to access to.
-
-            The default behaviour is to simply modify self (allow simple modification),
-            but this may be customized.
-            For example, a read-only descriptor could raise an AttributeError in its
-            __set__ method do disallow any setting of an instance of this class.
-
-            Example: If the class MyClass defines __set__, the in any call, on an instance I of
-            MyClass ou directly on MyClass, like "I = qqch", it will be this __set__ method
-            that will be called, instead of simply modify I's value.
-
-            This allows, for example, to perform in-place modifications instead of replace
-            the all value of an instance, or to create restrictions about which values
-            the instances can have.
-
-        Args:
-            instance (objet): the instance through wich the call has been made
-            (None if the call has been made directly through the class itself).
-
-            value (str): The new value concerning the modification.
-        """
-        try:
-            return self._wrapped.__set__(instance, value)
-        except AttributeError:
-            return object.__setattr__(self, '_wrapped', value)
-
-    def __delete__(self, instance: object):
-        """Called when we call __delattr__ on an instance of a class, or directly on a class,
-            owning an attribute instance of this class, that we are trying to access to.
-
-            The default behaviour is to do nothing (allow simple deletion),
-            but this may be customized.
-
-        Args:
-            instance (objet): the instance through wich the call has been made
-            (None if the call has been made directly through the class itself).
-
-            value (str): The new value concerning the modification.
-        """
-        try:
-            self._wrapped.__delete__(instance)
-        except AttributeError:
-            pass
-
-    @classmethod
-    def allInstances(aclass: str) -> set:
-        """Allows to get, at any instant, a set of all the object of the calling class.
-
-        Note:
-            Iterates through the recorded instances of the general OclWrapper_Any class
-            and if the objects are instances of the calling classinfo
-            (eventually corresponding to a specialization of the general OclWrapper_Any class),
-            yields them.
-            Cleans up the references onto None objects before returning.
-
-            OCL functionnality -> 'allInstances'
-
-        Args:
-            aclass (str): class of the desired instances.
-
-        Returns:
-            set: Set of the instanced object of this class.
-        """
-        dead = set() # to remember the deads (T.T)
-        for ref in OclWrapper_Any.__instances: # for every recorded instance of this general class
-            obj = ref()
-            if obj is None: # if the object is dead, remember it
-                dead.add(ref)
-            else:
-                if isinstance(obj, aclass): # if still alive and is an instance of this eventually specialized class, yield it
-                    yield obj
-        OclWrapper_Any.__instances -= dead # remove the deads from the set of instances
-
-    def oclAsType(self, aclass: str) -> object:
-        """Statically cast self as the desired class.
-
-        Note:
-            OCL functionnality -> 'oclAsType'
-
-        Args:
-            aclass (str): class to cast the object to.
-
-        Returns:
-            object: Self if the object if an instance of the class, None otherwise.
-
-        >>> type(oclWrapper_Creator(True).oclAsType(OclWrapper_Any)).__name__
-        'OclWrapper_Any'
-        >>> type(oclWrapper_Creator(True).oclAsType(bool)).__name__
-        'NoneType'
-        """
-        if(isinstance(self, aclass)):
-            return aclass(self._wrapped)
-
-    def oclIsKindOf(self, aclass: str) -> OclWrapper_Any:
-        """Checks if the object is an instance of the class. Just an alias for isinstance(), actually.
-
-        Note:
-            OCL functionnality -> 'oclIsKindOf'
-
-        Args:
-            aclass (str): class to check of the object is an instance of.
-
-        Returns:
-            True if the object is an instance of the class, False otherwise.
-
-        >>> print(oclWrapper_Creator('Hello').oclIsKindOf(str))
-        True
-        >>> print(oclWrapper_Creator(1).oclIsKindOf(int))
-        True
-        >>> print(oclWrapper_Creator('Hello').oclIsKindOf(int))
-        False
-        >>> print(oclWrapper_Creator(1).oclIsKindOf(bool))
-        False
-        """
-        return oclWrapper_Creator(isinstance(self._wrapped, aclass))
-
-    def oclIsTypeOf(self, aclass: str) -> OclWrapper_Any:
-        """Checks if the object is exactly an instance of the class. Exactly means that it will return False even if the object is a generalization or specialization of the desired class.
-
-        Note:
-            OCL functionnality -> 'oclIsTypeOf'
-
-        Args:
-            aclass (str): class to check of the object has the type.
-
-        Returns:
-            True if the type of the object is exactly the given class, False otherwise.
-
-        >>> print(oclWrapper_Creator(True).oclIsTypeOf(OclWrapper_Any))
-        False
-        >>> print(oclWrapper_Creator(True).oclIsTypeOf(bool))
-        True
-        """
-        return oclWrapper_Creator(type(self._wrapped) is aclass)
-
-    def oclIsInvalid(self) -> OclWrapper_Any:
-        """Checks if the wrapped object is invalid, aka is None.
-
-        Note:
-            OCL functionnality -> 'oclIsInvalid'
-
-        Returns:
-            True if the wrapped object is invalid, aka is None, Fale otherwise.
-
-        >>> print(oclWrapper_Creator(True).oclIsInvalid())
-        False
-        >>> print(oclWrapper_Creator(None).oclIsInvalid())
-        True
-        """
-        return oclWrapper_Creator(self._wrapped is None)
-
-    def oclIsUndefined(self) -> OclWrapper_Any:
-        """Checks if the wrapped object is undefined, aka is None.
-
-        Note:
-            OCL functionnality -> 'oclIsUndefined'
-
-        Returns:
-            True if the wrapped object is undefined, aka is None, Fale otherwise.
-
-        >>> print(oclWrapper_Creator(True).oclIsUndefined())
-        False
-        >>> print(oclWrapper_Creator(None).oclIsUndefined())
-        True
-        """
-        return oclWrapper_Creator(self._wrapped is None)
-
-
-
-
-
-
-
-
-
-
-
-
-class OclWrapper_Any_Extended(OclWrapper_Any):
-    """ Example of OclWrapper_Any with additionnal functionnality """
-
-    def sayHello(self):
-        print("Hello from ", self._wrapped, "!")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class OclWrapper_Primitive(OclWrapper_Any):
-    """ A wrapper to emulate primitive types in OCL :
-
-        Booleans (in Python : "bool")
-        Integers (in Python : "int")
-        Reals (in Python : "float")
-        Strings (in Python : "str")
-        Collections (in Python : <multiple types possibles depending on the collection>)
-
-        STILL USEFULL ??????????
-    """
-
-class OclWrapper_Boolean(OclWrapper_Primitive):
-    """ A wrapper to emulate Boolean type in OCL (in python "bool")."""
-
-    def __bool__(self) -> Bool:
-        """__bool__ method.
-
-        Note:
-            Delegates the __bool__ method to the wrapped object.
-
-        Returns:
-            The boolean signification of the wrapped object.
-
-        >>> print('Yes' if oclWrapper_Creator(True) else 'No')
-        Yes
-        >>> print('Yes' if oclWrapper_Creator(False) else 'No')
-        No
-        """
-        return self._wrapped.__bool__()
-
-class OclWrapper_Numeric(OclWrapper_Primitive):
-    """ A wrapper to emulate Numeric types in OCL  :
-
-        Integers (in Python : "int")
-        Reals (in Python : "float")
-    """
-
-    def __lt__(self, otherObject) -> OclWrapper_Any:
-        """__lt__ method.
-
-        Note:
-            Delegates the __lt__ method to the wrapped object and creates an OclWrapper_Any.
-
-        Args:
-            otherObject (object): The other object to compare this one to.
-
-        Returns:
-            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
-
-        >>> print(oclWrapper_Creator(1) < 2)
-        True
-        >>> print(oclWrapper_Creator(1) < oclWrapper_Creator(2))
-        True
-        >>> print(oclWrapper_Creator(2) < 1)
-        False
-        >>> print(oclWrapper_Creator(2) < oclWrapper_Creator(1))
-        False
-        """
-        return oclWrapper_Creator(self._wrapped < otherObject)
-
-    def __le__(self, otherObject) -> OclWrapper_Any:
-        """__te__ method.
-
-        Note:
-            Delegates the __te__ method to the wrapped object and creates an OclWrapper_Any.
-
-        Args:
-            otherObject (object): The other object to compare this one to.
-
-        Returns:
-            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
-
-        >>> print(oclWrapper_Creator(1) <= 2)
-        True
-        >>> print(oclWrapper_Creator(1) <= oclWrapper_Creator(2))
-        True
-        >>> print(oclWrapper_Creator(2) <= 1)
-        False
-        >>> print(oclWrapper_Creator(2) <= oclWrapper_Creator(1))
-        False
-        >>> print(oclWrapper_Creator(1) <= 1)
-        True
-        >>> print(oclWrapper_Creator(1) <= oclWrapper_Creator(1))
-        True
-        """
-        return oclWrapper_Creator(self._wrapped <= otherObject)
-
-    def __eq__(self, otherObject: object) -> OclWrapper_Any:
-        """__eq__ method.
-
-        Note:
-            Delegates the __eq__ method to the wrapped object and creates an OclWrapper_Any.
-
-        Args:
-            otherObject (object): The other object to compare this one to.
-
-        Returns:
-            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
-
-        >>> print(oclWrapper_Creator(1) == 1)
-        True
-        >>> print(oclWrapper_Creator(1) == oclWrapper_Creator(1))
-        True
-        >>> print(oclWrapper_Creator(1) == 2)
-        False
-        >>> print(oclWrapper_Creator(1) == oclWrapper_Creator(2))
-        False
-        """
-        return oclWrapper_Creator(self._wrapped == otherObject)
-
-    def __hash__(self):
-        """__hash__ method.
-
-        Note:
-            Delegates the __hash__ method to the parent class : object.
-            This is mandatory to keep the class hashable, since the __eq__ method has been overloaded.
-            Otherwise, class is delared unshashable and can't be used in hashable collections, and
-            its instances can't be correctly compared to any other instances of any object.
-
-        Returns:
-            The hash value of the instanced object.
-
-        >>> print(hash(oclWrapper_Creator(1)) == hash(oclWrapper_Creator(1)))
-        True
-        >>> a = oclWrapper_Creator(1)
-        >>> print(hash(a) == hash(a))
-        True
-        >>> a = oclWrapper_Creator(1)
-        >>> b = oclWrapper_Creator(1)
-        >>> print(hash(a) == hash(b))
-        False
-        """
-        return object.__hash__(self)
-
-    def __ge__(self, otherObject) -> OclWrapper_Any:
-        """__ge__ method.
-
-        Note:
-            Delegates the __ge__ method to the wrapped object and creates an OclWrapper_Any.
-
-        Args:
-            otherObject (object): The other object to compare this one to.
-
-        Returns:
-            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
-
-        >>> print(oclWrapper_Creator(1) >= 2)
-        False
-        >>> print(oclWrapper_Creator(1) >= oclWrapper_Creator(2))
-        False
-        >>> print(oclWrapper_Creator(2) >= 1)
-        True
-        >>> print(oclWrapper_Creator(2) >= oclWrapper_Creator(1))
-        True
-        >>> print(oclWrapper_Creator(1) >= oclWrapper_Creator(1))
-        True
-        >>> print(oclWrapper_Creator(1) >= 1)
-        True
-        """
-        return oclWrapper_Creator(self._wrapped >= otherObject)
-
-    def __gt__(self, otherObject) -> OclWrapper_Any:
-        """__gt__ method.
-
-        Note:
-            Delegates the __gt__ method to the wrapped object.
-
-        Args:
-            otherObject (object): The other object to compare this one to and creates an OclWrapper_Any.
-
-        Returns:
-            An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
-
-        >>> print(oclWrapper_Creator(1) > 2)
-        False
-        >>> print(oclWrapper_Creator(1) > oclWrapper_Creator(2))
-        False
-        >>> print(oclWrapper_Creator(2) > 1)
-        True
-        >>> print(oclWrapper_Creator(2) > oclWrapper_Creator(1))
-        True
-        """
-        return oclWrapper_Creator(self._wrapped > otherObject)
 
 class OclWrapper_Integer(OclWrapper_Numeric):
     # int
@@ -1832,7 +1836,7 @@ class OclWrapper_Real(OclWrapper_Numeric):
 
 
 
-class OclWrapper_Multiple(OclWrapper_Primitive):
+class OclWrapper_Multiple(OclWrapper_Addable):
 
     def __len__(self) -> int:
         """__len__ method.

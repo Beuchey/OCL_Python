@@ -1,18 +1,14 @@
 from textx import metamodel_from_str
 
 expressions = {
-    "AttributeAccess": {
-        "rule":
+    "AttributeAccess": (
             "instanceName=/\w+/ '.' attributeName=/\w+/",
-        "method":
             lambda : "Method corresponding to AttributeAccess"
-    },
-    "Addition": {
-        "rule":
+    ),
+    "Addition": (
             "operande1=/\w+/ '+' operande2=/\w+/",
-        "method":
             lambda : "Method corresponding to Addition"
-    }
+    )
 }
 
 
@@ -29,7 +25,7 @@ def createGrammar(expressions):
     grammar += "\n;"
 
     for e in expressions:
-        grammar += "\n\n" + e + ':\n\t' + expressions[e]["rule"] + "\n;"
+        grammar += "\n\n" + e + ':\n\t' + expressions[e][0] + "\n;"
 
     return grammar
 
@@ -67,7 +63,7 @@ for e in model.expression:
     for i in elements:
         if i[0]!='_' and i!="parent":
             print('\t', i, '\t', elements[i])
-    res += expressions.get(expressionName, expressionNameNotFoundExcpetionRaiser)["method"]()
+    res += expressions.get(expressionName, expressionNameNotFoundExcpetionRaiser)[1]()
 
 
 

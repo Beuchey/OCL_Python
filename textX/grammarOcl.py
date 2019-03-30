@@ -8,7 +8,15 @@ oclFile:
 ;
 
 PackageName:
-    packageName=/\w+/
+    packageName=Path
+;
+
+Path:
+    name=Name ( "::" subname=Name )*
+;
+
+Name:
+    name=/[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*/
 ;
 
 OclExpressions:
@@ -18,12 +26,12 @@ AttributeAccess:
     instanceName=/\w+/ '.' attributeName=/\w+/
 ;
 Addition:
-    operande1=/\w+/ '+' operande2=/\w+/
+    operand1=/\w+/ '+' operand2=/\w+/
 ;
 """)
 
 model = metamodel.model_from_str("""
-package apackage
+package apackage::subpackage
 
 titi.toto
 titi+toto
@@ -32,17 +40,16 @@ toto.titi
 endpackage
 """)
 
+def handleAttributeAccess(elements):
+    return "Context : AttributeAccess\n\t" + "Instance name = " + elements["instanceName"] + "\tAttribute name = " + elements["attributeName"] + "\n"
+
+def handleAddition(elements):
+    return "Context : Addition\n\t" + "Operand 1 = " + elements["operand1"] + "\tOperand 2 = " + elements["operand2"] + "\n"
+
 methods = {
-    "PackageName": lambda : "Method corresponding to PackageName",
-    "AttributeAccess": lambda : "Method corresponding to AttributeAccess",
-    "Addition": lambda : "Method corresponding to Addition"
+    "AttributeAccess": handleAttributeAccess,
+    "Addition": handleAddition
 }
-
-class ExpressionNameNotFoundError(Exception):
-    pass
-
-def expressionNameNotFoundErrorRaiser():
-    raise ExpressionNameNotFoundError()
 
 
 def extractNameFromRepr(repr):
@@ -58,10 +65,6 @@ for e in model.packageName:
             print('\t', i, '\t', elements[i])
 
 for e in model.oclExpressions:
-    expressionName = extractNameFromRepr(repr(e))
-    print(expressionName)
-    elements = vars(e)
-    for i in elements:
-        if i[0]!='_' and i!="parent":
-            print('\t', i, '\t', elements[i])
-    result += methods.get(expressionName, expressionNameNotFoundErrorRaiser)()
+    result += methods[extractNameFromRepr(repr(e))](vars(e))
+
+print(result)

@@ -1,10 +1,17 @@
 from textx import metamodel_from_str
 
 metamodel = metamodel_from_str("""
-Program:
-    expression*=Expression
+oclFile:
+    ("package" packageName=PackageName
+    oclExpressions*=OclExpressions
+    "endpackage")+
 ;
-Expression:
+
+PackageName:
+    packageName=/\w+/
+;
+
+OclExpressions:
     AttributeAccess | Addition
 ;
 AttributeAccess:
@@ -16,12 +23,17 @@ Addition:
 """)
 
 model = metamodel.model_from_str("""
+package apackage
+
 titi.toto
 titi+toto
 toto.titi
+
+endpackage
 """)
 
 methods = {
+    "PackageName": lambda : "Method corresponding to PackageName",
     "AttributeAccess": lambda : "Method corresponding to AttributeAccess",
     "Addition": lambda : "Method corresponding to Addition"
 }
@@ -33,11 +45,20 @@ def expressionNameNotFoundErrorRaiser():
     raise ExpressionNameNotFoundError()
 
 
+def extractNameFromRepr(repr):
+    return repr[repr.index(":")+1:repr.index(" ")]
+
 result = ""
 
-for e in model.expression:
-    expressionName = repr(e)
-    expressionName = expressionName[expressionName.index(":")+1:expressionName.index(" ")]
+for e in model.packageName:
+    print(extractNameFromRepr(repr(e)))
+    elements = vars(e)
+    for i in elements:
+        if i[0]!='_' and i!="parent":
+            print('\t', i, '\t', elements[i])
+
+for e in model.oclExpressions:
+    expressionName = extractNameFromRepr(repr(e))
     print(expressionName)
     elements = vars(e)
     for i in elements:

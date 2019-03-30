@@ -14,16 +14,21 @@ OclExpressions:
     ( constraint=Constraint )*
 ;
 Constraint:
-    contextDeclaration=ContextDeclaration ( stereotype=Stereotype name=Name? ":" oclExpression=OclExpression)+
+    contextDeclaration=ContextDeclaration
+    ( stereotype=Stereotype name=Name? ":" oclExpression=OclExpression)+
 ;
 ContextDeclaration:
-    "context" ( operationContext=OperationContext | classifierContext=ClassifierContext )
+    "context"
+    ( operationContext=OperationContext | classifierContext=ClassifierContext )
 ;
 ClassifierContext:
-    (  name=Name ":" name=Name ) | name=Name
+    (  name=Name ":" name=Name )
+    | name=Name
 ;
 OperationContext:
-    name=Name "::" operationName=OperationName "(" formalParameterList=FormalParameterList ")" ( ":" returnType=ReturnType )?
+    name=Name "::" operationName=OperationName
+    "(" formalParameterList=FormalParameterList ")"
+    ( ":" returnType=ReturnType )?
 ;
 Stereotype:
     ( "pre" | "post" | "inv" )
@@ -32,16 +37,21 @@ OperationName:
     name=Name | "=" | "+" | "-" | "<" | "<=" |">=" | ">" | "/" | "*" | "<>" | "implies" | "not" | "or" | "xor" | "and"
 ;
 FormalParameterList:
-    ( name=Name ":" typeSpecifier=TypeSpecifier ("," name=Name ":" typeSpecifier=TypeSpecifier )*)?
+    ( name=Name ":" typeSpecifier=TypeSpecifier
+    ("," name=Name ":" typeSpecifier=TypeSpecifier )*
+    )?
 ;
 TypeSpecifier:
-    simpleTypeSpecifier=SimpleTypeSpecifier | collectionType=CollectionType
+    simpleTypeSpecifier=SimpleTypeSpecifier
+    | collectionType=CollectionType
 ;
 CollectionType:
-    collectionKind=CollectionKind "(" simpleTypeSpecifier=SimpleTypeSpecifier ")"
+    collectionKind=CollectionKind
+    "(" simpleTypeSpecifier=SimpleTypeSpecifier ")"
 ;
 OclExpression:
-    ( letExpression=LetExpression )* expression=Expression
+    ( letExpression=LetExpression )*
+    expression=Expression
 ;
 ReturnType:
     typeSpecifier=TypeSpecifier
@@ -50,10 +60,16 @@ Expression:
     logicalExpression=LogicalExpression
 ;
 LetExpression:
-    "let" name=Name ( "(" formalParameterList=FormalParameterList ")" )? ( ":" typeSpecifier=TypeSpecifier )? "=" expression=Expression ";"
+    "let" name=Name
+    ( "(" formalParameterList=FormalParameterList ")" )?
+    ( ":" typeSpecifier=TypeSpecifier )?
+    "=" expression=Expression ";"
 ;
 IfExpression:
-    "if" expression=Expression "then" expression=Expression "else" expression=Expression "endif"
+    "if" expression=Expression
+    "then" expression=Expression
+    "else" expression=Expression
+    "endif"
 ;
 LogicalExpression:
     relationalExpression=RelationalExpression ( logicalOperator=LogicalOperator relationalExpression=RelationalExpression)*

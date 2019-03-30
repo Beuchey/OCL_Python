@@ -84,25 +84,42 @@ RelationalExpression:
     )?
 ;
 AdditiveExpression:
-    multiplicativeExpression=MultiplicativeExpression ( addOperator=AddOperator multiplicativeExpression=MultiplicativeExpression)*
+    multiplicativeExpression=MultiplicativeExpression
+    ( addOperator=AddOperator
+    multiplicativeExpression=MultiplicativeExpression
+    )*
 ;
 MultiplicativeExpression:
-    unaryExpression=UnaryExpression ( multiplyOperator=MultiplyOperator unaryExpression=UnaryExpression)*
+    unaryExpression=UnaryExpression
+    ( multiplyOperator=MultiplyOperator
+    unaryExpression=UnaryExpression
+    )*
 ;
 UnaryExpression:
-            ( unaryOperator=UnaryOperator postfixExpression=PostfixExpression) | postfixExpression=PostfixExpression
+    ( unaryOperator=UnaryOperator
+     postfixExpression=PostfixExpression
+     )
+     | postfixExpression=PostfixExpression
 ;
 PostfixExpression:
-    primaryExpression=PrimaryExpression ( ( "." | "->" ) propertyCall=PropertyCall )*
+    primaryExpression=PrimaryExpression
+    ( ( "." | "->" ) propertyCall=PropertyCall )*
 ;
 PrimaryExpression:
-    literalCollection=LiteralCollection | literal=Literal | propertyCall=PropertyCall | "(" expression=Expression ")" | ifExpression=IfExpression
+    literalCollection=LiteralCollection
+    | literal=Literal
+    | propertyCall=PropertyCall
+    | "(" expression=Expression ")"
+    | ifExpression=IfExpression
 ;
 PropertyCallParameters:
-    "(" ( declarator=Declarator )? ( actualParameterList=ActualParameterList )? ")"
+    "(" ( declarator=Declarator )?
+    ( actualParameterList=ActualParameterList )? ")"
 ;
 Literal:
-    string=String | number=Number | enumLiteral=EnumLiteral
+    string=String
+    | number=Number
+    | enumLiteral=EnumLiteral
 ;
 EnumLiteral:
     name=Name "::" name=Name ( "::" name=Name )*
@@ -111,19 +128,31 @@ SimpleTypeSpecifier:
     pathName=PathName
 ;
 LiteralCollection:
-        collectionKind=CollectionKind "{" ( collectionItem=CollectionItem ("," collectionItem=CollectionItem )* )? "}"
+    collectionKind=CollectionKind "{"
+    ( collectionItem=CollectionItem
+        ("," collectionItem=CollectionItem )*
+    )?
+    "}"
 ;
 CollectionItem:
     expression=Expression (".." expression=Expression )?
 ;
 PropertyCall:
-    pathName=PathName ( timeExpression=TimeExpression )? ( qualifiers=Qualifiers )? ( propertyCallParameters=PropertyCallParameters )?
+    pathName=PathName
+    ( timeExpression=TimeExpression )?
+    ( qualifiers=Qualifiers )?
+    ( propertyCallParameters=PropertyCallParameters )?
 ;
 Qualifiers:
     "[" actualParameterList=ActualParameterList "]"
 ;
 Declarator:
-    name=Name ( "," name=Name )* ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )? ( ";" name=Name ":" typeSpecifier=TypeSpecifier "=" expression=Expression)? "|"
+    name=Name ( "," name=Name )*
+    ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )?
+    ( ";" name=Name ":" typeSpecifier=TypeSpecifier "="
+        expression=Expression
+    )?
+    "|"
 ;
 PathName:
     name=Name ( "::" name=Name )*
@@ -132,7 +161,7 @@ TimeExpression:
     "@" "pre"
 ;
 ActualParameterList:
-        expression=Expression ( "," expression=Expression )*
+    expression=Expression ( "," expression=Expression )*
 ;
 LogicalOperator:
     "and" | "or" | "xor" | "implies"
@@ -153,13 +182,13 @@ UnaryOperator:
     "-" | "not"
 ;
 Name:
-    name=/["a"-"z", "A"-"Z", "_"] ( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*/
+    name=STRING
 ;
 Number:
-    number=/["0"-"9"] (["0"-"9"])* ( "." ["0"-"9"] (["0"-"9"])* )? ( ("e" | "E") ( "+" | "-" )? ["0"-"9"] (["0"-"9"])* )?/
+    number=NUMBER
 ;
 String:
-    string=/"'"(( ~["’","\\","\n","\r"] )|("\\"( ["n","t","b","r","f","\\","’","\""]| ["0"-"7"]( ["0"-"7"] ( ["0"-"7"] )? )?)))*"'"/
+    string=STRING
 ;
 """)
 

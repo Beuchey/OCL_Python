@@ -281,10 +281,11 @@ class OclWrapper_Any(object):
         return oclWrapper_Creator(self._wrapped.__call__(*args))
         """
 
+    """ Never emulating context managers ?
     # Emulating context manager
 
     def __enter__(self) -> OclWrapper_Any:
-        """__enter__ method.
+        """"""__enter__ method.
 
         Note:
             If the wrapped object has an __enter__ attribute, delegates the operation to it,
@@ -294,14 +295,14 @@ class OclWrapper_Any(object):
         True
         >>> with oclWrapper_Creator(oclWrapper_Creator(False)) as o: print(o)
         False
-        """
+        """"""
         try:
             return oclWrapper_Creator(self._wrapped.__enter__())
         except AttributeError:
             return self
 
     def __exit__(self, exception_type, exception_value, exception_traceback) -> OclWrapper_Any:
-        """__exit__ method.
+        """"""__exit__ method.
 
         Note:
             Delegates the __exit__ method to the wrapped object.
@@ -309,13 +310,15 @@ class OclWrapper_Any(object):
             If an exception is supplied, and the method wishes to suppress the exception
             (i.e., prevent it from being propagated), it should return a true value.
             Otherwise, the exception will be processed normally upon exit from this method.
-        """
+        """"""
         return oclWrapper_Creator(False)
+        """
 
+    """ Never emulating descriptors ?
     # Emulating descriptors
 
     def __get__(self, instance: object, owner: str) -> OclWrapper_Any:
-        """Called when we call __getattr__ on an instance of a class, or directly on a class,
+        """"""Called when we call __getattr__ on an instance of a class, or directly on a class,
             owning an attribute instance of this class, that we are trying to access to.
 
             The default behaviour is to simply return self (allow simple access),
@@ -329,14 +332,14 @@ class OclWrapper_Any(object):
 
         Returns:
             The value asked, eventully computed.
-        """
+        """"""
         try:
             return oclWrapper_Creator(self._wrapped.__get__(instance, owner))
         except AttributeError:
             return self
 
     def __set__(self, instance: object, value: object):
-        """Called when we call __setattr__ on an instance of a class, or directly on a class,
+        """"""Called when we call __setattr__ on an instance of a class, or directly on a class,
             owning an attribute instance of this class, that we are trying to access to.
 
             The default behaviour is to simply modify self (allow simple modification),
@@ -357,14 +360,14 @@ class OclWrapper_Any(object):
             (None if the call has been made directly through the class itself).
 
             value (str): The new value concerning the modification.
-        """
+        """"""
         try:
             return self._wrapped.__set__(instance, value)
         except AttributeError:
             return object.__setattr__(self, '_wrapped', value)
 
     def __delete__(self, instance: object):
-        """Called when we call __delattr__ on an instance of a class, or directly on a class,
+        """"""Called when we call __delattr__ on an instance of a class, or directly on a class,
             owning an attribute instance of this class, that we are trying to access to.
 
             The default behaviour is to do nothing (allow simple deletion),
@@ -375,11 +378,12 @@ class OclWrapper_Any(object):
             (None if the call has been made directly through the class itself).
 
             value (str): The new value concerning the modification.
-        """
+        """"""
         try:
             self._wrapped.__delete__(instance)
         except AttributeError:
             pass
+        """
 
     @classmethod
     def allInstances(aclass: str) -> set:
@@ -566,6 +570,7 @@ class OclWrapper_Boolean(OclWrapper_Primitive):
         return self._wrapped.__bool__()
 
 class OclWrapper_Addable(OclWrapper_Primitive):
+    """ A wrapper to emulate types that can be added."""
 
     def __add__(self, otherObject: object) -> OclWrapper_Any:
         """__add__ method.
@@ -1677,6 +1682,7 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         return complex(self._wrapped)
 
 class OclWrapper_Floatable(OclWrapper_Primitive):
+    """ A wrapper to emulate types that can be turned into floats."""
 
     def __float__(self) -> float:
         """__float__ method.
@@ -1695,6 +1701,7 @@ class OclWrapper_Floatable(OclWrapper_Primitive):
         return float(self._wrapped)
 
 class OclWrapper_Integer(OclWrapper_Numeric, OclWrapper_Floatable):
+    """ A wrapper to emulate Integer type in OCL (in python "int")."""
 
     def __index__(self) -> int:
         """__index__ method.
@@ -1715,6 +1722,7 @@ class OclWrapper_Integer(OclWrapper_Numeric, OclWrapper_Floatable):
 
 
 class OclWrapper_Intable(OclWrapper_Primitive):
+    """ A wrapper to emulate types that can be turned into integers."""
 
     def __int__(self) -> int:
         """__int__ method.
@@ -1733,6 +1741,7 @@ class OclWrapper_Intable(OclWrapper_Primitive):
         return int(self._wrapped)
 
 class OclWrapper_Real(OclWrapper_Numeric):
+    """ A wrapper to emulate Real type in OCL (in python "float")."""
 
     def __round__(self, *ndigits) -> real:
         """__round__ method.
@@ -1826,6 +1835,7 @@ class OclWrapper_Real(OclWrapper_Numeric):
 
 
 class OclWrapper_Multiple(OclWrapper_Addable):
+    """ A wrapper to emulate types that contains several elements."""
 
     def __len__(self) -> int:
         """__len__ method.
@@ -1919,26 +1929,7 @@ class OclWrapper_Multiple(OclWrapper_Addable):
         return oclWrapper_Creator(self._wrapped.__contains__(item))
 
 class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_Intable):
-    # str
-
-    def __repr__(self) -> str:
-        """__repr__ method.
-
-        Returns:
-            The "official" string representation of the instanced object.
-
-        >>> repr(OclWrapper_String(True))
-        'WRAPPED_STRING : True'
-        >>> repr(OclWrapper_String(1))
-        'WRAPPED_STRING : 1'
-        >>> repr(OclWrapper_String((1, 2, 3)))
-        'WRAPPED_STRING : (1, 2, 3)'
-        >>> repr(OclWrapper_String([1, 2, 3]))
-        'WRAPPED_STRING : [1, 2, 3]'
-        >>> repr(OclWrapper_String({'a': 1, 'b': 2, 'c': 3}))
-        "WRAPPED_STRING : {'a': 1, 'b': 2, 'c': 3}"
-        """
-        return 'WRAPPED_STRING : ' + self._wrapped.__repr__()
+    """ A wrapper to emulate String type in OCL (in python "str")."""
 
     def concat(self, otherObject: object) -> OclWrapper_Any:
         """Concatenates the other object (eventually already wrapped) to the wrapped string.

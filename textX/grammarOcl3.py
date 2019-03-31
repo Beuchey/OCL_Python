@@ -22,7 +22,11 @@ Constraint:
     contextDeclaration=ContextDeclaration
 ;
 ContextDeclaration:
-    "context" body = Name
+    "context" body=Name
+    ( stereotype=Stereotype stereoname=Name)+
+;
+Stereotype:
+    ( "pre" | "post" | "inv" )
 ;
 """)
 
@@ -30,8 +34,14 @@ model = metamodel.model_from_str("""
 package apackage::subpackage
 
 context someContext
+inv someInvariant
 
 context someOtherContext
+pre somePrecondition
+
+context someOtherOtherContext
+post somePostcondition
+inv someOtherInvariant
 
 endpackage
 """)

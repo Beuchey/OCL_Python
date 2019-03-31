@@ -20,7 +20,7 @@ OclExpressions:
 ;
 Constraint:
     contextDeclaration=ContextDeclaration
-    ( stereotype=Stereotype (stereoname=Name)? ":" oclExpression=Name)+
+    ( stereotype=Stereotype (stereoname=Name)? ":" oclExpression=Name "$$$$$$$")+
 ;
 ContextDeclaration:
     "context" body=Name
@@ -34,17 +34,17 @@ model = metamodel.model_from_str("""
 package apackage::subpackage
 
 context someContext
-inv someInvariant : toto
+inv someInvariant : toto$$$$$$$
 
 context someOtherContext
-pre somePrecondition : titi
+pre somePrecondition : titi$$$$$$$
 
 context someDamnContext
-pre : tata
+pre : tata$$$$$$$
 
 context someOtherOtherContext
-post somePostcondition : tutu
-inv someOtherInvariant : tztz
+post somePostcondition : tutu$$$$$$$
+inv someOtherInvariant : tztz$$$$$$$
 
 endpackage
 """)

@@ -20,10 +20,10 @@ OclExpressions:
 ;
 Constraint:
     contextDeclaration=ContextDeclaration
+    ( stereotype=Stereotype (stereoname=Name)? ":" oclExpression=Name)+
 ;
 ContextDeclaration:
     "context" body=Name
-    ( stereotype=Stereotype (stereoname=Name)? ":" oclExpression=Name)+
 ;
 Stereotype:
     ( "pre" | "post" | "inv" )
@@ -39,8 +39,11 @@ inv someInvariant : toto
 context someOtherContext
 pre somePrecondition : titi
 
+context someDamnContext
+pre : tata
+
 context someOtherOtherContext
-post : tutu
+post somePostcondition : tutu
 inv someOtherInvariant : tztz
 
 endpackage

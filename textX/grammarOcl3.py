@@ -23,7 +23,7 @@ Constraint:
 ;
 ContextDeclaration:
     "context" body=Name
-    ( stereotype=Stereotype stereoname=Name)+
+    ( stereotype=Stereotype (stereoname=Name)? ":" oclExpression=Name)+
 ;
 Stereotype:
     ( "pre" | "post" | "inv" )
@@ -34,14 +34,14 @@ model = metamodel.model_from_str("""
 package apackage::subpackage
 
 context someContext
-inv someInvariant
+inv someInvariant : toto
 
 context someOtherContext
-pre somePrecondition
+pre somePrecondition : titi
 
 context someOtherOtherContext
-post somePostcondition
-inv someOtherInvariant
+post : tutu
+inv someOtherInvariant : tztz
 
 endpackage
 """)

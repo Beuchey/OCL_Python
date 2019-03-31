@@ -195,17 +195,8 @@ String:
 model = metamodel.model_from_str("""
 package xtext
 
-context ReferenceMetamodel
-inv NoAnonymousImports: alias <> null
-
 context Action
 inv NoActions : false
-
-context ParserRule
-inv CamelCaseName : name.matches('[A-Z][A-Za-z]*')
-
-context xtext::TerminalRule
-inv UpperName : name = name.toUpperCase()
 
 endpackage
 """)

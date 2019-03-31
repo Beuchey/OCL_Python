@@ -1,5 +1,8 @@
 from textx import metamodel_from_str
 
+# DEFINE THE METAMODEL (GRAMMAR) AND THE MODEL TO HANDLE WITH THIS METAMODEL
+
+# In this metamodel the "$$$$$$$" markers signal where the grammar has been simplified and needs to be completed
 metamodel = metamodel_from_str("""
 oclFile:
     ("package" packageName=PackageName
@@ -23,7 +26,8 @@ Constraint:
     ( stereotype=Stereotype (stereoname=Name)? ":" oclExpression=Name "$$$$$$$")+
 ;
 ContextDeclaration:
-    "context" body=Name
+    "context"
+    ( operationContext=Name "$$$$$$$" | classifierContext=Name "$$$$$$$" )
 ;
 Stereotype:
     ( "pre" | "post" | "inv" )
@@ -33,40 +37,48 @@ Stereotype:
 model = metamodel.model_from_str("""
 package apackage::subpackage
 
-context someContext
+context someContext$$$$$$$
 inv someInvariant : toto$$$$$$$
 
-context someOtherContext
+context someOtherContext$$$$$$$
 pre somePrecondition : titi$$$$$$$
 
-context someDamnContext
+context someDamnContext$$$$$$$
 pre : tata$$$$$$$
 
-context someOtherOtherContext
+context someOtherOtherContext$$$$$$$
 post somePostcondition : tutu$$$$$$$
 inv someOtherInvariant : tztz$$$$$$$
 
 endpackage
 """)
 
+
+
+
+# MECHANISM TO HANDLE EVERY PART OF THE MODEL ACCORDING TO THE CORRESPONDING METAMODEL
+
 def handlePackageName(elements):
     packageComposition = vars(elements["body"])
     packageName = packageComposition["pathname"]
     packageSubname = packageComposition["pathsubname"]
-    return "Context : PackageName\n\t" + "Package name = " + packageName.body + "\tPackage subname = " + packageSubname[0].body + "\n"
+    return "Handling : PackageName\n\t" + "Package name = " + packageName.body + "\tPackage subname = " + packageSubname[0].body + "\n"
 
-def handleAttributeAccess(elements):
-    return "Context : AttributeAccess\n\t" + "Instance name = " + elements["instanceName"] + "\tAttribute name = " + elements["attributeName"] + "\n"
-
-def handleAddition(elements):
-    return "Context : Addition\n\t" + "Operand 1 = " + elements["operand1"] + "\tOperand 2 = " + elements["operand2"] + "\n"
+def handleOclExpressions(elements):
+    return "Handling : OCL expressions\n\t..."
 
 methods = {
     "PackageName": handlePackageName,
-    "AttributeAccess": handleAttributeAccess,
-    "Addition": handleAddition
+    "OclExpressions": handleOclExpressions,
 }
 
+
+
+
+
+
+
+# WHERE THE MAGIC HAPPENS
 
 def extractNameFromRepr(repr):
     return repr[repr.index(":")+1:repr.index(" ")]
@@ -76,4 +88,7 @@ result = ""
 for e in model.packageName:
     result += methods[extractNameFromRepr(repr(e))](vars(e))
 
-print(result)
+for e in model.oclExpressions:
+    result += methods[extractNameFromRepr(repr(e))](vars(e))
+
+print(result) # Could be printed into a file

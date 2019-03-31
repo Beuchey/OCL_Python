@@ -182,7 +182,7 @@ UnaryOperator:
     "-" | "not"
 ;
 Name:
-    name=STRING
+    name=ID
 ;
 Number:
     number=NUMBER

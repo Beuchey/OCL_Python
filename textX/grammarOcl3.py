@@ -1,4 +1,5 @@
 from textx import metamodel_from_str
+from textx.model import get_metamodel
 
 # DEFINE THE METAMODEL (GRAMMAR) AND THE MODEL TO HANDLE WITH THIS METAMODEL
 
@@ -8,68 +9,68 @@ File:
     (Expression)*
 ;
 Expression:
-    LogicalExpression
+    a=LogicalExpression
 ;
 LetExpression:
-    "let" Name
-    ( "(" FormalParameterList ")" )?
-    ( ":" TypeSpecifier )?
-    "=" Expression ";"
+    "let" a=Name
+    ( "(" b=FormalParameterList ")" )?
+    ( ":" c=TypeSpecifier )?
+    "=" d=Expression ";"
 ;
 IfExpression:
-    "if" Expression
-    "then" Expression
-    "else" Expression
+    "if" a=Expression
+    "then" b=Expression
+    "else" c=Expression
     "endif"
 ;
 LogicalExpression:
-    RelationalExpression
-    ( LogicalOperator
-    RelationalExpression
+    a=RelationalExpression
+    ( b=LogicalOperator
+    c=RelationalExpression
     )*
 ;
 RelationalExpression:
-    AdditiveExpression
-    ( RelationalOperator
-    AdditiveExpression
+    a=AdditiveExpression
+    ( b=RelationalOperator
+    c=AdditiveExpression
     )?
 ;
 AdditiveExpression:
-    MultiplicativeExpression
-    ( AddOperator
-    MultiplicativeExpression
+    a=MultiplicativeExpression
+    ( b=AddOperator
+    c=MultiplicativeExpression
     )*
 ;
 MultiplicativeExpression:
-    UnaryExpression
-    ( MultiplyOperator
-    UnaryExpression
+    a=UnaryExpression
+    ( b=MultiplyOperator
+    c=UnaryExpression
     )*
 ;
 UnaryExpression:
-    ( UnaryOperator
-     PostfixExpression
+    ( a=UnaryOperator
+     b=PostfixExpression
      )
-     | PostfixExpression
+     | c=PostfixExpression
 ;
 PostfixExpression:
-    PrimaryExpression
-    ( ( "." | "->" ) PropertyCall )*
+    a=PrimaryExpression
+    ( ( "." | "->" ) b=PropertyCall )*
 ;
 PrimaryExpression:
-    LiteralCollection
-    | Literal
-    | PropertyCall
-    | "(" Expression ")"
-    | IfExpression
+    a=LiteralCollection
+    | b=Literal
+    | c=PropertyCall
+    | "(" d=Expression ")"
+    | e=IfExpression
 ;
 UnaryOperator:
     "-" | "not"
 ;
 LiteralCollection:
-    CollectionKind "{"
-    ( CollectionItem
-        ("," CollectionItem )*
+    a=CollectionKind "{"
+    ( b=CollectionItem
+        ("," c=CollectionItem )*
     )?
     "}"
 ;
@@ -77,65 +78,65 @@ CollectionKind:
     "Set" | "Bag" | "Sequence" | "Collection"
 ;
 CollectionItem:
-    Expression (".." Expression )?
+    a=Expression (".." b=Expression )?
 ;
 PropertyCall:
-    PathName
-    ( TimeExpression )?
-    ( Qualifiers )?
-    ( PropertyCallParameters )?
+    a=PathName
+    ( b=TimeExpression )?
+    ( c=Qualifiers )?
+    ( d=PropertyCallParameters )?
 ;
 Qualifiers:
-    "[" ActualParameterList "]"
+    "[" a=ActualParameterList "]"
 ;
 PathName:
-    Name ( "::" Name )*
+    a=Name ( "::" b=Name )*
 ;
 TimeExpression:
     "@" "pre"
 ;
 ActualParameterList:
-    Expression ( "," Expression )*
+    a=Expression ( "," b=Expression )*
 ;
 Literal:
-    String
-    | Number
-    | EnumLiteral
+    a=String
+    | b=Number
+    | c=EnumLiteral
 ;
 EnumLiteral:
-    Name "::" Name ( "::" Name )*
+    a=Name "::" b=Name ( "::" c=Name )*
 ;
 Name:
-    /[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*/
+    a=/[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*/
 ;
 Number:
-    NUMBER
+    a=NUMBER
 ;
 String:
-    STRING
+    a=STRING
 ;
 PropertyCallParameters:
-    "(" ( Declarator )?
-    ( ActualParameterList )? ")"
+    "(" ( a=Declarator )?
+    ( b=ActualParameterList )? ")"
 ;
 Declarator:
-    Name ( "," Name )*
-    ( ":" SimpleTypeSpecifier )?
-    ( ";" Name ":" TypeSpecifier "="
-        Expression
+    a=Name ( "," b=Name )*
+    ( ":" c=SimpleTypeSpecifier )?
+    ( ";" d=Name ":" e=TypeSpecifier "="
+        f=Expression
     )?
     "|"
 ;
 SimpleTypeSpecifier:
-    PathName
+    a=PathName
 ;
 TypeSpecifier:
-    SimpleTypeSpecifier
-    | CollectionType
+    a=SimpleTypeSpecifier
+    | b=CollectionType
 ;
 CollectionType:
-    CollectionKind
-    "(" SimpleTypeSpecifier ")"
+    a=CollectionKind
+    "(" b=SimpleTypeSpecifier ")"
 ;
 LogicalOperator:
     "and" | "or" | "xor" | "implies"
@@ -156,8 +157,8 @@ UnaryOperator:
     "-" | "not"
 ;
 FormalParameterList:
-    ( Name ":" TypeSpecifier
-    ("," Name ":" TypeSpecifier )*
+    ( a=Name ":" b=TypeSpecifier
+    ("," c=Name ":" d=TypeSpecifier )*
     )?
 ;
 """)
@@ -195,11 +196,4 @@ methods = {
 
 # WHERE THE MAGIC HAPPENS
 
-def extractNameFromRepr(repr):
-    return repr[repr.index(":")+1:repr.index(" ")]
-
-result = ""
-
-print(str(model))
-
-print(result) # Could be printed into a file
+print(str(vars(vars(vars(vars(vars(vars(vars(vars(vars(vars(vars(model)["a"])["a"])["a"])["a"])["a"])["c"])["a"])["c"])["a"])["a"])["a"]))

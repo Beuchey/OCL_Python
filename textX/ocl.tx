@@ -1,0 +1,159 @@
+File:
+    (Expression)*
+;
+Expression:
+      IfExpression
+    | LetExpression
+    |  PostfixExpression
+    | UnaryExpression
+    | LogicalExpression
+    | RelationalExpression
+    | AdditiveExpression
+    | MultiplicativeExpression
+;
+LetExpression:
+    "let" identifier=Name
+    ( "(" extra_identifiers=FormalParameterList ")" )?
+    ( ":" type=TypeSpecifier )?
+    "=" init_expression=Expression "in" expression=Expression
+;
+IfExpression:
+    "if" condition=Expression
+    "then" then_body=Expression
+    "else" else_body=Expression
+    "endif"
+;
+LogicalExpression:
+    left=RelationalExpression
+    ( operator=LogicalOperator
+    right=RelationalExpression
+    )*
+;
+RelationalExpression:
+    left=AdditiveExpression
+    ( operator=RelationalOperator
+    right=AdditiveExpression
+    )?
+;
+AdditiveExpression:
+    left=MultiplicativeExpression
+    ( operator=AddOperator
+    right=MultiplicativeExpression
+    )*
+;
+MultiplicativeExpression:
+    left=UnaryExpression
+    ( operator=MultiplyOperator
+    right=UnaryExpression
+    )*
+;
+UnaryExpression:
+    ( operator=UnaryOperator) ? left=PostfixExpression
+;
+PostfixExpression:
+    expression=PrimaryExpression
+    ( ( "." | "->" ) call=PropertyCall )*
+;
+PrimaryExpression:
+    LiteralCollection
+    | Literal
+    | PropertyCall
+    | "(" Expression ")"
+    | IfExpression
+;
+UnaryOperator:
+    "-" | "not"
+;
+LiteralCollection:
+    kind=CollectionKind "{"
+    ( items=CollectionItem
+        ("," items=CollectionItem )*
+    )?
+    "}"
+;
+CollectionKind:
+    "Set" | "Bag" | "Sequence" | "Collection"
+;
+CollectionItem:
+    start=Expression (".." end=Expression )?
+;
+PropertyCall:
+    property=PathName
+    ( time_expression=TimeExpression )?
+    ( qualifiers=Qualifiers )?
+    ( parameters=PropertyCallParameters )?
+;
+Qualifiers:
+    "[" a=ActualParameterList "]"
+;
+PathName:
+    path=Name ( "::" path=Name )*
+;
+TimeExpression:
+    "@" "pre"
+;
+ActualParameterList:
+    params=Expression ( "," params=Expression )*
+;
+Literal:
+    String
+    | Number
+    | EnumLiteral
+;
+EnumLiteral:
+    paths=Name "::" paths=Name ( "::" paths=Name )*
+;
+Name:
+    /[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*/
+;
+Number:
+    NUMBER
+;
+String:
+    STRING
+;
+PropertyCallParameters:
+    "(" ( a=Declarator )?
+    ( b=ActualParameterList )? ")"
+;
+Declarator:
+    id=Name ( "," extra_ids=Name )*
+    ( ":" c=SimpleTypeSpecifier )?
+    ( ";" d=Name ":" e=TypeSpecifier "="
+        f=Expression
+    )?
+    "|"
+;
+SimpleTypeSpecifier:
+    PathName
+;
+TypeSpecifier:
+    SimpleTypeSpecifier | CollectionType
+;
+CollectionType:
+    kind=CollectionKind
+    "(" type=SimpleTypeSpecifier ")"
+;
+LogicalOperator:
+    "and" | "or" | "xor" | "implies"
+;
+CollectionKind:
+    "Set" | "Bag" | "Sequence" | "Collection"
+;
+RelationalOperator:
+    "=" | ">" | "<" | ">=" | "<=" | "<>"
+;
+AddOperator:
+    "+" |  "-"
+;
+MultiplyOperator:
+    "*" | "/"
+;
+UnaryOperator:
+    "-" | "not"
+;
+FormalParameterList:
+    ( a=Name ":" b=TypeSpecifier
+    ("," c=Name ":" d=TypeSpecifier )*
+    )?
+;

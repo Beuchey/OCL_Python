@@ -2,166 +2,166 @@ from textx import metamodel_from_str
 
 metamodel = metamodel_from_str("""
 OclFile:
-    ( "package" PackageName
-    OclExpressions
+    ( "package" packageName=PackageName
+    oclExpressions=OclExpressions
     "endpackage"
     )+
 ;
 PackageName:
-    PathName
+    pathName=PathName
 ;
 OclExpressions:
-    ( Constraint )*
+    ( constraint=Constraint )*
 ;
 Constraint:
-    ContextDeclaration
-    ( Stereotype Name? ":" OclExpression)+
+    contextDeclaration=ContextDeclaration
+    ( stereotype=Stereotype name=Name? ":" oclExpression=OclExpression)+
 ;
 ContextDeclaration:
     "context"
-    ( OperationContext | ClassifierContext )
+    ( operationContext=OperationContext | classifierContext=ClassifierContext )
 ;
 ClassifierContext:
-    (  Name ":" Name )
-    | Name
+    (  name=Name ":" name=Name )
+    | name=Name
 ;
 OperationContext:
-    Name "::" OperationName
-    "(" FormalParameterList ")"
-    ( ":" ReturnType )?
+    name=Name "::" operationName=OperationName
+    "(" formalParameterList=FormalParameterList ")"
+    ( ":" returnType=ReturnType )?
 ;
 Stereotype:
     ( "pre" | "post" | "inv" )
 ;
 OperationName:
-    Name | " | "+" | "-" | "<" | " " | ">" | "/" | "*" | "<>" | "implies" | "not" | "or" | "xor" | "and"
+    name=Name | "=" | "+" | "-" | "<" | "<=" |">=" | ">" | "/" | "*" | "<>" | "implies" | "not" | "or" | "xor" | "and"
 ;
 FormalParameterList:
-    ( Name ":" TypeSpecifier
-    ("," Name ":" TypeSpecifier )*
+    ( name=Name ":" typeSpecifier=TypeSpecifier
+    ("," name=Name ":" typeSpecifier=TypeSpecifier )*
     )?
 ;
 TypeSpecifier:
-    SimpleTypeSpecifier
-    | CollectionType
+    simpleTypeSpecifier=SimpleTypeSpecifier
+    | collectionType=CollectionType
 ;
 CollectionType:
-    CollectionKind
-    "(" SimpleTypeSpecifier ")"
+    collectionKind=CollectionKind
+    "(" simpleTypeSpecifier=SimpleTypeSpecifier ")"
 ;
 OclExpression:
-    ( LetExpression )*
-    Expression
+    ( letExpression=LetExpression )*
+    expression=Expression
 ;
 ReturnType:
-    TypeSpecifier
+    typeSpecifier=TypeSpecifier
 ;
 Expression:
-    LogicalExpression
+    logicalExpression=LogicalExpression
 ;
 LetExpression:
-    "let" Name
-    ( "(" FormalParameterList ")" )?
-    ( ":" TypeSpecifier )?
-    " Expression ";"
+    "let" name=Name
+    ( "(" formalParameterList=FormalParameterList ")" )?
+    ( ":" typeSpecifier=TypeSpecifier )?
+    "=" expression=Expression ";"
 ;
 IfExpression:
-    "if" Expression
-    "then" Expression
-    "else" Expression
+    "if" expression=Expression
+    "then" expression=Expression
+    "else" expression=Expression
     "endif"
 ;
 LogicalExpression:
-    RelationalExpression
-    ( LogicalOperator
-    RelationalExpression
+    relationalExpression=RelationalExpression
+    ( logicalOperator=LogicalOperator
+    relationalExpression=RelationalExpression
     )*
 ;
 RelationalExpression:
-    AdditiveExpression
-    ( RelationalOperator
-    AdditiveExpression
+    additiveExpression=AdditiveExpression
+    ( relationalOperator=RelationalOperator
+    additiveExpression=AdditiveExpression
     )?
 ;
 AdditiveExpression:
-    MultiplicativeExpression
-    ( AddOperator
-    MultiplicativeExpression
+    multiplicativeExpression=MultiplicativeExpression
+    ( addOperator=AddOperator
+    multiplicativeExpression=MultiplicativeExpression
     )*
 ;
 MultiplicativeExpression:
-    UnaryExpression
-    ( MultiplyOperator
-    UnaryExpression
+    unaryExpression=UnaryExpression
+    ( multiplyOperator=MultiplyOperator
+    unaryExpression=UnaryExpression
     )*
 ;
 UnaryExpression:
-    ( UnaryOperator
-     PostfixExpression
+    ( unaryOperator=UnaryOperator
+     postfixExpression=PostfixExpression
      )
-     | PostfixExpression
+     | postfixExpression=PostfixExpression
 ;
 PostfixExpression:
-    PrimaryExpression
-    ( ( "." | "->" ) PropertyCall )*
+    primaryExpression=PrimaryExpression
+    ( ( "." | "->" ) propertyCall=PropertyCall )*
 ;
 PrimaryExpression:
-    LiteralCollection
-    | Literal
-    | PropertyCall
-    | "(" Expression ")"
-    | IfExpression
+    literalCollection=LiteralCollection
+    | literal=Literal
+    | propertyCall=PropertyCall
+    | "(" expression=Expression ")"
+    | ifExpression=IfExpression
 ;
 PropertyCallParameters:
-    "(" ( Declarator )?
-    ( ActualParameterList )? ")"
+    "(" ( declarator=Declarator )?
+    ( actualParameterList=ActualParameterList )? ")"
 ;
 Literal:
-    String
-    | Number
-    | EnumLiteral
+    string=String
+    | number=Number
+    | enumLiteral=EnumLiteral
 ;
 EnumLiteral:
-    Name "::" Name ( "::" Name )*
+    name=Name "::" name=Name ( "::" name=Name )*
 ;
 SimpleTypeSpecifier:
-    PathName
+    pathName=PathName
 ;
 LiteralCollection:
-    CollectionKind "{"
-    ( CollectionItem
-        ("," CollectionItem )*
+    collectionKind=CollectionKind "{"
+    ( collectionItem=CollectionItem
+        ("," collectionItem=CollectionItem )*
     )?
     "}"
 ;
 CollectionItem:
-    Expression (".." Expression )?
+    expression=Expression (".." expression=Expression )?
 ;
 PropertyCall:
-    PathName
-    ( TimeExpression )?
-    ( Qualifiers )?
-    ( PropertyCallParameters )?
+    pathName=PathName
+    ( timeExpression=TimeExpression )?
+    ( qualifiers=Qualifiers )?
+    ( propertyCallParameters=PropertyCallParameters )?
 ;
 Qualifiers:
-    "[" ActualParameterList "]"
+    "[" actualParameterList=ActualParameterList "]"
 ;
 Declarator:
-    Name ( "," Name )*
-    ( ":" SimpleTypeSpecifier )?
-    ( ";" Name ":" TypeSpecifier "
-        Expression
+    name=Name ( "," name=Name )*
+    ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )?
+    ( ";" name=Name ":" typeSpecifier=TypeSpecifier "="
+        expression=Expression
     )?
     "|"
 ;
 PathName:
-    Name ( "::" Name )*
+    name=Name ( "::" name=Name )*
 ;
 TimeExpression:
     "@" "pre"
 ;
 ActualParameterList:
-    Expression ( "," Expression )*
+    expression=Expression ( "," expression=Expression )*
 ;
 LogicalOperator:
     "and" | "or" | "xor" | "implies"
@@ -170,7 +170,7 @@ CollectionKind:
     "Set" | "Bag" | "Sequence" | "Collection"
 ;
 RelationalOperator:
-    " | ">" | "<" | " | " | "<>"
+    "=" | ">" | "<" | ">=" | "<=" | "<>"
 ;
 AddOperator:
     "+" |  "-"
@@ -193,7 +193,7 @@ String:
 """)
 
 model = metamodel.model_from_str("""
-package xtext::sss
+package xtext
 
 context Action
 inv NoActions : false

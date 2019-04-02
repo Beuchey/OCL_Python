@@ -3,21 +3,21 @@ PropertyCall
 		SETUP CASE : if 
 Literal
 	String
-		RECORDING : hello
+		RECORDING : Hello
 		inside : if
 PropertyCall
 	PathName
 		SETUP CASE : then 
 Literal
 	String
-		RECORDING : bambi
+		RECORDING : Bambi
 		inside : then
 PropertyCall
 	PathName
 		SETUP CASE : else 
 Literal
 	String
-		RECORDING : goodbye
+		RECORDING : Goodbye
 		inside : else
 PropertyCall
 	PathName
@@ -27,14 +27,14 @@ PropertyCall
 		SETUP CASE : if 
 Literal
 	String
-		RECORDING : hello
+		RECORDING : Guten tag
 		inside : if
 PropertyCall
 	PathName
 		SETUP CASE : then 
 Literal
 	String
-		RECORDING : bambi
+		RECORDING : Panpan
 		inside : then
 PropertyCall
 	PathName

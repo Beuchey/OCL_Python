@@ -1,6 +1,0 @@
-if hello:
-	bambi
-else:
-	goodbye
-if hello:
-	bambi

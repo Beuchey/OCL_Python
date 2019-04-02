@@ -1,0 +1,10 @@
+if Hello:
+	Bambi
+else:
+	Goodbye
+
+
+if Guten tag:
+	Panpan
+
+

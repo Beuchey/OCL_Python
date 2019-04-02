@@ -164,13 +164,13 @@ FormalParameterList:
 """)
 
 model = metamodel.model_from_str("""
-if 'hello'
-then 'bambi'
-else 'goodbye'
+if 'Hello'
+then 'Bambi'
+else 'Goodbye'
 endif
 
-if 'hello'
-then 'bambi'
+if 'Guten tag'
+then 'Panpan'
 endif
 """)
 
@@ -243,6 +243,7 @@ for exp in model.expression:
             res("if ", ifStatement, ":\n\t", thenStatement)
             if(elseStatement!=""):
                 res("else:\n\t", elseStatement)
+            res("\n")
             ifStatement = ""
             thenStatement = ""
             elseStatement = ""

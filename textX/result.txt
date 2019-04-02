@@ -1,6 +1,10 @@
-if hello:
-	bambi
+if Hello:
+	Bambi
 else:
-	goodbye
-if hello:
-	bambi
+	Goodbye
+
+
+if Guten tag:
+	Panpan
+
+

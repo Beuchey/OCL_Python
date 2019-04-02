@@ -6,71 +6,71 @@ from textx.model import get_metamodel
 # In this metamodel the "$$$$$$$" markers signal where the grammar has been simplified and needs to be completed
 metamodel = metamodel_from_str("""
 File:
-    (Expression)*
+    (expression=Expression)*
 ;
 Expression:
-    a=LogicalExpression
+    logicalExpression=LogicalExpression
 ;
 LetExpression:
-    "let" a=Name
-    ( "(" b=FormalParameterList ")" )?
-    ( ":" c=TypeSpecifier )?
-    "=" d=Expression ";"
+    "let" name=Name
+    ( "(" formalParameterList=FormalParameterList ")" )?
+    ( ":" typeSpecifier=TypeSpecifier )?
+    "=" expression=Expression ";"
 ;
 IfExpression:
-    "if" a=Expression
-    "then" b=Expression
-    "else" c=Expression
+    "if" ifExpression=Expression
+    "then" thenExpression=Expression
+    "else" elseExpression=Expression
     "endif"
 ;
 LogicalExpression:
-    a=RelationalExpression
-    ( b=LogicalOperator
-    c=RelationalExpression
+    relationalExpression=RelationalExpression
+    ( logicalOperator=LogicalOperator
+    subRelationalExpression=RelationalExpression
     )*
 ;
 RelationalExpression:
-    a=AdditiveExpression
-    ( b=RelationalOperator
-    c=AdditiveExpression
+    additiveExpression=AdditiveExpression
+    ( relationalOperator=RelationalOperator
+    subAdditiveExpression=AdditiveExpression
     )?
 ;
 AdditiveExpression:
-    a=MultiplicativeExpression
-    ( b=AddOperator
-    c=MultiplicativeExpression
+    multiplicativeExpression=MultiplicativeExpression
+    ( aAddOperator=AddOperator
+    subMultiplicativeExpression=MultiplicativeExpression
     )*
 ;
 MultiplicativeExpression:
-    a=UnaryExpression
-    ( b=MultiplyOperator
-    c=UnaryExpression
+    unaryExpression=UnaryExpression
+    ( multiplyOperator=MultiplyOperator
+    subUnaryExpression=UnaryExpression
     )*
 ;
 UnaryExpression:
-    ( a=UnaryOperator
-     b=PostfixExpression
+    ( unaryOperator=UnaryOperator
+     postfixExpression=PostfixExpression
      )
-     | c=PostfixExpression
+     | otherPostfixExpression=PostfixExpression
 ;
 PostfixExpression:
-    a=PrimaryExpression
-    ( ( "." | "->" ) b=PropertyCall )*
+    primaryExpression=PrimaryExpression
+    ( ( "." | "->" ) propertyCall=PropertyCall )*
 ;
 PrimaryExpression:
-    a=LiteralCollection
-    | b=Literal
-    | c=PropertyCall
-    | "(" d=Expression ")"
-    | e=IfExpression
+    literalCollection=LiteralCollection
+    | literal=Literal
+    | propertyCall=PropertyCall
+    | "(" expression=Expression ")"
+    | ifExpression=IfExpression
 ;
 UnaryOperator:
     "-" | "not"
 ;
 LiteralCollection:
-    a=CollectionKind "{"
-    ( b=CollectionItem
-        ("," c=CollectionItem )*
+    collectionKind=CollectionKind "{"
+    ( collectionItem=CollectionItem
+        ("," subCollectionItem=CollectionItem )*
     )?
     "}"
 ;
@@ -78,65 +78,65 @@ CollectionKind:
     "Set" | "Bag" | "Sequence" | "Collection"
 ;
 CollectionItem:
-    a=Expression (".." b=Expression )?
+    expression=Expression (".." subExpression=Expression )?
 ;
 PropertyCall:
-    a=PathName
-    ( b=TimeExpression )?
-    ( c=Qualifiers )?
-    ( d=PropertyCallParameters )?
+    pathName=PathName
+    ( timeExpression=TimeExpression )?
+    ( qualifiers=Qualifiers )?
+    ( propertyCallParameters=PropertyCallParameters )?
 ;
 Qualifiers:
-    "[" a=ActualParameterList "]"
+    "[" actualParameterList=ActualParameterList "]"
 ;
 PathName:
-    a=Name ( "::" b=Name )*
+    name=Name ( "::" subName=Name )*
 ;
 TimeExpression:
     "@" "pre"
 ;
 ActualParameterList:
-    a=Expression ( "," b=Expression )*
+    expression=Expression ( "," subExpression=Expression )*
 ;
 Literal:
-    a=String
-    | b=Number
-    | c=EnumLiteral
+    string=String
+    | number=Number
+    | enumLiteral=EnumLiteral
 ;
 EnumLiteral:
-    a=Name "::" b=Name ( "::" c=Name )*
+    aName=Name "::" bName=Name ( "::" cName=Name )*
 ;
 Name:
-    a=/[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*/
+    body=/[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*/
 ;
 Number:
-    a=NUMBER
+    body=NUMBER
 ;
 String:
-    a=STRING
+    body=STRING
 ;
 PropertyCallParameters:
-    "(" ( a=Declarator )?
-    ( b=ActualParameterList )? ")"
+    "(" ( declarator=Declarator )?
+    ( actualParameterList=ActualParameterList )? ")"
 ;
 Declarator:
-    a=Name ( "," b=Name )*
-    ( ":" c=SimpleTypeSpecifier )?
-    ( ";" d=Name ":" e=TypeSpecifier "="
-        f=Expression
+    name=Name ( "," subName=Name )*
+    ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )?
+    ( ";" sName=Name ":" typeSpecifier=TypeSpecifier "="
+        expression=Expression
     )?
     "|"
 ;
 SimpleTypeSpecifier:
-    a=PathName
+    pathName=PathName
 ;
 TypeSpecifier:
-    a=SimpleTypeSpecifier
-    | b=CollectionType
+    simpleTypeSpecifier=SimpleTypeSpecifier
+    | collectionType=CollectionType
 ;
 CollectionType:
-    a=CollectionKind
-    "(" b=SimpleTypeSpecifier ")"
+    collectionKind=CollectionKind
+    "(" simpleTypeSpecifier=SimpleTypeSpecifier ")"
 ;
 LogicalOperator:
     "and" | "or" | "xor" | "implies"
@@ -157,8 +157,8 @@ UnaryOperator:
     "-" | "not"
 ;
 FormalParameterList:
-    ( a=Name ":" b=TypeSpecifier
-    ("," c=Name ":" d=TypeSpecifier )*
+    ( name=Name ":" typeSpecifier=TypeSpecifier
+    ("," subName=Name ":" subTypeSpecifier=TypeSpecifier )*
     )?
 ;
 """)
@@ -196,4 +196,15 @@ methods = {
 
 # WHERE THE MAGIC HAPPENS
 
-print(str(vars(vars(vars(vars(vars(vars(vars(vars(vars(vars(vars(model)["a"])["a"])["a"])["a"])["a"])["c"])["a"])["c"])["a"])["a"])["a"]))
+
+
+for exp in model.expression:
+    print(exp.__class__.__name__)
+    logicalExp = exp.logicalExpression
+    relationalExp = logicalExp.relationalExpression
+    additiveExp = relationalExp.additiveExpression
+    multiplicativeExp = additiveExp.multiplicativeExpression
+    unaryExp = multiplicativeExp.unaryExpression
+    otherPostfixExp = unaryExp.otherPostfixExpression
+    primaryExp = otherPostfixExp.primaryExpression
+    print('\t', vars(primaryExp))

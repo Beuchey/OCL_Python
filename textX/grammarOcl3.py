@@ -255,3 +255,7 @@ for exp in model.expression:
             thenStatement = subcase.body
         elif case == "else":
             elseStatement = subcase.body
+
+
+logger.close()
+result.close()

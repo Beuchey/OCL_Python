@@ -1,10 +1,28 @@
 # OCL_Python
 
-Le fichier `Correspondances.md` résume les fonctionnalités OCL et présente rapidement les solutions proposées pour chacune d'entre elles. Les entrées de ce fichier sont de la forme :  
-`Object_OCL_Manipulé -> Wrapper_Python_Correspondant (Object_Python_Manipulé)`
+Ce projet a pour but de proposer des outils de transpilation de OCL vers Python.
 
-Pour le détail, consulter les fichiers `proposition.md` correspondant aux fonctionnalités OCL désirées dans le dossier `pistes/`.
+Deux méthodes complémentaires sont explorées :
+  * Une partie Transpilation (appliquer un transpilateur sur des expressions OCL afin de produire un fichier Python ayant les mêmes fonctionnalités car manipulant des Wrappers)
+  * Une partie Wrapper (une bibliothèque permettant de simuler les fonctionnalités d'OCL en restant dans Python)
 
+## Sujet
 
-Le dossier `result/` propose un fichier `OCLPyth.py` qui reprend l'ensemble des propositions retenues en un exemple fonctionnel.
-A la fin de celui-ci, plusieurs exemples illustrant chacun une fonctionnalité sont disponibles pour être décommentés et vérifiés.
+Les fonctionnalités OCL visées sont décrites dans le dossier __FonctionnalitésOCL/__ où on peut trouver le fichier __Correspondances.md__. Ce fichier liste les fonctionnalités étudiées (pour l'instant seuls les Objets concernés sont présents, les Expressions viendront sous peu) ainsi que leur détail et le code Python proposé comme correspondant.
+
+Pour les Objets OCL et leur méthodes, le détail de la proposition de correspondance peut être trouvé dans __Wrapper/pistes/__.
+
+Pour les Expressions OCL, le détail du méchanisme se situe dans __Transpilation__.
+
+## Partie 1 : Transpilation
+
+Cette partie s'appuie sur [textX](https://github.com/textX/textX "textX' GitHub HomePage") et a pour but de permettre la transpilation d'un fichier contant des expressions OCL vers un fichier Python contenant les mêmes expressions traduites, éventuellement en manipulant des objets Python issus de la bibliothèque de Wrappers proposés dans la seconde partie du projet.
+
+## Partie 2 : Wrapper
+
+Une bibliothèque d'objets et de fonctions permettant d'écrire du Python dont les fonctionnalités et la syntaxe de raprochent le plus possible d'OCL, afin de produire du code "OCL-like" interprétable par Python.
+
+Contient un dossier __pistes/__ dont les fichiers `proposition.md` correspondent aux objets OCL visés et présentent notre proposition afin d'émuler leur fonctionnalités de manière à produire un code Python ressemblant le plus possible à de l'OCL.
+
+Le module `oclpyth/` propose un fichier `OCLPyth.py` qui reprend l'ensemble des propositions retenues en un exemple fonctionnel.
+A la fin de celui-ci se trouvent plusieurs exemples illustrant chacun une des fonctionnalités explorées sont disponibles pour être décommentés et étudiés.

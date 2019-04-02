@@ -177,21 +177,22 @@ endif
 
 
 
-# MECHANISM TO HANDLE EVERY PART OF THE MODEL ACCORDING TO THE CORRESPONDING METAMODEL
 
-def handlePackageName(elements):
-    packageComposition = vars(elements["body"])
-    packageName = packageComposition["pathname"]
-    packageSubname = packageComposition["pathsubname"]
-    return "Handling : PackageName\n\t" + "Package name = " + packageName.body + "\tPackage subname = " + packageSubname[0].body + "\n"
 
-def handleOclExpressions(elements):
-    return "Handling : OCL expressions\n\t..."
 
-methods = {
-    "Expression": handleOclExpressions,
-}
+# Output tools
 
+logger = open("log.txt","w+")
+def log(*args):
+    for e in args:
+        logger.write(e)
+    logger.write("\n")
+
+result = open("result.txt","w+")
+def res(*args):
+    for e in args:
+        result.write(e)
+    result.write("\n")
 
 
 
@@ -199,6 +200,8 @@ methods = {
 
 
 # WHERE THE MAGIC HAPPENS
+
+
 
 case = ""
 
@@ -225,22 +228,27 @@ for exp in model.expression:
         subcase = primaryExp.expression
     elif primaryExp.ifExpression is not None:
         subcase = primaryExp.ifExpression
-    print(subcase.__class__.__name__)
+    log(subcase.__class__.__name__)
     if subcase.__class__.__name__ == "PropertyCall":
         subcase = subcase.pathName
     elif subcase.__class__.__name__ == "Literal":
         subcase = subcase.string
     elif subcase.__class__.__name__ == "Literal":
         subcase = subcase.string
-    print("\t", subcase.__class__.__name__)
+    log("\t", subcase.__class__.__name__)
     if subcase.__class__.__name__ == "PathName":
-        print("\t\tSETUP CASE : ", subcase.name.body)
+        log("\t\tSETUP CASE : ", subcase.name.body)
         case = subcase.name.body.strip()
         if case == "endif":
-            print("RESULT = IF ", ifStatement, " THEN ", thenStatement, " ELSE ", elseStatement, " ENDIF")
+            res("if ", ifStatement, ":\n\t", thenStatement)
+            if(elseStatement!=""):
+                res("else:\n\t", elseStatement)
+            ifStatement = ""
+            thenStatement = ""
+            elseStatement = ""
     elif subcase.__class__.__name__ == "String":
-        print("\t\tRECORDING : ", subcase.body)
-        print("\t\tinside : ", case)
+        log("\t\tRECORDING : ", subcase.body)
+        log("\t\tinside : ", case)
         if case == "if":
             ifStatement = subcase.body
         elif case == "then":

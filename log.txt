@@ -1,0 +1,41 @@
+PropertyCall
+	PathName
+		SETUP CASE : if 
+Literal
+	String
+		RECORDING : hello
+		inside : if
+PropertyCall
+	PathName
+		SETUP CASE : then 
+Literal
+	String
+		RECORDING : bambi
+		inside : then
+PropertyCall
+	PathName
+		SETUP CASE : else 
+Literal
+	String
+		RECORDING : goodbye
+		inside : else
+PropertyCall
+	PathName
+		SETUP CASE : endif
+PropertyCall
+	PathName
+		SETUP CASE : if 
+Literal
+	String
+		RECORDING : hello
+		inside : if
+PropertyCall
+	PathName
+		SETUP CASE : then 
+Literal
+	String
+		RECORDING : bambi
+		inside : then
+PropertyCall
+	PathName
+		SETUP CASE : endif

@@ -1,0 +1,40 @@
+
+    digraph xtext {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+38314128 -> 38317808 [label="expression" arrowtail=diamond dir=both]
+38317808 -> 38315760 [label="property" arrowtail=diamond dir=both]
+38315760[label="{:PathName|path:list=['test']\l}"]
+38317808[label="{:PropertyCall|}"]
+38314128 -> 38315600 [label="call:0" arrowtail=diamond dir=both]
+38315600 -> 38315888 [label="property" arrowtail=diamond dir=both]
+38315888[label="{:PathName|path:list=['select']\l}"]
+38315600 -> 38316176 [label="parameters" arrowtail=diamond dir=both]
+38316176 -> 38316272 [label="a" arrowtail=diamond dir=both]
+38316272[label="{:Declarator|+id:str='e '\lextra_ids:list=[]\l}"]
+38316176 -> 38316528 [label="b" arrowtail=diamond dir=both]
+38316528 -> 38316560 [label="params:0" arrowtail=diamond dir=both]
+38316560 -> 38316624 [label="expression" arrowtail=diamond dir=both]
+38316624 -> 38316976 [label="property" arrowtail=diamond dir=both]
+38316976[label="{:PathName|path:list=['e']\l}"]
+38316624[label="{:PropertyCall|}"]
+38316560 -> 38316592 [label="call:0" arrowtail=diamond dir=both]
+38316592 -> 38316752 [label="property" arrowtail=diamond dir=both]
+38316752[label="{:PathName|path:list=['name']\l}"]
+38316592[label="{:PropertyCall|}"]
+38316560[label="{:PostfixExpression|}"]
+38316528[label="{:ActualParameterList|}"]
+38316176[label="{:PropertyCallParameters|}"]
+38315600[label="{:PropertyCall|}"]
+38314128[label="{:PostfixExpression|}"]
+
+}

@@ -1,0 +1,160 @@
+
+    digraph xtext {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+35711808[ label="{*File|File}"]
+35711808 -> 35748672 [dir=back]
+
+35748672[ label="{*Expression|}"]
+35748672 -> 38182960 [dir=back]
+35748672 -> 38183432 [dir=back]
+35748672 -> 38225336 [dir=back]
+35748672 -> 38223920 [dir=back]
+35748672 -> 38184848 [dir=back]
+35748672 -> 38186264 [dir=back]
+35748672 -> 38220768 [dir=back]
+35748672 -> 38222184 [dir=back]
+
+38183432 -> 38353728[arrowtail=diamond, dir=both, headlabel="extra_identifiers "]
+38183432 -> 38263616[arrowtail=diamond, dir=both, headlabel="type "]
+38183432 -> 35748672[arrowtail=diamond, dir=both, headlabel="init_expression "]
+38183432 -> 35748672[arrowtail=diamond, dir=both, headlabel="expression "]
+38183432[ label="{LetExpression|+identifier:Name\l}"]
+
+38182960 -> 35748672[arrowtail=diamond, dir=both, headlabel="condition "]
+38182960 -> 35748672[arrowtail=diamond, dir=both, headlabel="then_body "]
+38182960 -> 35748672[arrowtail=diamond, dir=both, headlabel="else_body "]
+38182960[ label="{IfExpression|}"]
+
+38184848 -> 38186264[arrowtail=diamond, dir=both, headlabel="left "]
+38184848 -> 38186264[arrowtail=diamond, dir=both, headlabel="right 0..*"]
+38184848[ label="{LogicalExpression|operator:list[LogicalOperator]\l}"]
+
+38186264 -> 38220768[arrowtail=diamond, dir=both, headlabel="left "]
+38186264 -> 38220768[arrowtail=diamond, dir=both, headlabel="right "]
+38186264[ label="{RelationalExpression|+operator:RelationalOperator\l}"]
+
+38220768 -> 38222184[arrowtail=diamond, dir=both, headlabel="left "]
+38220768 -> 38222184[arrowtail=diamond, dir=both, headlabel="right 0..*"]
+38220768[ label="{AdditiveExpression|operator:list[AddOperator]\l}"]
+
+38222184 -> 38223920[arrowtail=diamond, dir=both, headlabel="left "]
+38222184 -> 38223920[arrowtail=diamond, dir=both, headlabel="right 0..*"]
+38222184[ label="{MultiplicativeExpression|operator:list[MultiplyOperator]\l}"]
+
+38223920 -> 38225336[arrowtail=diamond, dir=both, headlabel="left "]
+38223920[ label="{UnaryExpression|+operator:UnaryOperator\l}"]
+
+38225336 -> 38226752[arrowtail=diamond, dir=both, headlabel="expression "]
+38225336 -> 38245816[arrowtail=diamond, dir=both, headlabel="call 0..*"]
+38225336[ label="{PostfixExpression|}"]
+
+38226752[ label="{*PrimaryExpression|( Expression )}"]
+38226752 -> 38246288 [dir=back]
+38226752 -> 38286304 [dir=back]
+38226752 -> 38245816 [dir=back]
+38226752 -> 35748672 [dir=back]
+38226752 -> 38182960 [dir=back]
+
+38352312[ label="{UnaryOperator|-\|not}"]
+
+38246288 -> 38185792[arrowtail=diamond, dir=both, headlabel="items 0..*"]
+38246288[ label="{LiteralCollection|+kind:CollectionKind\l}"]
+
+38305048[ label="{CollectionKind|Set\|Bag\|Sequence\|Collection}"]
+
+38185792 -> 35748672[arrowtail=diamond, dir=both, headlabel="start "]
+38185792 -> 35748672[arrowtail=diamond, dir=both, headlabel="end "]
+38185792[ label="{CollectionItem|}"]
+
+38245816 -> 38261256[arrowtail=diamond, dir=both, headlabel="property "]
+38245816 -> 38247232[arrowtail=diamond, dir=both, headlabel="qualifiers "]
+38245816 -> 38302688[arrowtail=diamond, dir=both, headlabel="parameters "]
+38245816[ label="{PropertyCall|+time_expression:TimeExpression\l}"]
+
+38247232 -> 38264088[arrowtail=diamond, dir=both, headlabel="a "]
+38247232[ label="{Qualifiers|}"]
+
+38261256[ label="{PathName|path:list[Name]\l}"]
+
+38262672[ label="{TimeExpression|@ pre}"]
+
+38264088 -> 35748672[arrowtail=diamond, dir=both, headlabel="params 0..*"]
+38264088[ label="{ActualParameterList|}"]
+
+38286304[ label="{*Literal|STRING\|NUMBER}"]
+38286304 -> 38287720 [dir=back]
+
+38287720[ label="{EnumLiteral|+paths:list[Name]\l}"]
+
+38297648[ label="{Name|[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*}"]
+
+38299536[ label="{Number|FLOAT\|INT}"]
+
+38300952[ label="{String|STRING}"]
+
+38302688 -> 38304104[arrowtail=diamond, dir=both, headlabel="a "]
+38302688 -> 38264088[arrowtail=diamond, dir=both, headlabel="b "]
+38302688[ label="{PropertyCallParameters|}"]
+
+38304104 -> 38288664[arrowtail=diamond, dir=both, headlabel="c "]
+38304104 -> 38263616[arrowtail=diamond, dir=both, headlabel="e "]
+38304104 -> 35748672[arrowtail=diamond, dir=both, headlabel="f "]
+38304104[ label="{Declarator|+id:Name\lextra_ids:list[Name]\l+d:Name\l}"]
+
+38288664[ label="{*SimpleTypeSpecifier|}"]
+38288664 -> 38261256 [dir=back]
+
+38263616[ label="{*TypeSpecifier|}"]
+38263616 -> 38261256 [dir=back]
+38263616 -> 38246760 [dir=back]
+
+38246760 -> 38288664[arrowtail=diamond, dir=both, headlabel="type "]
+38246760[ label="{CollectionType|+kind:CollectionKind\l}"]
+
+38224864[ label="{LogicalOperator|and\|or\|xor\|implies}"]
+
+38339552[ label="{RelationalOperator|=\|\>\|\<\|\>=\|\<=\|\<\>}"]
+
+38340968[ label="{AddOperator|+\|-}"]
+
+38350896[ label="{MultiplyOperator|*\|/}"]
+
+38353728 -> 38263616[arrowtail=diamond, dir=both, headlabel="b "]
+38353728 -> 38263616[arrowtail=diamond, dir=both, headlabel="d 0..*"]
+38353728[ label="{FormalParameterList|+a:Name\lc:list[Name]\l}"]
+
+35694008[ label="{ID|}"]
+
+35695424[ label="{STRING|}"]
+
+35709448[ label="{BOOL|}"]
+
+35693536[ label="{INT|}"]
+
+35710864[ label="{FLOAT|}"]
+
+35712280[ label="{NUMBER|}"]
+35712280 -> 35710864 [dir=back]
+35712280 -> 35693536 [dir=back]
+
+35718112[ label="{BASETYPE|}"]
+35718112 -> 35712280 [dir=back]
+35718112 -> 35709448 [dir=back]
+35718112 -> 35694008 [dir=back]
+35718112 -> 35695424 [dir=back]
+
+35719528[ label="{*OBJECT|}"]
+35719528 -> 35718112 [dir=back]
+
+
+}

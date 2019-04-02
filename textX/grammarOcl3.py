@@ -51,7 +51,7 @@ UnaryExpression:
     ( unaryOperator=UnaryOperator
      postfixExpression=PostfixExpression
      )
-     | otherPostfixExpression=PostfixExpression
+     | simplePostfixExpression=PostfixExpression
 ;
 PostfixExpression:
     primaryExpression=PrimaryExpression
@@ -168,6 +168,10 @@ if 'hello'
 then 'bambi'
 else 'goodbye'
 endif
+
+if 'hello'
+then 'bambi'
+endif
 """)
 
 
@@ -196,15 +200,50 @@ methods = {
 
 # WHERE THE MAGIC HAPPENS
 
+case = ""
 
+# IF tools
+ifStatement = ""
+thenStatement = ""
+elseStatement = ""
 
 for exp in model.expression:
-    print(exp.__class__.__name__)
     logicalExp = exp.logicalExpression
     relationalExp = logicalExp.relationalExpression
     additiveExp = relationalExp.additiveExpression
     multiplicativeExp = additiveExp.multiplicativeExpression
     unaryExp = multiplicativeExp.unaryExpression
-    otherPostfixExp = unaryExp.otherPostfixExpression
-    primaryExp = otherPostfixExp.primaryExpression
-    print('\t', vars(primaryExp))
+    simplePostfixExp = unaryExp.simplePostfixExpression
+    primaryExp = simplePostfixExp.primaryExpression
+    if primaryExp.literalCollection is not None:
+        subcase = primaryExp.literalCollection
+    elif primaryExp.literal is not None:
+        subcase = primaryExp.literal
+    elif primaryExp.propertyCall is not None:
+        subcase = primaryExp.propertyCall
+    elif primaryExp.expression is not None:
+        subcase = primaryExp.expression
+    elif primaryExp.ifExpression is not None:
+        subcase = primaryExp.ifExpression
+    print(subcase.__class__.__name__)
+    if subcase.__class__.__name__ == "PropertyCall":
+        subcase = subcase.pathName
+    elif subcase.__class__.__name__ == "Literal":
+        subcase = subcase.string
+    elif subcase.__class__.__name__ == "Literal":
+        subcase = subcase.string
+    print("\t", subcase.__class__.__name__)
+    if subcase.__class__.__name__ == "PathName":
+        print("\t\tSETUP CASE : ", subcase.name.body)
+        case = subcase.name.body.strip()
+        if case == "endif":
+            print("RESULT = IF ", ifStatement, " THEN ", thenStatement, " ELSE ", elseStatement, " ENDIF")
+    elif subcase.__class__.__name__ == "String":
+        print("\t\tRECORDING : ", subcase.body)
+        print("\t\tinside : ", case)
+        if case == "if":
+            ifStatement = subcase.body
+        elif case == "then":
+            thenStatement = subcase.body
+        elif case == "else":
+            elseStatement = subcase.body

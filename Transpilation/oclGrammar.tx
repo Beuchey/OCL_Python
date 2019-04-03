@@ -1,15 +1,15 @@
 File:
-    (Expression)*
+    (expressions=Expression)*
 ;
 Expression:
       IfExpression
     | LetExpression
-    |  PostfixExpression
-    | UnaryExpression
     | LogicalExpression
     | RelationalExpression
     | AdditiveExpression
     | MultiplicativeExpression
+    | PostfixExpression
+    | UnaryExpression
 ;
 LetExpression:
     "let" identifier=Name
@@ -104,7 +104,7 @@ EnumLiteral:
     paths=Name "::" paths=Name ( "::" paths=Name )*
 ;
 Name:
-    /[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*/
+    /[a-zA-Z_]([a-zA-Z0-9_])*/
 ;
 Number:
     NUMBER

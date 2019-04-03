@@ -1,1 +1,1 @@
-test->select(e | e.name)
+test->select(e|e.name)

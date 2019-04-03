@@ -1,0 +1,245 @@
+
+    digraph xtext {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+38792000 -> 38828864[arrowtail=diamond, dir=both, headlabel="expressions 0..*"]
+38792000[ label="{File|}"]
+
+38828864 -> 41312776[arrowtail=diamond, dir=both, headlabel="ifExpression "]
+38828864 -> 41336880[arrowtail=diamond, dir=both, headlabel="letExpression "]
+38828864 -> 41424312[arrowtail=diamond, dir=both, headlabel="postfixExpression "]
+38828864 -> 41538056[arrowtail=diamond, dir=both, headlabel="unaryExpression "]
+38828864 -> 41487168[arrowtail=diamond, dir=both, headlabel="logicalExpression "]
+38828864 -> 41539000[arrowtail=diamond, dir=both, headlabel="relationalExpression "]
+38828864 -> 41540416[arrowtail=diamond, dir=both, headlabel="additiveExpression "]
+38828864 -> 41574920[arrowtail=diamond, dir=both, headlabel="multiplicativeExpression "]
+38828864[ label="{Expression|}"]
+
+41312776 -> 38828864[arrowtail=diamond, dir=both, headlabel="condition "]
+41312776 -> 38828864[arrowtail=diamond, dir=both, headlabel="then_body 0..*"]
+41312776 -> 38828864[arrowtail=diamond, dir=both, headlabel="else_body 0..*"]
+41312776[ label="{IfExpression|+ifKeyWord:IfKeyWord\l+thenKeyWord:ThenKeyWord\l+elseKeyWord:ElseKeyWord\l+endifKeyWord:EndifKeyWord\l}"]
+
+41314192[ label="{IfKeyWord|if}"]
+
+41315608[ label="{ThenKeyWord|then}"]
+
+41325536[ label="{ElseKeyWord|else}"]
+
+41326952[ label="{EndifKeyWord|endif}"]
+
+41336880 -> 41359720[arrowtail=diamond, dir=both, headlabel="extra_identifiers "]
+41336880 -> 41377840[arrowtail=diamond, dir=both, headlabel="type "]
+41336880 -> 38828864[arrowtail=diamond, dir=both, headlabel="init "]
+41336880 -> 38828864[arrowtail=diamond, dir=both, headlabel="expression "]
+41336880[ label="{LetExpression|+letKeyWord:LetKeyWord\l+identifier:Name\l+leftParenthesis:LeftParenthesis\l+rightParenthesis:RightParenthesis\l+twoPoints:TwoPoints\l+equal:Equal\l+inKeyWord:InKeyWord\l}"]
+
+41338296[ label="{LetKeyWord|let}"]
+
+41339712[ label="{LeftParenthesis|(}"]
+
+41357832[ label="{RightParenthesis|)}"]
+
+41359248[ label="{TwoPoints|:}"]
+
+41327896[ label="{Equal|=}"]
+
+41315136[ label="{InKeyWord|in}"]
+
+38775144[ label="{Name|[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*}"]
+
+41359720 -> 41377840[arrowtail=diamond, dir=both, headlabel="types 0..*"]
+41359720[ label="{FormalParameterList|names:list[Name]\ltwoPoints:list[TwoPoints]\l}"]
+
+41377840 -> 41379256[arrowtail=diamond, dir=both, headlabel="type "]
+41377840 -> 41398792[arrowtail=diamond, dir=both, headlabel="collectionType "]
+41377840[ label="{TypeSpecifier|}"]
+
+41379256 -> 41380672[arrowtail=diamond, dir=both, headlabel="pathName "]
+41379256[ label="{SimpleTypeSpecifier|}"]
+
+41380672[ label="{PathName|path:list[Name]\l}"]
+
+41398792 -> 41400208[arrowtail=diamond, dir=both, headlabel="kind "]
+41398792 -> 41379256[arrowtail=diamond, dir=both, headlabel="type "]
+41398792[ label="{CollectionType|+leftParenthesis:LeftParenthesis\l+rightParenthesis:RightParenthesis\l}"]
+
+41400208[ label="{CollectionKind|+setKeyword:SetKeyword\l+bagKeyword:BagKeyword\l+sequenceKeyword:SequenceKeyword\l+collectionKeyword:CollectionKeyword\l}"]
+
+41401624[ label="{SetKeyword|Set}"]
+
+41411552[ label="{BagKeyword|Bag}"]
+
+41412968[ label="{SequenceKeyword|Sequence}"]
+
+41422896[ label="{CollectionKeyword|Collection}"]
+
+41424312 -> 41411080[arrowtail=diamond, dir=both, headlabel="primaryExpression "]
+41424312 -> 41525296[arrowtail=diamond, dir=both, headlabel="postFixExpressionOperator 0..*"]
+41424312 -> 41484808[arrowtail=diamond, dir=both, headlabel="call 0..*"]
+41424312[ label="{PostfixExpression|}"]
+
+41411080 -> 41398320[arrowtail=diamond, dir=both, headlabel="literalCollection "]
+41411080 -> 41452512[arrowtail=diamond, dir=both, headlabel="literal "]
+41411080 -> 41484808[arrowtail=diamond, dir=both, headlabel="propertyCall "]
+41411080 -> 38828864[arrowtail=diamond, dir=both, headlabel="expression "]
+41411080 -> 41312776[arrowtail=diamond, dir=both, headlabel="ifExpression "]
+41411080[ label="{PrimaryExpression|+leftParenthesis:LeftParenthesis\l+rightParenthesis:RightParenthesis\l}"]
+
+41398320 -> 41400208[arrowtail=diamond, dir=both, headlabel="kind "]
+41398320 -> 41424784[arrowtail=diamond, dir=both, headlabel="items 0..*"]
+41398320[ label="{LiteralCollection|+leftAcc:LeftAcc\lcomas:list[Coma]\l+rightAcc:RightAcc\l}"]
+
+41360664[ label="{LeftAcc|\{}"]
+
+41325064[ label="{RightAcc|\}}"]
+
+41424784 -> 38828864[arrowtail=diamond, dir=both, headlabel="start "]
+41424784 -> 38828864[arrowtail=diamond, dir=both, headlabel="end "]
+41424784[ label="{CollectionItem|}"]
+
+41426200[ label="{Coma|,}"]
+
+41452512 -> 41469368[arrowtail=diamond, dir=both, headlabel="enumLiteral "]
+41452512[ label="{Literal|+string:String\l+number:Number\l}"]
+
+41453928[ label="{String|STRING}"]
+
+41467952[ label="{Number|FLOAT\|INT}"]
+
+41469368[ label="{EnumLiteral|+paths:list[Name]\ldoubleTwoPoints:list[DoubleTwoPoint]\l}"]
+
+41470784[ label="{DoubleTwoPoint|::}"]
+
+41484808 -> 41380672[arrowtail=diamond, dir=both, headlabel="property "]
+41484808 -> 41453456[arrowtail=diamond, dir=both, headlabel="qualifiers "]
+41484808 -> 41487640[arrowtail=diamond, dir=both, headlabel="parameters "]
+41484808[ label="{PropertyCall|+time_expression:TimeExpression\l}"]
+
+41470312[ label="{TimeExpression|@ pre}"]
+
+41453456 -> 41486224[arrowtail=diamond, dir=both, headlabel="list "]
+41453456[ label="{Qualifiers|+leftHook:LeftHook\l+rightHook:RightHook\l}"]
+
+41423840[ label="{LeftHook|[}"]
+
+41399736[ label="{RightHook|]}"]
+
+41486224 -> 38828864[arrowtail=diamond, dir=both, headlabel="params 0..*"]
+41486224[ label="{ActualParameterList|}"]
+
+41487640 -> 41505760[arrowtail=diamond, dir=both, headlabel="declarator "]
+41487640 -> 41486224[arrowtail=diamond, dir=both, headlabel="parameters "]
+41487640[ label="{PropertyCallParameters|+leftParenthesis:LeftParenthesis\l+rightParenthesis:RightParenthesis\l}"]
+
+41505760 -> 41379256[arrowtail=diamond, dir=both, headlabel="type "]
+41505760 -> 41377840[arrowtail=diamond, dir=both, headlabel="otherType "]
+41505760 -> 38828864[arrowtail=diamond, dir=both, headlabel="expression "]
+41505760[ label="{Declarator|+id:Name\lcoma:list[Coma]\lextra_ids:list[Name]\l+twoPoints:TwoPoints\l+pointComa:PointComa\l+name:Name\l+otherTwoPoints:TwoPoints\l+equal:Equal\l}"]
+
+41507176[ label="{PointComa|;}"]
+
+41525296[ label="{PostFixExpressionOperator|+point:Point\l+arrow:Arrow\l}"]
+
+41526712[ label="{Point|.}"]
+
+41528128[ label="{Arrow|-\>}"]
+
+41538056 -> 41539472[arrowtail=diamond, dir=both, headlabel="operator "]
+41538056 -> 41424312[arrowtail=diamond, dir=both, headlabel="left "]
+41538056[ label="{UnaryExpression|}"]
+
+41539472[ label="{UnaryOperator|+dash:Dash\l+notKeyword:NotKeyword\l}"]
+
+41508120[ label="{Dash|-}"]
+
+41378784[ label="{NotKeyword|not}"]
+
+41487168 -> 41539000[arrowtail=diamond, dir=both, headlabel="left "]
+41487168 -> 41612728[arrowtail=diamond, dir=both, headlabel="operator 0..*"]
+41487168 -> 41539000[arrowtail=diamond, dir=both, headlabel="right 0..*"]
+41487168[ label="{LogicalExpression|}"]
+
+41539000 -> 41540416[arrowtail=diamond, dir=both, headlabel="left "]
+41539000 -> 41597760[arrowtail=diamond, dir=both, headlabel="operator "]
+41539000 -> 41540416[arrowtail=diamond, dir=both, headlabel="right "]
+41539000[ label="{RelationalExpression|}"]
+
+41540416 -> 41574920[arrowtail=diamond, dir=both, headlabel="left "]
+41540416 -> 41580904[arrowtail=diamond, dir=both, headlabel="operator 0..*"]
+41540416 -> 41574920[arrowtail=diamond, dir=both, headlabel="right 0..*"]
+41540416[ label="{AdditiveExpression|}"]
+
+41574920 -> 41538056[arrowtail=diamond, dir=both, headlabel="left "]
+41574920 -> 41576336[arrowtail=diamond, dir=both, headlabel="operator 0..*"]
+41574920 -> 41538056[arrowtail=diamond, dir=both, headlabel="right 0..*"]
+41574920[ label="{MultiplicativeExpression|}"]
+
+41576336[ label="{MultiplyOperator|+star:Star\l+slash:Slash\l}"]
+
+41577752[ label="{Star|*}"]
+
+41579488[ label="{Slash|/}"]
+
+41580904[ label="{AddOperator|+plus:Plus\l+minus:Minus\l}"]
+
+41594928[ label="{Plus|+}"]
+
+41596344[ label="{Minus|-}"]
+
+41597760[ label="{RelationalOperator|+equal:Equal\l+gt:GT\l+lt:LT\l+ge:GE\l+le:LT\l+ne:NE\l}"]
+
+41597288[ label="{GT|\>}"]
+
+41580432[ label="{LT|\<}"]
+
+41575864[ label="{GE|\>=}"]
+
+41485752[ label="{LE|\<=}"]
+
+41526240[ label="{NE|\<\>}"]
+
+41612728[ label="{LogicalOperator|+andKeyword:AndKeyword\l+orKeyword:OrKeyword\l+xorKeyword:XorKeyword\l+impliesKeyword:ImpliesKeyword\l}"]
+
+41614144[ label="{AndKeyword|and}"]
+
+41632264[ label="{OrKeyword|or}"]
+
+41633680[ label="{XorKeyword|xor}"]
+
+41635096[ label="{ImpliesKeyword|implies}"]
+
+38774200[ label="{ID|}"]
+
+38775616[ label="{STRING|}"]
+
+38789640[ label="{BOOL|}"]
+
+38773728[ label="{INT|}"]
+
+38791056[ label="{FLOAT|}"]
+
+38792472[ label="{NUMBER|}"]
+38792472 -> 38791056 [dir=back]
+38792472 -> 38773728 [dir=back]
+
+38798304[ label="{BASETYPE|}"]
+38798304 -> 38792472 [dir=back]
+38798304 -> 38789640 [dir=back]
+38798304 -> 38774200 [dir=back]
+38798304 -> 38775616 [dir=back]
+
+38799720[ label="{*OBJECT|}"]
+38799720 -> 38798304 [dir=back]
+
+
+}

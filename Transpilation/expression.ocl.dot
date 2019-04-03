@@ -1,0 +1,54 @@
+
+    digraph xtext {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+41384208 -> 41383952 [label="expressions:0" arrowtail=diamond dir=both]
+41383952 -> 41384880 [label="postfixExpression" arrowtail=diamond dir=both]
+41384880 -> 41382032 [label="primaryExpression" arrowtail=diamond dir=both]
+41382032 -> 41381936 [label="propertyCall" arrowtail=diamond dir=both]
+41381936 -> 41383184 [label="property" arrowtail=diamond dir=both]
+41383184[label="{:PathName|path:list=['test']\l}"]
+41381936[label="{:PropertyCall|}"]
+41382032[label="{:PrimaryExpression|}"]
+41384880 -> 41383152 [label="postFixExpressionOperator:0" arrowtail=diamond dir=both]
+41383152[label="{:PostFixExpressionOperator|+arrow:str='-\>'\l}"]
+41384880 -> 41382224 [label="call:0" arrowtail=diamond dir=both]
+41382224 -> 41382064 [label="property" arrowtail=diamond dir=both]
+41382064[label="{:PathName|path:list=['select']\l}"]
+41382224 -> 41383472 [label="parameters" arrowtail=diamond dir=both]
+41383472 -> 41383120 [label="declarator" arrowtail=diamond dir=both]
+41383120[label="{:Declarator|+id:str='e'\lcoma:list=[]\lextra_ids:list=[]\l}"]
+41383472 -> 41382640 [label="parameters" arrowtail=diamond dir=both]
+41382640 -> 41383984 [label="params:0" arrowtail=diamond dir=both]
+41383984 -> 41385040 [label="postfixExpression" arrowtail=diamond dir=both]
+41385040 -> 41385872 [label="primaryExpression" arrowtail=diamond dir=both]
+41385872 -> 41515888 [label="propertyCall" arrowtail=diamond dir=both]
+41515888 -> 41514608 [label="property" arrowtail=diamond dir=both]
+41514608[label="{:PathName|path:list=['e']\l}"]
+41515888[label="{:PropertyCall|}"]
+41385872[label="{:PrimaryExpression|}"]
+41385040 -> 40961072 [label="postFixExpressionOperator:0" arrowtail=diamond dir=both]
+40961072[label="{:PostFixExpressionOperator|+point:str='.'\l}"]
+41385040 -> 41513008 [label="call:0" arrowtail=diamond dir=both]
+41513008 -> 41515248 [label="property" arrowtail=diamond dir=both]
+41515248[label="{:PathName|path:list=['name']\l}"]
+41513008[label="{:PropertyCall|}"]
+41385040[label="{:PostfixExpression|}"]
+41383984[label="{:Expression|}"]
+41382640[label="{:ActualParameterList|}"]
+41383472[label="{:PropertyCallParameters|+leftParenthesis:str='('\l+rightParenthesis:str=')'\l}"]
+41382224[label="{:PropertyCall|}"]
+41384880[label="{:PostfixExpression|}"]
+41383952[label="{:Expression|}"]
+41384208[label="{:File|}"]
+
+}

@@ -1,1 +1,4 @@
-test->select(e|e.name)
+test->select(e | e.name)
+
+let numberJobs : Integer = self.job->count() in
+if  isUnemployed then numberJobs > 0 else numberJobs = 0 endif

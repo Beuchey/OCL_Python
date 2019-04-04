@@ -1,10 +1,6 @@
 File:
     (expressions=Expression)*
 ;
-
-
-
-
 Expression:
       IfExpression
     | LetExpression
@@ -15,189 +11,18 @@ Expression:
     | PostfixExpression
     | UnaryExpression
 ;
-
-
-
-
 LetExpression:
-    letKeyWord=LetKeyWord identifier=Name
-    ( leftParenthesis=LeftParenthesis
-        extra_identifiers=FormalParameterList
-      rightParenthesis=RightParenthesis )?
-    ( twoPoints=TwoPoints type=TypeSpecifier )?
-    equal=Equal init=Expression
-    inKeyWord=InKeyWord expression=Expression
+    "let" identifier=Name
+    ( "(" extra_identifiers=FormalParameterList ")" )?
+    ( ":" type=TypeSpecifier )?
+    "=" init_expression=Expression "in" expression=Expression
 ;
-LetKeyWord:
-  "let"
+IfExpression:
+    "if" condition=Expression
+    "then" then_body=Expression
+    "else" else_body=Expression
+    "endif"
 ;
-LeftParenthesis:
-  "("
-;
-RightParenthesis:
-  ")"
-;
-TwoPoints:
-  ":"
-;
-Equal:
-  "="
-;
-InKeyWord:
-  "in"
-;
-Name:
-    /[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*/
-;
-FormalParameterList:
-    ( names=Name twoPoints=TwoPoints types=TypeSpecifier
-    ("," names=Name twoPoints=TwoPoints types=TypeSpecifier )*
-    )?
-;
-TypeSpecifier:
-    type=SimpleTypeSpecifier | collectionType=CollectionType
-;
-SimpleTypeSpecifier:
-    pathName=PathName
-;
-PathName:
-    path=Name ( "::" path=Name )*
-;
-CollectionType:
-    kind=CollectionKind
-    leftParenthesis=LeftParenthesis type=SimpleTypeSpecifier rightParenthesis=RightParenthesis
-;
-CollectionKind:
-    setKeyword=SetKeyword | bagKeyword=BagKeyword | sequenceKeyword=SequenceKeyword | collectionKeyword=CollectionKeyword
-;
-SetKeyword:
-  "Set"
-;
-BagKeyword:
-  "Bag"
-;
-SequenceKeyword:
-  "Sequence"
-;
-CollectionKeyword:
-  "Collection"
-;
-
-
-
-
-PostfixExpression:
-    primaryExpression=PrimaryExpression
-    ( postFixExpressionOperator=PostFixExpressionOperator call=PropertyCall )*
-;
-PrimaryExpression:
-    literalCollection=LiteralCollection
-    | literal=Literal
-    | propertyCall=PropertyCall
-    | leftParenthesis=LeftParenthesis expression=Expression rightParenthesis=RightParenthesis
-    | ifExpression=IfExpression
-;
-LiteralCollection:
-    kind=CollectionKind
-    leftAcc=LeftAcc
-      ( items=CollectionItem
-          (comas=Coma items=CollectionItem )*
-      )?
-    rightAcc=RightAcc
-;
-LeftAcc:
-  "{"
-;
-RightAcc:
-  "}"
-;
-CollectionItem:
-    start=Expression (".." end=Expression )?
-;
-Coma:
-  ","
-;
-Literal:
-    string=String
-    | number=Number
-    | enumLiteral=EnumLiteral
-;
-String:
-    STRING
-;
-Number:
-    NUMBER
-;
-EnumLiteral:
-    paths=Name doubleTwoPoints=DoubleTwoPoint paths=Name ( doubleTwoPoints=DoubleTwoPoint paths=Name )*
-;
-DoubleTwoPoint:
-  "::"
-;
-PropertyCall:
-    property=PathName
-    ( time_expression=TimeExpression )?
-    ( qualifiers=Qualifiers )?
-    ( parameters=PropertyCallParameters )?
-;
-TimeExpression:
-    "@" "pre"
-;
-Qualifiers:
-    leftHook=LeftHook list=ActualParameterList rightHook=RightHook
-;
-LeftHook:
-  "["
-;
-RightHook:
-  "]"
-;
-ActualParameterList:
-    params=Expression ( "," params=Expression )*
-;
-PropertyCallParameters:
-    leftParenthesis=LeftParenthesis ( declarator=Declarator )?
-    ( parameters=ActualParameterList )? rightParenthesis=RightParenthesis
-;
-Declarator:
-    id=Name ( coma=Coma extra_ids=Name )*
-    ( twoPoints=TwoPoints type=SimpleTypeSpecifier )?
-    ( pointComa=PointComa name=Name otherTwoPoints=TwoPoints otherType=TypeSpecifier equal=Equal
-        expression=Expression
-    )?
-    "|"
-;
-PointComa:
-  ";"
-;
-Name:
-    /[a-zA-Z_]([a-zA-Z0-9_])*/
-;
-PostFixExpressionOperator:
-  point=Point | arrow=Arrow
-;
-Point:
-  "."
-;
-Arrow:
-  "->"
-;
-UnaryExpression:
-    ( operator=UnaryOperator) ? left=PostfixExpression
-;
-UnaryOperator:
-    dash=Dash | notKeyword=NotKeyword
-;
-Dash:
-  "-"
-;
-NotKeyword:
-  "not"
-;
-
-
-
-
 LogicalExpression:
     left=RelationalExpression
     ( operator=LogicalOperator
@@ -222,54 +47,113 @@ MultiplicativeExpression:
     right=UnaryExpression
     )*
 ;
-MultiplyOperator:
-    star=Star | slash=Slash
+UnaryExpression:
+    ( operator=UnaryOperator) ? left=PostfixExpression
 ;
-Star:
-  "*"
+PostfixExpression:
+    expression=PrimaryExpression
+    ( ( "." | "->" ) call=PropertyCall )*
 ;
-Slash:
-  "/"
+PrimaryExpression:
+    LiteralCollection
+    | Literal
+    | PropertyCall
+    | "(" Expression ")"
+    | IfExpression
 ;
-AddOperator:
-    plus=Plus | minus=Minus
+UnaryOperator:
+    "-" | "not"
 ;
-Plus:
-  "+"
+LiteralCollection:
+    kind=CollectionKind "{"
+    ( items=CollectionItem
+        ("," items=CollectionItem )*
+    )?
+    "}"
 ;
-Minus:
-  "-"
+CollectionKind:
+    "Set" | "Bag" | "Sequence" | "Collection"
 ;
-RelationalOperator:
-    equal=Equal | gt=GT | lt=LT | ge=GE | le=LT | ne=NE
+CollectionItem:
+    start=Expression (".." end=Expression )?
 ;
-GT:
-  ">"
+PropertyCall:
+    property=PathName
+    ( time_expression=TimeExpression )?
+    ( qualifiers=Qualifiers )?
+    ( parameters=PropertyCallParameters )?
 ;
-LT:
-  "<"
+Qualifiers:
+    "[" a=ActualParameterList "]"
 ;
-GE:
-  ">="
+PathName:
+    path=Name ( "::" path=Name )*
 ;
-LE:
-  "<="
+TimeExpression:
+    "@" "pre"
 ;
-NE:
-  "<>"
+ActualParameterList:
+    params=Expression ( "," params=Expression )*
+;
+Literal:
+    String
+    | Number
+    | EnumLiteral
+;
+EnumLiteral:
+    paths=Name "::" paths=Name ( "::" paths=Name )*
+;
+Name:
+    /[a-zA-Z_]([a-zA-Z0-9_])*/
+;
+Number:
+    NUMBER
+;
+String:
+    STRING
+;
+PropertyCallParameters:
+    "(" ( a=Declarator )?
+    ( b=ActualParameterList )? ")"
+;
+Declarator:
+    id=Name ( "," extra_ids=Name )*
+    ( ":" c=SimpleTypeSpecifier )?
+    ( ";" d=Name ":" e=TypeSpecifier "="
+        f=Expression
+    )?
+    "|"
+;
+SimpleTypeSpecifier:
+    PathName
+;
+TypeSpecifier:
+    SimpleTypeSpecifier | CollectionType
+;
+CollectionType:
+    kind=CollectionKind
+    "(" type=SimpleTypeSpecifier ")"
 ;
 LogicalOperator:
-    andKeyword=AndKeyword | orKeyword=OrKeyword | xorKeyword=XorKeyword | impliesKeyword=ImpliesKeyword
+    "and" | "or" | "xor" | "implies"
 ;
-AndKeyword:
-  "and"
+CollectionKind:
+    "Set" | "Bag" | "Sequence" | "Collection"
 ;
-OrKeyword:
-  "or"
+RelationalOperator:
+    "=" | ">" | "<" | ">=" | "<=" | "<>"
 ;
-XorKeyword:
-  "xor"
+AddOperator:
+    "+" |  "-"
 ;
-ImpliesKeyword:
-  "implies"
+MultiplyOperator:
+    "*" | "/"
+;
+UnaryOperator:
+    "-" | "not"
+;
+FormalParameterList:
+    ( a=Name ":" b=TypeSpecifier
+    ("," c=Name ":" d=TypeSpecifier )*
+    )?
 ;

@@ -60,9 +60,23 @@ def introduce(expression, expressionDescription, level):
     log(level, "FOUND : ", expressionDescription, " : \n", tabulate(level+1), filter(expression), "\n")
 
 def delegate(elements, identifier, level):
+    """def delegate(elements, identifier, level, useSymbols=False, leftSymbol="[", rightSymbol="]", separatorSymbol=","):"""
     log(level+1, "***", identifier, " : ")
     content = elements[identifier]
     if(type(content)==list):
+        """
+        result = ""
+        if useSymbols:
+            result += leftSymbol
+        result += defaultExpressionParser(content[0], level+1)
+        for e in content[1:]:
+            if useSymbols:
+                result += separatorSymbol
+            result += " " + defaultExpressionParser(e, level+1)
+        if useSymbols:
+            result += rightSymbol
+        return result
+        """
         return defaultExpressionParser(content[0], level+1)
     else:
         return defaultExpressionParser(content, level+1)
@@ -73,6 +87,15 @@ def splitInfix(elements, operatorName, leftExpressionName, rightExpressionName, 
         return delegate(elements, leftExpressionName, level) + " " + operator[0] + " " + delegate(elements, rightExpressionName, level)
     else:
         return delegate(elements, leftExpressionName, level)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -89,8 +112,8 @@ def extractAtribute(e):
 
 @singledispatch
 def defaultExpressionParser(expression, level):
-    #introduce(expression, "DefaultExpression", level)
-    return "X"
+    log(level, "!!!DEFAULT!!!\n", tabulate(level+1), expression, "\n")
+    return "!!!DEFAULT!!!"
 
 @defaultExpressionParser.register(metamodel["IfExpression"])
 def ifExpressionParser(expression, level):
@@ -143,15 +166,33 @@ def propertyCallParser(expression, level):
     introduce(expression, "PropertyCall", level)
     elements = vars(expression)
     qualifiers = elements["qualifiers"]
-    #if(qualifiers is None):
-    return delegate(elements, "pathName", level)
-    #else:
-
+    result = delegate(elements, "pathName", level)
+    if(qualifiers is not None):
+        result += delegate(elements, "qualifiers", level)
+    return result
 
 @defaultExpressionParser.register(metamodel["PathName"])
 def pathNameParser(expression, level):
     introduce(expression, "PathName", level)
     return vars(expression)["names"][0]
+
+@defaultExpressionParser.register(metamodel["Qualifiers"])
+def qualifiersParser(expression, level):
+    introduce(expression, "Qualifiers", level)
+    result = "[ "
+    result += delegate(vars(expression), "actualParameterList", level)
+    result += " ]"
+    return result
+
+@defaultExpressionParser.register(metamodel["ActualParameterList"])
+def actualParameterListParser(expression, level):
+    introduce(expression, "ActualParameterList", level)
+    content = vars(expression)["expressions"]
+    result = defaultExpressionParser(content[0], level+1)
+    for e in content[1:]:
+        result += ", " + defaultExpressionParser(e, level+1)
+    return result
+
 
 
 

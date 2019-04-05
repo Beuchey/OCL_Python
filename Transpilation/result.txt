@@ -3,5 +3,5 @@ something if condition else somethingElse
 with someValue as something :
 	nestedExpression
 
-not name0 * multiple + sum = aValue and aBoolean
+not name0 * multiple + sum = aValue[ aqualifier, anotherQualifier ] and aBoolean
 

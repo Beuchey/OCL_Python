@@ -2,9 +2,9 @@ File:
     (expressions=Expression)*
 ;
 Expression:
-      IfExpression
-    | LetExpression
-    | LogicalExpression
+      ifExpression=IfExpression
+    | letExpression=LetExpression
+    | logicalExpression=LogicalExpression
 ;
 LetExpression:
     "let" identifier=Name
@@ -47,14 +47,17 @@ UnaryExpression:
 ;
 PostfixExpression:
     primaryExpression=PrimaryExpression
-    ( ( "." | "->" ) propertyCall=PropertyCall )*
+    ( propertyCallOperator=PropertyCallOperator propertyCall=PropertyCall )*
+;
+PropertyCallOperator:
+    "." | "->"
 ;
 PrimaryExpression:
-    LiteralCollection
-    | Literal
-    | PropertyCall
-    | "(" Expression ")"
-    | IfExpression
+    literalCollection=LiteralCollection
+    | literal=Literal
+    | propertyCall=PropertyCall
+    | "(" expression=Expression ")"
+    | ifExpression=IfExpression
 ;
 UnaryOperator:
     "-" | "not"

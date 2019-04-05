@@ -10,4 +10,8 @@ sum
 =
 aValue[aqualifier, anotherQualifier]
 and
-aBoolean
+(aBoolean or anotherOne)
+
+Set{1..two, "three"..enum::literal}
+
+path::name

@@ -1,7 +1,16 @@
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../Wrapper/', 'oclpyth'))
+from OclPyth import oclWrapper_Creator
+
+
 something if condition else somethingElse
 
 with someValue as something :
-	nestedExpression
+		nestedExpression
 
-not name0 * multiple + sum = aValue[ aqualifier, anotherQualifier ] and aBoolean
+not name0 * multiple + sum = aValue[ aqualifier, anotherQualifier ] and (aBoolean or anotherOne)
+
+oclWrapper_Creator([1..two, three..enum::literal])
+
+path::name
 

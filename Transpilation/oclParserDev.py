@@ -160,16 +160,37 @@ def unaryExpressionParser(expression, level):
 def postfixExpressionParser(expression, level):
     introduce(expression, "PostfixExpression", level)
     return delegate(vars(expression), "primaryExpression", level)
+    """ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    PostfixExpression:
+        primaryExpression=PrimaryExpression
+        ( ( "." | "->" ) propertyCall=PropertyCall )* <-------------------------------------------------------------------
+    ;
+    PrimaryExpression:
+        LiteralCollection <-------------------------------------------------------------------
+        | Literal <-------------------------------------------------------------------
+        | PropertyCall
+        | "(" Expression ")" <------------------------------------------------------------------- !()!
+        | IfExpression
+    ;
+    """
 
 @defaultExpressionParser.register(metamodel["PropertyCall"])
 def propertyCallParser(expression, level):
     introduce(expression, "PropertyCall", level)
     elements = vars(expression)
-    qualifiers = elements["qualifiers"]
     result = delegate(elements, "pathName", level)
+    qualifiers = elements["qualifiers"]
     if(qualifiers is not None):
         result += delegate(elements, "qualifiers", level)
     return result
+    """
+    PropertyCall:
+        pathName=PathName
+        ( timeExpression=TimeExpression )?
+        ( qualifiers=Qualifiers )?
+        ( propertyCallParameters=PropertyCallParameters )? <-------------------------------------------------------------------
+    ;
+    """
 
 @defaultExpressionParser.register(metamodel["PathName"])
 def pathNameParser(expression, level):

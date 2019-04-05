@@ -35,8 +35,9 @@ def tabulate(level):
     return res
 
 def writeTo(to, level, *args):
+    tabl = tabulate(level)
     for e in args:
-        to.write(tabulate(level))
+        to.write(tabl)
         to.write(str(e))
     to.write("\n")
 
@@ -49,18 +50,17 @@ def log(level, *args):
     if(VERBOSE):
         writeTo(__stdout__, level, *args)
 
-
 result = open("result.txt","w+")
 
-def res(level, *args):
-    writeTo(logger, *args)
+def res(*args):
+    writeTo(result, 0, *args)
 
 def introduce(expression, expressionDescription, level):
     log(level, expressionDescription, " : \n", tabulate(level+1), filter(expression), "\n")
 
 def delegate(expression, message, level):
     log(level+1, "***", message, " : ")
-    defaultExpressionParser(expression, level+1)
+    return defaultExpressionParser(expression, level+1)
 
 
 
@@ -79,22 +79,23 @@ def extractAtribute(e):
 @singledispatch
 def defaultExpressionParser(expression, level):
     introduce(expression, "DefaultExpression", level)
+    return ""
 
 @defaultExpressionParser.register(metamodel["IfExpression"])
 def ifExpressionParser(expression, level):
     introduce(expression, "IfExpression", level)
     elements = vars(expression)
-    delegate(elements["conditionExpression"], "conditionExpression", level)
-    delegate(elements["thenExpression"], "thenExpression", level)
-    delegate(elements["elseExpression"], "elseExpression", level)
+    return delegate(elements["thenExpression"], "thenExpression", level) + " if " + delegate(elements["conditionExpression"], "conditionExpression", level) + " else " + delegate(elements["elseExpression"], "elseExpression", level)
 
 @defaultExpressionParser.register(metamodel["LogicalExpression"])
 def logicalExpressionParser(expression, level):
     introduce(expression, "LogicalExpression", level)
+    return "LogicalExpression"
 
 @defaultExpressionParser.register(metamodel["LetExpression"])
 def letExpressionParser(expression, level):
     introduce(expression, "LetExpression", level)
+    return "LetExpression"
 
 
 
@@ -108,10 +109,7 @@ def letExpressionParser(expression, level):
 model = metamodel.model_from_file("expression.ocl")
 
 for expression in model.expressions:
-    defaultExpressionParser(expression, 0)
-
-
-
+    res(defaultExpressionParser(expression, 0), 0, "\n")
 
 
 

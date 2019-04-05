@@ -22,7 +22,8 @@ def filter(expression):
     for e in elements:
         if e is not None and e[0]!='_' and e!='parent':
             content = elements[e]
-            if(type(content)==list):
+            contentType = type(content)
+            if(contentType==list or contentType==str):
                 result[e] = content
             else:
                 result[e] = content.__class__.__name__
@@ -36,8 +37,8 @@ def tabulate(level):
 
 def writeTo(to, level, *args):
     tabl = tabulate(level)
+    to.write(tabl)
     for e in args:
-        to.write(tabl)
         to.write(str(e))
     to.write("\n")
 
@@ -56,12 +57,18 @@ def res(level, *args):
     writeTo(result, 0, *args)
 
 def introduce(expression, expressionDescription, level):
-    log(level, expressionDescription, " : \n", tabulate(level+1), filter(expression), "\n")
+    log(level, "FOUND : ", expressionDescription, " : \n", tabulate(level+1), filter(expression), "\n")
 
 def delegate(elements, identifier, level):
     log(level+1, "***", identifier, " : ")
     return defaultExpressionParser(elements[identifier], level+1)
 
+def splitInfix(elements, operatorName, leftExpressionName, rightExpressionName, level):
+    operator = elements[operatorName]
+    if operator is not None and len(operator)==1:
+        return delegate(elements, leftExpressionName, level) + " " + operator[0] + " " + delegate(elements, rightExpressionName, level)
+    else:
+        return delegate(elements, leftExpressionName, level)
 
 
 
@@ -90,15 +97,32 @@ def ifExpressionParser(expression, level):
 @defaultExpressionParser.register(metamodel["LogicalExpression"])
 def logicalExpressionParser(expression, level):
     introduce(expression, "LogicalExpression", level)
-    return "LogicalExpression"
+    elements = vars(expression)
+    return delegate(elements, "leftRelationalExpression", level)
 
 @defaultExpressionParser.register(metamodel["LetExpression"])
 def letExpressionParser(expression, level):
     introduce(expression, "LetExpression", level)
     elements = vars(expression)
-    return "with " + delegate(elements, "initExpression", level) + " as " + elements["identifier"] + " in "
+    return "with " + delegate(elements, "initExpression", level) + " as " + elements["identifier"] + " :\n" + tabulate(level+1) + delegate(elements, "subExpression", level)
 
+@defaultExpressionParser.register(metamodel["RelationalExpression"])
+def relationalExpressionParser(expression, level):
+    introduce(expression, "RelationalExpression", level)
+    elements = vars(expression)
+    return splitInfix(elements, "relationalOperator", "leftAdditiveExpression", "rightAdditiveExpression", level)
 
+@defaultExpressionParser.register(metamodel["AdditiveExpression"])
+def additiveExpressionParser(expression, level):
+    introduce(expression, "additiveExpression", level)
+    elements = vars(expression)
+    return splitInfix(elements, "additiveOperator", "leftMultiplicativeExpression", "rightMultiplicativeExpression", level)
+
+@defaultExpressionParser.register(metamodel["MultiplicativeExpression"])
+def additiveExpressionParser(expression, level):
+    introduce(expression, "multiplicativeExpression", level)
+    elements = vars(expression)
+    return "MultiplicativeExpression"
 
 
 

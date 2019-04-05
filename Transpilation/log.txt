@@ -1,25 +1,102 @@
-IfExpression : 
+FOUND : IfExpression : 
 	{'conditionExpression': 'LogicalExpression', 'thenExpression': 'LogicalExpression', 'elseExpression': 'LogicalExpression'}
 
-	***	thenExpression	 : 
-	LogicalExpression	 : 
-				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}	
+	***thenExpression : 
+	FOUND : LogicalExpression : 
+		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
 
-	***	conditionExpression	 : 
-	LogicalExpression	 : 
-				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}	
+		***leftRelationalExpression : 
+		FOUND : RelationalExpression : 
+			{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
 
-	***	elseExpression	 : 
-	LogicalExpression	 : 
-				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}	
+			***leftAdditiveExpression : 
+			FOUND : additiveExpression : 
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
 
-LetExpression : 
-	{'identifier': 'str', 'extra_identifiers': 'FormalParameterList', 'type': 'TypeSpecifier', 'initExpression': 'LogicalExpression', 'subExpression': 'LogicalExpression'}
+				***leftMultiplicativeExpression : 
+				FOUND : multiplicativeExpression : 
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
 
-	***	initExpression	 : 
-	LogicalExpression	 : 
-				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}	
+	***conditionExpression : 
+	FOUND : LogicalExpression : 
+		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
 
-LogicalExpression : 
-	{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x25371f0>]}
+		***leftRelationalExpression : 
+		FOUND : RelationalExpression : 
+			{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
 
+			***leftAdditiveExpression : 
+			FOUND : additiveExpression : 
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+				***leftMultiplicativeExpression : 
+				FOUND : multiplicativeExpression : 
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+	***elseExpression : 
+	FOUND : LogicalExpression : 
+		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
+
+		***leftRelationalExpression : 
+		FOUND : RelationalExpression : 
+			{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
+
+			***leftAdditiveExpression : 
+			FOUND : additiveExpression : 
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+				***leftMultiplicativeExpression : 
+				FOUND : multiplicativeExpression : 
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+FOUND : LetExpression : 
+	{'identifier': 'something', 'extra_identifiers': 'FormalParameterList', 'type': 'TypeSpecifier', 'initExpression': 'LogicalExpression', 'subExpression': 'LogicalExpression'}
+
+	***initExpression : 
+	FOUND : LogicalExpression : 
+		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
+
+		***leftRelationalExpression : 
+		FOUND : RelationalExpression : 
+			{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
+
+			***leftAdditiveExpression : 
+			FOUND : additiveExpression : 
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+				***leftMultiplicativeExpression : 
+				FOUND : multiplicativeExpression : 
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+	***subExpression : 
+	FOUND : LogicalExpression : 
+		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
+
+		***leftRelationalExpression : 
+		FOUND : RelationalExpression : 
+			{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
+
+			***leftAdditiveExpression : 
+			FOUND : additiveExpression : 
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+				***leftMultiplicativeExpression : 
+				FOUND : multiplicativeExpression : 
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+FOUND : LogicalExpression : 
+	{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x24c56b0>]}
+
+	***leftRelationalExpression : 
+	FOUND : RelationalExpression : 
+		{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': '=', 'rightAdditiveExpression': 'AdditiveExpression'}
+
+		***leftAdditiveExpression : 
+		FOUND : additiveExpression : 
+			{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': ['+'], 'rightMultiplicativeExpression': [<textx:oclGrammar.MultiplicativeExpression instance at 0x24d9f50>]}
+
+			***leftMultiplicativeExpression : 
+			FOUND : multiplicativeExpression : 
+				{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': ['*'], 'rightUnaryExpression': [<textx:oclGrammar.UnaryExpression instance at 0x248da30>]}
+
+			***rightMultiplicativeExpression : 

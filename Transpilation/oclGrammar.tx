@@ -32,7 +32,7 @@ RelationalExpression:
 ;
 AdditiveExpression:
     leftMultiplicativeExpression=MultiplicativeExpression
-    ( addOperator=AddOperator
+    ( additiveOperator=additiveOperator
     rightMultiplicativeExpression=MultiplicativeExpression
     )*
 ;
@@ -138,7 +138,7 @@ CollectionKind:
 RelationalOperator:
     "=" | ">" | "<" | ">=" | "<=" | "<>"
 ;
-AddOperator:
+additiveOperator:
     "+" |  "-"
 ;
 MultiplyOperator:

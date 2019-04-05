@@ -1,6 +1,5 @@
-LogicalExpression if LogicalExpression else LogicalExpression
+MultiplicativeExpression if MultiplicativeExpression else MultiplicativeExpression
 
-with LogicalExpression as something in 
-
-LogicalExpression
+with MultiplicativeExpression as something :
+	MultiplicativeExpression
 

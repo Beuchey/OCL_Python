@@ -8,46 +8,46 @@ Expression:
 ;
 LetExpression:
     "let" identifier=Name
-    ( "(" extra_identifiers=FormalParameterList ")" )?
+    ( "(" extra_identifier=FormalParameterList ")" )?
     ( ":" type=TypeSpecifier )?
     "=" init_expression=Expression "in" expression=Expression
 ;
 IfExpression:
     "if" condition=Expression
-    "then" then_body=Expression
-    "else" else_body=Expression
+    "then" thenBody=Expression
+    "else" elseBody=Expression
     "endif"
 ;
 LogicalExpression:
-    left=RelationalExpression
-    ( operator=LogicalOperator
-    right=RelationalExpression
+    leftRelationalExpression=RelationalExpression
+    ( logicalOperator=LogicalOperator
+    rightRelationalExpression=RelationalExpression
     )*
 ;
 RelationalExpression:
-    left=AdditiveExpression
-    ( operator=RelationalOperator
-    right=AdditiveExpression
+    leftAdditiveExpression=AdditiveExpression
+    ( relationalOperator=RelationalOperator
+    rightAdditiveExpression=AdditiveExpression
     )?
 ;
 AdditiveExpression:
-    left=MultiplicativeExpression
-    ( operator=AddOperator
-    right=MultiplicativeExpression
+    leftMultiplicativeExpression=MultiplicativeExpression
+    ( addOperator=AddOperator
+    rightMultiplicativeExpression=MultiplicativeExpression
     )*
 ;
 MultiplicativeExpression:
-    left=UnaryExpression
-    ( operator=MultiplyOperator
-    right=UnaryExpression
+    leftUnaryExpression=UnaryExpression
+    ( multiplyOperator=MultiplyOperator
+    rightUnaryExpression=UnaryExpression
     )*
 ;
 UnaryExpression:
-    ( operator=UnaryOperator) ? left=PostfixExpression
+    ( unaryOperator=UnaryOperator) ? postfixExpression=PostfixExpression
 ;
 PostfixExpression:
-    expression=PrimaryExpression
-    ( ( "." | "->" ) call=PropertyCall )*
+    primaryExpression=PrimaryExpression
+    ( ( "." | "->" ) propertyCall=PropertyCall )*
 ;
 PrimaryExpression:
     literalCollection=LiteralCollection
@@ -60,9 +60,9 @@ UnaryOperator:
     "-" | "not"
 ;
 LiteralCollection:
-    kind=CollectionKind "{"
-    ( items=CollectionItem
-        ("," items=CollectionItem )*
+    collectionKind=CollectionKind "{"
+    ( collectionItems=CollectionItem
+        ("," collectionItems=CollectionItem )*
     )?
     "}"
 ;
@@ -70,25 +70,25 @@ CollectionKind:
     "Set" | "Bag" | "Sequence" | "Collection"
 ;
 CollectionItem:
-    start=Expression (".." end=Expression )?
+    startExpression=Expression (".." endExpression=Expression )?
 ;
 PropertyCall:
-    property=PathName
-    ( time_expression=TimeExpression )?
+    pathName=PathName
+    ( timeExpression=TimeExpression )?
     ( qualifiers=Qualifiers )?
-    ( parameters=PropertyCallParameters )?
+    ( propertyCallParameters=PropertyCallParameters )?
 ;
 Qualifiers:
     "[" actualParameterList=ActualParameterList "]"
 ;
 PathName:
-    path=Name ( "::" path=Name )*
+    names=Name ( "::" names=Name )*
 ;
 TimeExpression:
     "@" "pre"
 ;
 ActualParameterList:
-    params=Expression ( "," params=Expression )*
+    expressions=Expression ( "," expressions=Expression )*
 ;
 Literal:
     string=String
@@ -96,7 +96,7 @@ Literal:
     | enumLiteral=EnumLiteral
 ;
 EnumLiteral:
-    paths=Name "::" paths=Name ( "::" paths=Name )*
+    names=Name "::" names=Name ( "::" names=Name )*
 ;
 Name:
     /[a-zA-Z_]([a-zA-Z0-9_])*/
@@ -112,9 +112,9 @@ PropertyCallParameters:
     ( actualParameterList=ActualParameterList )? ")"
 ;
 Declarator:
-    id=Name ( "," extra_ids=Name )*
+    names=Name ( "," names=Name )*
     ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )?
-    ( ";" name=Name ":" typeSpecifier=TypeSpecifier "="
+    ( ";" extraNames=Name ":" extraTypeSpecifier=TypeSpecifier "="
         expression=Expression
     )?
     "|"
@@ -126,8 +126,8 @@ TypeSpecifier:
     simpleTypeSpecifier=SimpleTypeSpecifier | collectionType=CollectionType
 ;
 CollectionType:
-    kind=CollectionKind
-    "(" type=SimpleTypeSpecifier ")"
+    collectionKind=CollectionKind
+    "(" simpleTypeSpecifier=SimpleTypeSpecifier ")"
 ;
 LogicalOperator:
     "and" | "or" | "xor" | "implies"

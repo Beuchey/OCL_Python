@@ -175,6 +175,9 @@ def propertyCallParser(expression, level):
     qualifiers = elements["qualifiers"]
     if(qualifiers is not None):
         result += delegate(elements, "qualifiers", level)
+    propertyCallParameters = elements["propertyCallParameters"]
+    if(propertyCallParameters is not None):
+        result += delegate(elements, "propertyCallParameters", level)
     return result
     """
     PropertyCall:
@@ -211,9 +214,8 @@ def actualParameterListParser(expression, level):
 def primaryExpressionParser(expression, level):
     introduce(expression, "PrimaryExpression", level)
     elements = vars(expression)
-    nestedExpression = elements["expression"]
-    if(nestedExpression is not None):
-        return "(" + defaultExpressionParser(nestedExpression, level+1) + ")"
+    if(elements["expression"] is not None):
+        return "(" + delegate(elements, "expression", level) + ")"
     else:
         return defaultExpressionParser(extract(expression), level+1)
 

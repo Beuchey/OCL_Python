@@ -15,3 +15,5 @@ and
 Set{1..two, "three"..enum::literal}
 
 path::name
+
+test.something(parameter1, parameter2)

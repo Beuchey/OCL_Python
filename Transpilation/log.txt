@@ -204,7 +204,7 @@ FOUND : Expression :
 	{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
 
 	FOUND : LogicalExpression : 
-		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x2f16cd0>]}
+		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x2d26670>]}
 
 		***leftRelationalExpression : 
 		FOUND : RelationalExpression : 
@@ -212,11 +212,11 @@ FOUND : Expression :
 
 			***leftAdditiveExpression : 
 			FOUND : additiveExpression : 
-				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': ['+'], 'rightMultiplicativeExpression': [<textx:oclGrammar.MultiplicativeExpression instance at 0x2f1d2d0>]}
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': ['+'], 'rightMultiplicativeExpression': [<textx:oclGrammar.MultiplicativeExpression instance at 0x2d2d290>]}
 
 				***leftMultiplicativeExpression : 
 				FOUND : multiplicativeExpression : 
-					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': ['*'], 'rightUnaryExpression': [<textx:oclGrammar.UnaryExpression instance at 0x2f1d0b0>]}
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': ['*'], 'rightUnaryExpression': [<textx:oclGrammar.UnaryExpression instance at 0x2d2d0b0>]}
 
 					***leftUnaryExpression : 
 					FOUND : UnaryExpression : 
@@ -224,7 +224,7 @@ FOUND : Expression :
 
 						***postfixExpression : 
 						FOUND : PostfixExpression : 
-							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': ['.'], 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x2f1da50>]}
+							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': ['.'], 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x2d2da90>]}
 
 							***primaryExpression : 
 							FOUND : PrimaryExpression : 
@@ -312,7 +312,7 @@ FOUND : Expression :
 
 										***actualParameterList : 
 										FOUND : ActualParameterList : 
-											{'expressions': [<textx:oclGrammar.Expression instance at 0x2f3eeb0>, <textx:oclGrammar.Expression instance at 0x2f3eed0>]}
+											{'expressions': [<textx:oclGrammar.Expression instance at 0x2d4ebb0>, <textx:oclGrammar.Expression instance at 0x2d4ebd0>]}
 
 											FOUND : Expression : 
 												{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
@@ -412,11 +412,12 @@ FOUND : Expression :
 							FOUND : PrimaryExpression : 
 								{'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'NoneType', 'expression': 'Expression', 'ifExpression': 'NoneType'}
 
+								***expression : 
 								FOUND : Expression : 
 									{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
 
 									FOUND : LogicalExpression : 
-										{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['or'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x2f75150>]}
+										{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['or'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x2d4ee30>]}
 
 										***leftRelationalExpression : 
 										FOUND : RelationalExpression : 
@@ -511,7 +512,7 @@ FOUND : Expression :
 								{'literalCollection': 'LiteralCollection', 'literal': 'NoneType', 'propertyCall': 'NoneType', 'expression': 'NoneType', 'ifExpression': 'NoneType'}
 
 								FOUND : LiteralCollection : 
-									{'collectionKind': 'Set', 'collectionItems': [<textx:oclGrammar.CollectionItem instance at 0x2f75490>, <textx:oclGrammar.CollectionItem instance at 0x2f75430>]}
+									{'collectionKind': 'Set', 'collectionItems': [<textx:oclGrammar.CollectionItem instance at 0x2d57190>, <textx:oclGrammar.CollectionItem instance at 0x2d57130>]}
 
 									FOUND : CollectionItem : 
 										{'startExpression': 'Expression', 'endExpression': 'Expression'}
@@ -695,4 +696,41 @@ FOUND : Expression :
 
 									FOUND : EnumLiteral : 
 										{'names': ['path', 'name']}
+
+FOUND : Expression : 
+	{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
+
+	FOUND : LogicalExpression : 
+		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
+
+		***leftRelationalExpression : 
+		FOUND : RelationalExpression : 
+			{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
+
+			***leftAdditiveExpression : 
+			FOUND : additiveExpression : 
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+				***leftMultiplicativeExpression : 
+				FOUND : multiplicativeExpression : 
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+					***leftUnaryExpression : 
+					FOUND : UnaryExpression : 
+						{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
+
+						***postfixExpression : 
+						FOUND : PostfixExpression : 
+							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': ['.'], 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x2d571d0>]}
+
+							***primaryExpression : 
+							FOUND : PrimaryExpression : 
+								{'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'PropertyCall', 'expression': 'NoneType', 'ifExpression': 'NoneType'}
+
+								FOUND : PropertyCall : 
+									{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
+
+									***pathName : 
+									FOUND : PathName : 
+										{'names': ['test']}
 

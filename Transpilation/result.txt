@@ -14,3 +14,5 @@ oclWrapper_Creator([1..two, "three"..enum::literal])
 
 path::name
 
+test
+

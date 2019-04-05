@@ -1,4 +1,1 @@
-test->select(e | e.name)
-
-let nJobs : Integer = getNJobs() in
-if isEmployed then nJobs > 0 else nJobs = 0 endif
+if condition then something else somethingElse endif

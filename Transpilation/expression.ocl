@@ -2,7 +2,7 @@ if condition then something else somethingElse endif
 
 let something (one : onType, two : twoType) : someType = someValue in nestedExpression
 
-not name0.base::leaf @ pre [qualifier1, qualifier2] (name0, name1 : typeBase::typeLeaf ; extraName : extraTypeBase::extraTypeLeaf = something | aParameter, anotherParameter)
+not name0.base::leaf @ pre [qualifier1, qualifier2] (name0, name1 : typeBase::typeLeaf ; extraName : Integer = something | aParameter, anotherParameter)
 *
 multiple
 +
@@ -15,5 +15,3 @@ and
 Set{1..two, "three"..enum::literal}
 
 path::name
-
-test.something(parameter1, parameter2)

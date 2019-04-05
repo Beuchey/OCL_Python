@@ -8,11 +8,9 @@ something if condition else somethingElse
 with someValue as something :
 		nestedExpression
 
-not name0 * multiple + sum = aValue[ aqualifier, anotherQualifier ] and (aBoolean or anotherOne)
+not name0.base[ qualifier1, qualifier2 ](name0, name1 : typeBase ; extraName : Integer = something | {'declarator': 'Declarator', 'actualParameterList': 'ActualParameterList'}) * multiple + sum = aValue[ aqualifier, anotherQualifier ] and (aBoolean or anotherOne)
 
 oclWrapper_Creator([1..two, "three"..enum::literal])
 
 path::name
-
-test
 

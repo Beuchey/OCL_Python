@@ -108,7 +108,7 @@ def extract(expression):
 @singledispatch
 def defaultExpressionParser(expression, level):
     log(level, "!!!DEFAULT!!!\n", tabulate(level+1), expression, "\n")
-    return "!!!DEFAULT!!!"
+    return "!!!DEFAULT!!! : " + str(type(expression))
 
 @defaultExpressionParser.register(metamodel["Expression"])
 def expressionParser(expression, level):
@@ -159,13 +159,12 @@ def unaryExpressionParser(expression, level):
 @defaultExpressionParser.register(metamodel["PostfixExpression"])
 def postfixExpressionParser(expression, level):
     introduce(expression, "PostfixExpression", level)
-    return delegate(vars(expression), "primaryExpression", level)
-    """ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    PostfixExpression:
-        primaryExpression=PrimaryExpression
-        ( ( "." | "->" ) propertyCall=PropertyCall )* <-------------------------------------------------------------------
-    ;
-    """
+    result = delegate(vars(expression), "primaryExpression", level)
+    elements = vars(expression)
+    propertyCall = elements["propertyCall"]
+    if(len(propertyCall)>0):
+        result += elements["propertyCallOperator"][0] + defaultExpressionParser(propertyCall[0], level+1)
+    return result
 
 @defaultExpressionParser.register(metamodel["PropertyCall"])
 def propertyCallParser(expression, level):
@@ -179,14 +178,6 @@ def propertyCallParser(expression, level):
     if(propertyCallParameters is not None):
         result += delegate(elements, "propertyCallParameters", level)
     return result
-    """
-    PropertyCall:
-        pathName=PathName
-        ( timeExpression=TimeExpression )?
-        ( qualifiers=Qualifiers )?
-        ( propertyCallParameters=PropertyCallParameters )? <-------------------------------------------------------------------
-    ;
-    """
 
 @defaultExpressionParser.register(metamodel["PathName"])
 def pathNameParser(expression, level):
@@ -244,7 +235,14 @@ def collectionItemParser(expression, level):
 @defaultExpressionParser.register(metamodel["Literal"])
 def literalParser(expression, level):
     introduce(expression, "Literal", level)
-    return defaultExpressionParser(extract(expression), level+1)
+    result = ""
+    stringer = type(extract(expression)) is str
+    if(stringer):
+        result += "\""
+    result += defaultExpressionParser(extract(expression), level+1)
+    if(stringer):
+        result += "\""
+    return result
 
 @defaultExpressionParser.register(int)
 def numberParser(expression, level):
@@ -252,7 +250,7 @@ def numberParser(expression, level):
 
 @defaultExpressionParser.register(str)
 def stringParser(expression, level):
-    return "\"" + str(expression) + "\""
+    return str(expression)
 
 @defaultExpressionParser.register(metamodel["EnumLiteral"])
 def enumLiteralParser(expression, level):
@@ -262,6 +260,43 @@ def enumLiteralParser(expression, level):
     for e in names[2:]:
         result += ", " + e
     return result
+
+@defaultExpressionParser.register(metamodel["PropertyCallParameters"])
+def propertyCallParametersParser(expression, level):
+    introduce(expression, "PropertyCallParameters", level)
+    elements = vars(expression)
+    result = "("
+    if(elements["declarator"] is not None):
+        result += delegate(elements, "declarator", level)
+    result += str(filter(expression))
+    result += ")"
+    return result
+
+@defaultExpressionParser.register(metamodel["Declarator"])
+def declaratorParametersParser(expression, level):
+    introduce(expression, "Declarator", level)
+    elements = vars(expression)
+    names = elements["names"]
+    result = names[0]
+    for e in names[1:]:
+        result += ", " + e
+    simpleTypeSpecifier = elements["simpleTypeSpecifier"]
+    if(simpleTypeSpecifier is not None):
+        result += " : " + delegate(elements, "simpleTypeSpecifier", level)
+    extraName = elements["extraName"]
+    if(extraName is not None):
+        result += " ; " + delegate(elements, "extraName", level) + " : " + delegate(elements, "extraTypeSpecifier", level) + " = " + delegate(elements, "expression", level)
+    return result + " | "
+
+@defaultExpressionParser.register(metamodel["SimpleTypeSpecifier"])
+def simpleTypeSpecifierParser(expression, level):
+    introduce(expression, "simpleTypeSpecifier", level)
+    return delegate(vars(expression), "pathName", level)
+
+@defaultExpressionParser.register(metamodel["TypeSpecifier"])
+def typeSpecifierParser(expression, level):
+    introduce(expression, "typeSpecifier", level)
+    return defaultExpressionParser(extract(expression), level+1)
 
 
 

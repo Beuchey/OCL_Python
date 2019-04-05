@@ -204,7 +204,7 @@ FOUND : Expression :
 	{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
 
 	FOUND : LogicalExpression : 
-		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x2d26670>]}
+		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x239ef90>]}
 
 		***leftRelationalExpression : 
 		FOUND : RelationalExpression : 
@@ -212,11 +212,11 @@ FOUND : Expression :
 
 			***leftAdditiveExpression : 
 			FOUND : additiveExpression : 
-				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': ['+'], 'rightMultiplicativeExpression': [<textx:oclGrammar.MultiplicativeExpression instance at 0x2d2d290>]}
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': ['+'], 'rightMultiplicativeExpression': [<textx:oclGrammar.MultiplicativeExpression instance at 0x239ea10>]}
 
 				***leftMultiplicativeExpression : 
 				FOUND : multiplicativeExpression : 
-					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': ['*'], 'rightUnaryExpression': [<textx:oclGrammar.UnaryExpression instance at 0x2d2d0b0>]}
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': ['*'], 'rightUnaryExpression': [<textx:oclGrammar.UnaryExpression instance at 0x239efb0>]}
 
 					***leftUnaryExpression : 
 					FOUND : UnaryExpression : 
@@ -224,7 +224,7 @@ FOUND : Expression :
 
 						***postfixExpression : 
 						FOUND : PostfixExpression : 
-							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': ['.'], 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x2d2da90>]}
+							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': ['.'], 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x239e7f0>]}
 
 							***primaryExpression : 
 							FOUND : PrimaryExpression : 
@@ -236,6 +236,161 @@ FOUND : Expression :
 									***pathName : 
 									FOUND : PathName : 
 										{'names': ['name0']}
+
+							FOUND : PropertyCall : 
+								{'pathName': 'PathName', 'timeExpression': '@pre', 'qualifiers': 'Qualifiers', 'propertyCallParameters': 'PropertyCallParameters'}
+
+								***pathName : 
+								FOUND : PathName : 
+									{'names': ['base', 'leaf']}
+
+								***qualifiers : 
+								FOUND : Qualifiers : 
+									{'actualParameterList': 'ActualParameterList'}
+
+									***actualParameterList : 
+									FOUND : ActualParameterList : 
+										{'expressions': [<textx:oclGrammar.Expression instance at 0x23a8ad0>, <textx:oclGrammar.Expression instance at 0x23a8a30>]}
+
+										FOUND : Expression : 
+											{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
+
+											FOUND : LogicalExpression : 
+												{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
+
+												***leftRelationalExpression : 
+												FOUND : RelationalExpression : 
+													{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
+
+													***leftAdditiveExpression : 
+													FOUND : additiveExpression : 
+														{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+														***leftMultiplicativeExpression : 
+														FOUND : multiplicativeExpression : 
+															{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+															***leftUnaryExpression : 
+															FOUND : UnaryExpression : 
+																{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
+
+																***postfixExpression : 
+																FOUND : PostfixExpression : 
+																	{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': [], 'propertyCall': []}
+
+																	***primaryExpression : 
+																	FOUND : PrimaryExpression : 
+																		{'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'PropertyCall', 'expression': 'NoneType', 'ifExpression': 'NoneType'}
+
+																		FOUND : PropertyCall : 
+																			{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
+
+																			***pathName : 
+																			FOUND : PathName : 
+																				{'names': ['qualifier1']}
+
+										FOUND : Expression : 
+											{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
+
+											FOUND : LogicalExpression : 
+												{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
+
+												***leftRelationalExpression : 
+												FOUND : RelationalExpression : 
+													{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
+
+													***leftAdditiveExpression : 
+													FOUND : additiveExpression : 
+														{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+														***leftMultiplicativeExpression : 
+														FOUND : multiplicativeExpression : 
+															{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+															***leftUnaryExpression : 
+															FOUND : UnaryExpression : 
+																{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
+
+																***postfixExpression : 
+																FOUND : PostfixExpression : 
+																	{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': [], 'propertyCall': []}
+
+																	***primaryExpression : 
+																	FOUND : PrimaryExpression : 
+																		{'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'PropertyCall', 'expression': 'NoneType', 'ifExpression': 'NoneType'}
+
+																		FOUND : PropertyCall : 
+																			{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
+
+																			***pathName : 
+																			FOUND : PathName : 
+																				{'names': ['qualifier2']}
+
+								***propertyCallParameters : 
+								FOUND : PropertyCallParameters : 
+									{'declarator': 'Declarator', 'actualParameterList': 'ActualParameterList'}
+
+									***declarator : 
+									FOUND : Declarator : 
+										{'names': ['name0', 'name1'], 'simpleTypeSpecifier': 'SimpleTypeSpecifier', 'extraName': 'extraName', 'extraTypeSpecifier': 'TypeSpecifier', 'expression': 'Expression'}
+
+										***simpleTypeSpecifier : 
+										FOUND : simpleTypeSpecifier : 
+											{'pathName': 'PathName'}
+
+											***pathName : 
+											FOUND : PathName : 
+												{'names': ['typeBase', 'typeLeaf']}
+
+										***extraName : 
+										***extraTypeSpecifier : 
+										FOUND : typeSpecifier : 
+											{'simpleTypeSpecifier': 'SimpleTypeSpecifier', 'collectionType': 'NoneType'}
+
+											FOUND : simpleTypeSpecifier : 
+												{'pathName': 'PathName'}
+
+												***pathName : 
+												FOUND : PathName : 
+													{'names': ['Integer']}
+
+										***expression : 
+										FOUND : Expression : 
+											{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
+
+											FOUND : LogicalExpression : 
+												{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
+
+												***leftRelationalExpression : 
+												FOUND : RelationalExpression : 
+													{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
+
+													***leftAdditiveExpression : 
+													FOUND : additiveExpression : 
+														{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+														***leftMultiplicativeExpression : 
+														FOUND : multiplicativeExpression : 
+															{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+															***leftUnaryExpression : 
+															FOUND : UnaryExpression : 
+																{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
+
+																***postfixExpression : 
+																FOUND : PostfixExpression : 
+																	{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': [], 'propertyCall': []}
+
+																	***primaryExpression : 
+																	FOUND : PrimaryExpression : 
+																		{'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'PropertyCall', 'expression': 'NoneType', 'ifExpression': 'NoneType'}
+
+																		FOUND : PropertyCall : 
+																			{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
+
+																			***pathName : 
+																			FOUND : PathName : 
+																				{'names': ['something']}
 
 					***rightUnaryExpression : 
 					FOUND : UnaryExpression : 
@@ -312,7 +467,7 @@ FOUND : Expression :
 
 										***actualParameterList : 
 										FOUND : ActualParameterList : 
-											{'expressions': [<textx:oclGrammar.Expression instance at 0x2d4ebb0>, <textx:oclGrammar.Expression instance at 0x2d4ebd0>]}
+											{'expressions': [<textx:oclGrammar.Expression instance at 0x23bfed0>, <textx:oclGrammar.Expression instance at 0x23bfef0>]}
 
 											FOUND : Expression : 
 												{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
@@ -417,7 +572,7 @@ FOUND : Expression :
 									{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
 
 									FOUND : LogicalExpression : 
-										{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['or'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x2d4ee30>]}
+										{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['or'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x23f5170>]}
 
 										***leftRelationalExpression : 
 										FOUND : RelationalExpression : 
@@ -512,7 +667,7 @@ FOUND : Expression :
 								{'literalCollection': 'LiteralCollection', 'literal': 'NoneType', 'propertyCall': 'NoneType', 'expression': 'NoneType', 'ifExpression': 'NoneType'}
 
 								FOUND : LiteralCollection : 
-									{'collectionKind': 'Set', 'collectionItems': [<textx:oclGrammar.CollectionItem instance at 0x2d57190>, <textx:oclGrammar.CollectionItem instance at 0x2d57130>]}
+									{'collectionKind': 'Set', 'collectionItems': [<textx:oclGrammar.CollectionItem instance at 0x23f54b0>, <textx:oclGrammar.CollectionItem instance at 0x23f5450>]}
 
 									FOUND : CollectionItem : 
 										{'startExpression': 'Expression', 'endExpression': 'Expression'}
@@ -696,41 +851,4 @@ FOUND : Expression :
 
 									FOUND : EnumLiteral : 
 										{'names': ['path', 'name']}
-
-FOUND : Expression : 
-	{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
-
-	FOUND : LogicalExpression : 
-		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
-
-		***leftRelationalExpression : 
-		FOUND : RelationalExpression : 
-			{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
-
-			***leftAdditiveExpression : 
-			FOUND : additiveExpression : 
-				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
-
-				***leftMultiplicativeExpression : 
-				FOUND : multiplicativeExpression : 
-					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
-
-					***leftUnaryExpression : 
-					FOUND : UnaryExpression : 
-						{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
-
-						***postfixExpression : 
-						FOUND : PostfixExpression : 
-							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': ['.'], 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x2d571d0>]}
-
-							***primaryExpression : 
-							FOUND : PrimaryExpression : 
-								{'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'PropertyCall', 'expression': 'NoneType', 'ifExpression': 'NoneType'}
-
-								FOUND : PropertyCall : 
-									{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
-
-									***pathName : 
-									FOUND : PathName : 
-										{'names': ['test']}
 

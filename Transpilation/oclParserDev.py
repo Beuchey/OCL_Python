@@ -121,7 +121,7 @@ def additiveExpressionParser(expression, level):
 @defaultExpressionParser.register(metamodel["MultiplicativeExpression"])
 def additiveExpressionParser(expression, level):
     introduce(expression, "multiplicativeExpression", level)
-    elements = vars(expression)
+    #elements = vars(expression)
     return "MultiplicativeExpression"
 
 

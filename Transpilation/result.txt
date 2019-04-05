@@ -1,5 +1,7 @@
-MultiplicativeExpression if MultiplicativeExpression else MultiplicativeExpression
+something if condition else somethingElse
 
-with MultiplicativeExpression as something :
-	MultiplicativeExpression
+with someValue as something :
+	nestedExpression
+
+not name0 * multiple + sum = aValue and aBoolean
 

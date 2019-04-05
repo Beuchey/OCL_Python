@@ -61,7 +61,11 @@ def introduce(expression, expressionDescription, level):
 
 def delegate(elements, identifier, level):
     log(level+1, "***", identifier, " : ")
-    return defaultExpressionParser(elements[identifier], level+1)
+    content = elements[identifier]
+    if(type(content)==list):
+        return defaultExpressionParser(content[0], level+1)
+    else:
+        return defaultExpressionParser(content, level+1)
 
 def splitInfix(elements, operatorName, leftExpressionName, rightExpressionName, level):
     operator = elements[operatorName]
@@ -85,8 +89,8 @@ def extractAtribute(e):
 
 @singledispatch
 def defaultExpressionParser(expression, level):
-    introduce(expression, "DefaultExpression", level)
-    return ""
+    #introduce(expression, "DefaultExpression", level)
+    return "X"
 
 @defaultExpressionParser.register(metamodel["IfExpression"])
 def ifExpressionParser(expression, level):
@@ -98,7 +102,7 @@ def ifExpressionParser(expression, level):
 def logicalExpressionParser(expression, level):
     introduce(expression, "LogicalExpression", level)
     elements = vars(expression)
-    return delegate(elements, "leftRelationalExpression", level)
+    return splitInfix(elements, "logicalOperator", "leftRelationalExpression", "rightRelationalExpression", level)
 
 @defaultExpressionParser.register(metamodel["LetExpression"])
 def letExpressionParser(expression, level):
@@ -119,10 +123,36 @@ def additiveExpressionParser(expression, level):
     return splitInfix(elements, "additiveOperator", "leftMultiplicativeExpression", "rightMultiplicativeExpression", level)
 
 @defaultExpressionParser.register(metamodel["MultiplicativeExpression"])
-def additiveExpressionParser(expression, level):
+def multiplicativeExpressionParser(expression, level):
     introduce(expression, "multiplicativeExpression", level)
-    #elements = vars(expression)
-    return "MultiplicativeExpression"
+    elements = vars(expression)
+    return splitInfix(elements, "multiplyOperator", "leftUnaryExpression", "rightUnaryExpression", level)
+
+@defaultExpressionParser.register(metamodel["UnaryExpression"])
+def unaryExpressionParser(expression, level):
+    introduce(expression, "UnaryExpression", level)
+    elements = vars(expression)
+    if(elements["unaryOperator"] is None):
+        return delegate(elements, "postfixExpression", level)
+    else:
+        return elements["unaryOperator"] + " " + delegate(elements, "postfixExpression", level)
+
+@defaultExpressionParser.register(metamodel["PostfixExpression"])
+def unaryExpressionParser(expression, level):
+    introduce(expression, "PostfixExpression", level)
+    elements = vars(expression)
+    return delegate(elements, "primaryExpression", level)
+
+@defaultExpressionParser.register(metamodel["PropertyCall"])
+def propertyCallParser(expression, level):
+    introduce(expression, "PropertyCall", level)
+    elements = vars(expression)
+    return delegate(elements, "pathName", level)
+
+@defaultExpressionParser.register(metamodel["PathName"])
+def pathNameParser(expression, level):
+    introduce(expression, "PathName", level)
+    return vars(expression)["names"][0]
 
 
 

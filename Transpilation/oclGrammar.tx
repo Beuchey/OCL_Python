@@ -50,11 +50,11 @@ PostfixExpression:
     ( ( "." | "->" ) propertyCall=PropertyCall )*
 ;
 PrimaryExpression:
-    literalCollection=LiteralCollection
-    | literal=Literal
-    | propertyCall=PropertyCall
-    | "(" epression=Expression ")"
-    | ifExpression=IfExpression
+    LiteralCollection
+    | Literal
+    | PropertyCall
+    | "(" Expression ")"
+    | IfExpression
 ;
 UnaryOperator:
     "-" | "not"

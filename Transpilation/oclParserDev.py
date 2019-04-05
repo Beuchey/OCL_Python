@@ -57,6 +57,25 @@ def res(level, *args):
 def introduce(expression, expressionDescription, level):
     log(level, "FOUND : ", expressionDescription, " : \n", tabulate(level+1), filter(expression), "\n")
 
+
+
+
+
+
+
+
+
+
+
+# Parse tools
+
+metamodel = metamodel_from_file("oclGrammar.tx")
+
+
+
+
+
+
 def delegate(elements, identifier, level):
     log(level+1, "***", identifier, " : ")
     content = elements[identifier]
@@ -85,19 +104,6 @@ def extract(expression):
 
 
 
-
-
-
-
-# Parse tools
-
-metamodel = metamodel_from_file("oclGrammar.tx")
-
-def extractAtribute(e):
-    elements = vars(e)
-    for i in elements:
-        if elements[i] is not None:
-            return elements[i]
 
 @singledispatch
 def defaultExpressionParser(expression, level):
@@ -158,13 +164,6 @@ def postfixExpressionParser(expression, level):
     PostfixExpression:
         primaryExpression=PrimaryExpression
         ( ( "." | "->" ) propertyCall=PropertyCall )* <-------------------------------------------------------------------
-    ;
-    PrimaryExpression:
-        LiteralCollection <-------------------------------------------------------------------
-        | Literal <-------------------------------------------------------------------
-        | PropertyCall
-        | "(" Expression ")" <------------------------------------------------------------------- !()!
-        | IfExpression
     ;
     """
 
@@ -251,15 +250,15 @@ def numberParser(expression, level):
 
 @defaultExpressionParser.register(str)
 def stringParser(expression, level):
-    return str(expression)
+    return "\"" + str(expression) + "\""
 
 @defaultExpressionParser.register(metamodel["EnumLiteral"])
 def enumLiteralParser(expression, level):
     introduce(expression, "EnumLiteral", level)
     names = vars(expression)["names"]
-    result = defaultExpressionParser(names[0], level+1) + "::" + defaultExpressionParser(names[1], level+1)
+    result = names[0] + "::" + names[1]
     for e in names[2:]:
-        result += ", " + defaultExpressionParser(e, level+1)
+        result += ", " + e
     return result
 
 

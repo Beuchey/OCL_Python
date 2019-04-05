@@ -10,7 +10,7 @@ with someValue as something :
 
 not name0 * multiple + sum = aValue[ aqualifier, anotherQualifier ] and (aBoolean or anotherOne)
 
-oclWrapper_Creator([1..two, three..enum::literal])
+oclWrapper_Creator([1..two, "three"..enum::literal])
 
 path::name
 

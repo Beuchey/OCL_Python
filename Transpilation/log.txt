@@ -165,7 +165,7 @@ FOUND : LetExpression :
 									{'names': ['nestedExpression']}
 
 FOUND : LogicalExpression : 
-	{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x3030d50>]}
+	{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x242de50>]}
 
 	***leftRelationalExpression : 
 	FOUND : RelationalExpression : 
@@ -173,11 +173,11 @@ FOUND : LogicalExpression :
 
 		***leftAdditiveExpression : 
 		FOUND : additiveExpression : 
-			{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': ['+'], 'rightMultiplicativeExpression': [<textx:oclGrammar.MultiplicativeExpression instance at 0x3028bf0>]}
+			{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': ['+'], 'rightMultiplicativeExpression': [<textx:oclGrammar.MultiplicativeExpression instance at 0x2439350>]}
 
 			***leftMultiplicativeExpression : 
 			FOUND : multiplicativeExpression : 
-				{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': ['*'], 'rightUnaryExpression': [<textx:oclGrammar.UnaryExpression instance at 0x30306d0>]}
+				{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': ['*'], 'rightUnaryExpression': [<textx:oclGrammar.UnaryExpression instance at 0x242dbf0>]}
 
 				***leftUnaryExpression : 
 				FOUND : UnaryExpression : 
@@ -185,7 +185,7 @@ FOUND : LogicalExpression :
 
 					***postfixExpression : 
 					FOUND : PostfixExpression : 
-						{'primaryExpression': 'PropertyCall', 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x3030850>]}
+						{'primaryExpression': 'PropertyCall', 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x242de90>]}
 
 						***primaryExpression : 
 						FOUND : PropertyCall : 
@@ -249,7 +249,7 @@ FOUND : LogicalExpression :
 
 						***primaryExpression : 
 						FOUND : PropertyCall : 
-							{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
+							{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'Qualifiers', 'propertyCallParameters': 'NoneType'}
 
 							***pathName : 
 							FOUND : PathName : 

@@ -8,6 +8,6 @@ multiple
 +
 sum
 =
-aValue
+aValue[aqualifier, anotherQualifier]
 and
 aBoolean

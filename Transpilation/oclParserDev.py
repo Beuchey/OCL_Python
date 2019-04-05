@@ -55,8 +55,12 @@ result = open("result.txt","w+")
 def res(level, *args):
     writeTo(logger, *args)
 
+def introduce(expression, expressionDescription, level):
+    log(level, expressionDescription, " : \n", tabulate(level+1), filter(expression), "\n")
 
-
+def delegate(expression, message, level):
+    log(level+1, "***", message, " : ")
+    defaultExpressionParser(expression, level+1)
 
 
 
@@ -74,22 +78,23 @@ def extractAtribute(e):
 
 @singledispatch
 def defaultExpressionParser(expression, level):
-    log(level, "Default : \n", tabulate(level+1), filter(expression))
+    introduce(expression, "DefaultExpression", level)
 
 @defaultExpressionParser.register(metamodel["IfExpression"])
 def ifExpressionParser(expression, level):
-    log(level, "IfExpression : \n", tabulate(level+1), filter(expression), "\n")
+    introduce(expression, "IfExpression", level)
     elements = vars(expression)
-    log(level+1, "*** conditionExpression : ")
-    defaultExpressionParser(elements["conditionExpression"], level+1)
-    log(level+1, "*** thenExpression : ")
-    defaultExpressionParser(elements["thenExpression"], level+1)
-    log(level+1, "*** elseExpression : ")
-    defaultExpressionParser(elements["elseExpression"], level+1)
+    delegate(elements["conditionExpression"], "conditionExpression", level)
+    delegate(elements["thenExpression"], "thenExpression", level)
+    delegate(elements["elseExpression"], "elseExpression", level)
 
 @defaultExpressionParser.register(metamodel["LogicalExpression"])
 def logicalExpressionParser(expression, level):
-    log(level, "LogicalExpression : \n", tabulate(level+1), filter(expression), "\n")
+    introduce(expression, "LogicalExpression", level)
+
+@defaultExpressionParser.register(metamodel["LetExpression"])
+def letExpressionParser(expression, level):
+    introduce(expression, "LetExpression", level)
 
 
 

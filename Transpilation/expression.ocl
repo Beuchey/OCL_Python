@@ -1,1 +1,13 @@
 if condition then something else somethingElse endif
+
+let something (one : onType, two : twoType) : someType = someValue in nestedExpression
+
+not name0.base::leaf @ pre [qualifier1, qualifier2] (name0, name1 : typeBase::typeLeaf ; extraName : extraTypeBase::extraTypeLeaf = something | aParameter, anotherParameter)
+*
+multiple
++
+sum
+=
+aValue
+and
+aBoolean

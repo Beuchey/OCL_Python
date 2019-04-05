@@ -1,178 +1,12 @@
-from textx import metamodel_from_str
+from sys import __stdout__
+
+from functools import singledispatch
+
+from textx import metamodel_from_file
 from textx.model import get_metamodel
 
-# DEFINE THE METAMODEL (GRAMMAR) AND THE MODEL TO HANDLE WITH THIS METAMODEL
 
-# In this metamodel the "$$$$$$$" markers signal where the grammar has been simplified and needs to be completed
-metamodel = metamodel_from_str("""
-File:
-    (expression=Expression)*
-;
-Expression:
-    logicalExpression=LogicalExpression
-;
-LetExpression:
-    "let" name=Name
-    ( "(" formalParameterList=FormalParameterList ")" )?
-    ( ":" typeSpecifier=TypeSpecifier )?
-    "=" expression=Expression ";"
-;
-IfExpression:
-    "if" ifExpression=Expression
-    "then" thenExpression=Expression
-    "else" elseExpression=Expression
-    "endif"
-;
-LogicalExpression:
-    relationalExpression=RelationalExpression
-    ( logicalOperator=LogicalOperator
-    subRelationalExpression=RelationalExpression
-    )*
-;
-RelationalExpression:
-    additiveExpression=AdditiveExpression
-    ( relationalOperator=RelationalOperator
-    subAdditiveExpression=AdditiveExpression
-    )?
-;
-AdditiveExpression:
-    multiplicativeExpression=MultiplicativeExpression
-    ( aAddOperator=AddOperator
-    subMultiplicativeExpression=MultiplicativeExpression
-    )*
-;
-MultiplicativeExpression:
-    unaryExpression=UnaryExpression
-    ( multiplyOperator=MultiplyOperator
-    subUnaryExpression=UnaryExpression
-    )*
-;
-UnaryExpression:
-    ( unaryOperator=UnaryOperator
-     postfixExpression=PostfixExpression
-     )
-     | simplePostfixExpression=PostfixExpression
-;
-PostfixExpression:
-    primaryExpression=PrimaryExpression
-    ( ( "." | "->" ) propertyCall=PropertyCall )*
-;
-PrimaryExpression:
-    literalCollection=LiteralCollection
-    | literal=Literal
-    | propertyCall=PropertyCall
-    | "(" expression=Expression ")"
-    | ifExpression=IfExpression
-;
-UnaryOperator:
-    "-" | "not"
-;
-LiteralCollection:
-    collectionKind=CollectionKind "{"
-    ( collectionItem=CollectionItem
-        ("," subCollectionItem=CollectionItem )*
-    )?
-    "}"
-;
-CollectionKind:
-    "Set" | "Bag" | "Sequence" | "Collection"
-;
-CollectionItem:
-    expression=Expression (".." subExpression=Expression )?
-;
-PropertyCall:
-    pathName=PathName
-    ( timeExpression=TimeExpression )?
-    ( qualifiers=Qualifiers )?
-    ( propertyCallParameters=PropertyCallParameters )?
-;
-Qualifiers:
-    "[" actualParameterList=ActualParameterList "]"
-;
-PathName:
-    name=Name ( "::" subName=Name )*
-;
-TimeExpression:
-    "@" "pre"
-;
-ActualParameterList:
-    expression=Expression ( "," subExpression=Expression )*
-;
-Literal:
-    string=String
-    | number=Number
-    | enumLiteral=EnumLiteral
-;
-EnumLiteral:
-    aName=Name "::" bName=Name ( "::" cName=Name )*
-;
-Name:
-    body=/[a-z, A-Z, _]([a-z, A-Z, 0-9, _])*/
-;
-Number:
-    body=NUMBER
-;
-String:
-    body=STRING
-;
-PropertyCallParameters:
-    "(" ( declarator=Declarator )?
-    ( actualParameterList=ActualParameterList )? ")"
-;
-Declarator:
-    name=Name ( "," subName=Name )*
-    ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )?
-    ( ";" sName=Name ":" typeSpecifier=TypeSpecifier "="
-        expression=Expression
-    )?
-    "|"
-;
-SimpleTypeSpecifier:
-    pathName=PathName
-;
-TypeSpecifier:
-    simpleTypeSpecifier=SimpleTypeSpecifier
-    | collectionType=CollectionType
-;
-CollectionType:
-    collectionKind=CollectionKind
-    "(" simpleTypeSpecifier=SimpleTypeSpecifier ")"
-;
-LogicalOperator:
-    "and" | "or" | "xor" | "implies"
-;
-CollectionKind:
-    "Set" | "Bag" | "Sequence" | "Collection"
-;
-RelationalOperator:
-    "=" | ">" | "<" | ">=" | "<=" | "<>"
-;
-AddOperator:
-    "+" |  "-"
-;
-MultiplyOperator:
-    "*" | "/"
-;
-UnaryOperator:
-    "-" | "not"
-;
-FormalParameterList:
-    ( name=Name ":" typeSpecifier=TypeSpecifier
-    ("," subName=Name ":" subTypeSpecifier=TypeSpecifier )*
-    )?
-;
-""")
 
-model = metamodel.model_from_str("""
-if 'Hello'
-then 'Bambi'
-else 'Goodbye'
-endif
-
-if 'Guten tag'
-then 'Panpan'
-endif
-""")
 
 
 
@@ -182,17 +16,82 @@ endif
 
 # Output tools
 
-logger = open("log.txt","w+")
-def log(*args):
+def filter(expression):
+    elements = vars(expression)
+    result = {}
+    for e in elements:
+        if e is not None and e[0]!='_' and e!='parent':
+            content = elements[e]
+            if(type(content)==list):
+                result[e] = content
+            else:
+                result[e] = content.__class__.__name__
+    return result
+
+def tabulate(level):
+    res = ""
+    for i in range(level):
+        res += "\t"
+    return res
+
+def writeTo(to, level, *args):
     for e in args:
-        logger.write(e)
-    logger.write("\n")
+        to.write(tabulate(level))
+        to.write(str(e))
+    to.write("\n")
+
+logger = open("log.txt","w+")
+
+VERBOSE = True
+
+def log(level, *args):
+    writeTo(logger, level, *args)
+    if(VERBOSE):
+        writeTo(__stdout__, level, *args)
+
 
 result = open("result.txt","w+")
-def res(*args):
-    for e in args:
-        result.write(e)
-    result.write("\n")
+
+def res(level, *args):
+    writeTo(logger, *args)
+
+
+
+
+
+
+
+
+# Parse tools
+
+metamodel = metamodel_from_file("oclGrammar.tx")
+
+def extractAtribute(e):
+    elements = vars(e)
+    for i in elements:
+        if elements[i] is not None:
+            return elements[i]
+
+@singledispatch
+def defaultExpressionParser(expression, level):
+    log(level, "Default : \n", tabulate(level+1), filter(expression))
+
+@defaultExpressionParser.register(metamodel["IfExpression"])
+def ifExpressionParser(expression, level):
+    log(level, "IfExpression : \n", tabulate(level+1), filter(expression), "\n")
+    elements = vars(expression)
+    log(level+1, "*** conditionExpression : ")
+    defaultExpressionParser(elements["conditionExpression"], level+1)
+    log(level+1, "*** thenExpression : ")
+    defaultExpressionParser(elements["thenExpression"], level+1)
+    log(level+1, "*** elseExpression : ")
+    defaultExpressionParser(elements["elseExpression"], level+1)
+
+@defaultExpressionParser.register(metamodel["LogicalExpression"])
+def logicalExpressionParser(expression, level):
+    log(level, "LogicalExpression : \n", tabulate(level+1), filter(expression), "\n")
+
+
 
 
 
@@ -201,61 +100,17 @@ def res(*args):
 
 # WHERE THE MAGIC HAPPENS
 
+model = metamodel.model_from_file("expression.ocl")
+
+for expression in model.expressions:
+    defaultExpressionParser(expression, 0)
 
 
-case = ""
 
-# IF tools
-ifStatement = ""
-thenStatement = ""
-elseStatement = ""
 
-for exp in model.expression:
-    logicalExp = exp.logicalExpression
-    relationalExp = logicalExp.relationalExpression
-    additiveExp = relationalExp.additiveExpression
-    multiplicativeExp = additiveExp.multiplicativeExpression
-    unaryExp = multiplicativeExp.unaryExpression
-    simplePostfixExp = unaryExp.simplePostfixExpression
-    primaryExp = simplePostfixExp.primaryExpression
-    if primaryExp.literalCollection is not None:
-        subcase = primaryExp.literalCollection
-    elif primaryExp.literal is not None:
-        subcase = primaryExp.literal
-    elif primaryExp.propertyCall is not None:
-        subcase = primaryExp.propertyCall
-    elif primaryExp.expression is not None:
-        subcase = primaryExp.expression
-    elif primaryExp.ifExpression is not None:
-        subcase = primaryExp.ifExpression
-    log(subcase.__class__.__name__)
-    if subcase.__class__.__name__ == "PropertyCall":
-        subcase = subcase.pathName
-    elif subcase.__class__.__name__ == "Literal":
-        subcase = subcase.string
-    elif subcase.__class__.__name__ == "Literal":
-        subcase = subcase.string
-    log("\t", subcase.__class__.__name__)
-    if subcase.__class__.__name__ == "PathName":
-        log("\t\tSETUP CASE : ", subcase.name.body)
-        case = subcase.name.body.strip()
-        if case == "endif":
-            res("if ", ifStatement, ":\n\t", thenStatement)
-            if(elseStatement!=""):
-                res("else:\n\t", elseStatement)
-            res("\n")
-            ifStatement = ""
-            thenStatement = ""
-            elseStatement = ""
-    elif subcase.__class__.__name__ == "String":
-        log("\t\tRECORDING : ", subcase.body)
-        log("\t\tinside : ", case)
-        if case == "if":
-            ifStatement = subcase.body
-        elif case == "then":
-            thenStatement = subcase.body
-        elif case == "else":
-            elseStatement = subcase.body
+
+
+
 
 
 logger.close()

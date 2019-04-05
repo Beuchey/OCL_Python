@@ -2,20 +2,20 @@ File:
     (expressions=Expression)*
 ;
 Expression:
-      ifExpression=IfExpression
-    | letExpression=LetExpression
-    | logicalExpression=LogicalExpression
+      IfExpression
+    | LetExpression
+    | LogicalExpression
 ;
 LetExpression:
     "let" identifier=Name
-    ( "(" extra_identifier=FormalParameterList ")" )?
+    ( "(" extra_identifiers=FormalParameterList ")" )?
     ( ":" type=TypeSpecifier )?
     "=" init_expression=Expression "in" expression=Expression
 ;
 IfExpression:
-    "if" condition=Expression
-    "then" thenBody=Expression
-    "else" elseBody=Expression
+    "if" conditionExpression=Expression
+    "then" thenExpression=Expression
+    "else" elseExpression=Expression
     "endif"
 ;
 LogicalExpression:
@@ -114,7 +114,7 @@ PropertyCallParameters:
 Declarator:
     names=Name ( "," names=Name )*
     ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )?
-    ( ";" extraNames=Name ":" extraTypeSpecifier=TypeSpecifier "="
+    ( ";" extraName=Name ":" extraTypeSpecifier=TypeSpecifier "="
         expression=Expression
     )?
     "|"

@@ -1,41 +1,20 @@
-PropertyCall
-	PathName
-		SETUP CASE : if 
-Literal
-	String
-		RECORDING : Hello
-		inside : if
-PropertyCall
-	PathName
-		SETUP CASE : then 
-Literal
-	String
-		RECORDING : Bambi
-		inside : then
-PropertyCall
-	PathName
-		SETUP CASE : else 
-Literal
-	String
-		RECORDING : Goodbye
-		inside : else
-PropertyCall
-	PathName
-		SETUP CASE : endif
-PropertyCall
-	PathName
-		SETUP CASE : if 
-Literal
-	String
-		RECORDING : Guten tag
-		inside : if
-PropertyCall
-	PathName
-		SETUP CASE : then 
-Literal
-	String
-		RECORDING : Panpan
-		inside : then
-PropertyCall
-	PathName
-		SETUP CASE : endif
+IfExpression : 
+	{'conditionExpression': 'LogicalExpression', 'thenExpression': 'LogicalExpression', 'elseExpression': 'LogicalExpression'}
+
+	*** conditionExpression : 
+	LogicalExpression : 
+				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}	
+
+	*** thenExpression : 
+	LogicalExpression : 
+				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}	
+
+	*** elseExpression : 
+	LogicalExpression : 
+				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}	
+
+Default : 
+	{'identifier': 'str', 'extra_identifiers': 'FormalParameterList', 'type': 'TypeSpecifier', 'init_expression': 'LogicalExpression', 'expression': 'LogicalExpression'}
+LogicalExpression : 
+	{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x2205c10>]}
+

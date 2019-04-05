@@ -141,7 +141,12 @@ def unaryExpressionParser(expression, level):
 @defaultExpressionParser.register(metamodel["PropertyCall"])
 def propertyCallParser(expression, level):
     introduce(expression, "PropertyCall", level)
-    return delegate(vars(expression), "pathName", level)
+    elements = vars(expression)
+    qualifiers = elements["qualifiers"]
+    #if(qualifiers is None):
+    return delegate(elements, "pathName", level)
+    #else:
+
 
 @defaultExpressionParser.register(metamodel["PathName"])
 def pathNameParser(expression, level):

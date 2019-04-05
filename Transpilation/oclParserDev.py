@@ -157,7 +157,7 @@ def unaryExpressionParser(expression, level):
         return elements["unaryOperator"] + " " + delegate(elements, "postfixExpression", level)
 
 @defaultExpressionParser.register(metamodel["PostfixExpression"])
-def unaryExpressionParser(expression, level):
+def postfixExpressionParser(expression, level):
     introduce(expression, "PostfixExpression", level)
     return delegate(vars(expression), "primaryExpression", level)
 

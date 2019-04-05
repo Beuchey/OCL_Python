@@ -165,7 +165,7 @@ FOUND : LetExpression :
 									{'names': ['nestedExpression']}
 
 FOUND : LogicalExpression : 
-	{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x2c476d0>]}
+	{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x2467350>]}
 
 	***leftRelationalExpression : 
 	FOUND : RelationalExpression : 
@@ -173,11 +173,11 @@ FOUND : LogicalExpression :
 
 		***leftAdditiveExpression : 
 		FOUND : additiveExpression : 
-			{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': ['+'], 'rightMultiplicativeExpression': [<textx:oclGrammar.MultiplicativeExpression instance at 0x2c61e10>]}
+			{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': ['+'], 'rightMultiplicativeExpression': [<textx:oclGrammar.MultiplicativeExpression instance at 0x24519d0>]}
 
 			***leftMultiplicativeExpression : 
 			FOUND : multiplicativeExpression : 
-				{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': ['*'], 'rightUnaryExpression': [<textx:oclGrammar.UnaryExpression instance at 0x2c61b30>]}
+				{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': ['*'], 'rightUnaryExpression': [<textx:oclGrammar.UnaryExpression instance at 0x2467370>]}
 
 				***leftUnaryExpression : 
 				FOUND : UnaryExpression : 
@@ -185,7 +185,7 @@ FOUND : LogicalExpression :
 
 					***postfixExpression : 
 					FOUND : PostfixExpression : 
-						{'primaryExpression': 'PropertyCall', 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x2c61c70>]}
+						{'primaryExpression': 'PropertyCall', 'propertyCall': [<textx:oclGrammar.PropertyCall instance at 0x24679d0>]}
 
 						***primaryExpression : 
 						FOUND : PropertyCall : 
@@ -261,7 +261,7 @@ FOUND : LogicalExpression :
 
 								***actualParameterList : 
 								FOUND : ActualParameterList : 
-									{'expressions': [<textx:oclGrammar.LogicalExpression instance at 0x2c70430>, <textx:oclGrammar.LogicalExpression instance at 0x2c70470>]}
+									{'expressions': [<textx:oclGrammar.LogicalExpression instance at 0x24904d0>, <textx:oclGrammar.LogicalExpression instance at 0x2490510>]}
 
 									FOUND : LogicalExpression : 
 										{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}

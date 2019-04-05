@@ -2,14 +2,9 @@ File:
     (expressions=Expression)*
 ;
 Expression:
-      IfExpression
-    | LetExpression
-    | LogicalExpression
-    | RelationalExpression
-    | AdditiveExpression
-    | MultiplicativeExpression
-    | PostfixExpression
-    | UnaryExpression
+      ifExpression=IfExpression
+    | letExpression=LetExpression
+    | logicalExpression=LogicalExpression
 ;
 LetExpression:
     "let" identifier=Name
@@ -55,11 +50,11 @@ PostfixExpression:
     ( ( "." | "->" ) call=PropertyCall )*
 ;
 PrimaryExpression:
-    LiteralCollection
-    | Literal
-    | PropertyCall
-    | "(" Expression ")"
-    | IfExpression
+    literalCollection=LiteralCollection
+    | literal=Literal
+    | propertyCall=PropertyCall
+    | "(" epression=Expression ")"
+    | ifExpression=IfExpression
 ;
 UnaryOperator:
     "-" | "not"
@@ -84,7 +79,7 @@ PropertyCall:
     ( parameters=PropertyCallParameters )?
 ;
 Qualifiers:
-    "[" a=ActualParameterList "]"
+    "[" actualParameterList=ActualParameterList "]"
 ;
 PathName:
     path=Name ( "::" path=Name )*
@@ -96,9 +91,9 @@ ActualParameterList:
     params=Expression ( "," params=Expression )*
 ;
 Literal:
-    String
-    | Number
-    | EnumLiteral
+    string=String
+    | number=Number
+    | enumLiteral=EnumLiteral
 ;
 EnumLiteral:
     paths=Name "::" paths=Name ( "::" paths=Name )*
@@ -113,22 +108,22 @@ String:
     STRING
 ;
 PropertyCallParameters:
-    "(" ( a=Declarator )?
-    ( b=ActualParameterList )? ")"
+    "(" ( declarator=Declarator )?
+    ( actualParameterList=ActualParameterList )? ")"
 ;
 Declarator:
     id=Name ( "," extra_ids=Name )*
-    ( ":" c=SimpleTypeSpecifier )?
-    ( ";" d=Name ":" e=TypeSpecifier "="
-        f=Expression
+    ( ":" simpleTypeSpecifier=SimpleTypeSpecifier )?
+    ( ";" name=Name ":" typeSpecifier=TypeSpecifier "="
+        expression=Expression
     )?
     "|"
 ;
 SimpleTypeSpecifier:
-    PathName
+    pathName=PathName
 ;
 TypeSpecifier:
-    SimpleTypeSpecifier | CollectionType
+    simpleTypeSpecifier=SimpleTypeSpecifier | collectionType=CollectionType
 ;
 CollectionType:
     kind=CollectionKind
@@ -153,7 +148,7 @@ UnaryOperator:
     "-" | "not"
 ;
 FormalParameterList:
-    ( a=Name ":" b=TypeSpecifier
-    ("," c=Name ":" d=TypeSpecifier )*
+    ( names=Name ":" typeSpecifiers=TypeSpecifier
+    ("," names=Name ":" typeSpecifiers=TypeSpecifier )*
     )?
 ;

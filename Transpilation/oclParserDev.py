@@ -52,15 +52,15 @@ def log(level, *args):
 
 result = open("result.txt","w+")
 
-def res(*args):
+def res(level, *args):
     writeTo(result, 0, *args)
 
 def introduce(expression, expressionDescription, level):
     log(level, expressionDescription, " : \n", tabulate(level+1), filter(expression), "\n")
 
-def delegate(expression, message, level):
-    log(level+1, "***", message, " : ")
-    return defaultExpressionParser(expression, level+1)
+def delegate(elements, identifier, level):
+    log(level+1, "***", identifier, " : ")
+    return defaultExpressionParser(elements[identifier], level+1)
 
 
 
@@ -85,7 +85,7 @@ def defaultExpressionParser(expression, level):
 def ifExpressionParser(expression, level):
     introduce(expression, "IfExpression", level)
     elements = vars(expression)
-    return delegate(elements["thenExpression"], "thenExpression", level) + " if " + delegate(elements["conditionExpression"], "conditionExpression", level) + " else " + delegate(elements["elseExpression"], "elseExpression", level)
+    return delegate(elements, "thenExpression", level) + " if " + delegate(elements, "conditionExpression", level) + " else " + delegate(elements, "elseExpression", level)
 
 @defaultExpressionParser.register(metamodel["LogicalExpression"])
 def logicalExpressionParser(expression, level):
@@ -95,7 +95,8 @@ def logicalExpressionParser(expression, level):
 @defaultExpressionParser.register(metamodel["LetExpression"])
 def letExpressionParser(expression, level):
     introduce(expression, "LetExpression", level)
-    return "LetExpression"
+    elements = vars(expression)
+    return "with " + delegate(elements, "initExpression", level) + " as " + elements["identifier"] + " in "
 
 
 
@@ -109,7 +110,7 @@ def letExpressionParser(expression, level):
 model = metamodel.model_from_file("expression.ocl")
 
 for expression in model.expressions:
-    res(defaultExpressionParser(expression, 0), 0, "\n")
+    res(0, defaultExpressionParser(expression, 0), "\n")
 
 
 

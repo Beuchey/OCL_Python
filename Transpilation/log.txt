@@ -14,8 +14,12 @@ IfExpression :
 				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}	
 
 LetExpression : 
-	{'identifier': 'str', 'extra_identifiers': 'FormalParameterList', 'type': 'TypeSpecifier', 'init_expression': 'LogicalExpression', 'expression': 'LogicalExpression'}
+	{'identifier': 'str', 'extra_identifiers': 'FormalParameterList', 'type': 'TypeSpecifier', 'initExpression': 'LogicalExpression', 'subExpression': 'LogicalExpression'}
+
+	***	initExpression	 : 
+	LogicalExpression	 : 
+				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}	
 
 LogicalExpression : 
-	{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x22c7c70>]}
+	{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': ['and'], 'rightRelationalExpression': [<textx:oclGrammar.RelationalExpression instance at 0x25371f0>]}
 

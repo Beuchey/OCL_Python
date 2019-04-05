@@ -10,7 +10,7 @@ LetExpression:
     "let" identifier=Name
     ( "(" extra_identifiers=FormalParameterList ")" )?
     ( ":" type=TypeSpecifier )?
-    "=" init_expression=Expression "in" expression=Expression
+    "=" initExpression=Expression "in" subExpression=Expression
 ;
 IfExpression:
     "if" conditionExpression=Expression

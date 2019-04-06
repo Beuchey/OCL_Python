@@ -248,6 +248,10 @@ def literalParser(expression, level):
 def numberParser(expression, level):
     return str(expression)
 
+@defaultExpressionParser.register(float)
+def numberParser(expression, level):
+    return str(expression)
+
 @defaultExpressionParser.register(str)
 def stringParser(expression, level):
     return str(expression)
@@ -268,7 +272,8 @@ def propertyCallParametersParser(expression, level):
     result = "("
     if(elements["declarator"] is not None):
         result += delegate(elements, "declarator", level)
-    result += str(filter(expression))
+    if(elements["actualParameterList"] is not None):
+        result += delegate(elements, "actualParameterList", level)
     result += ")"
     return result
 

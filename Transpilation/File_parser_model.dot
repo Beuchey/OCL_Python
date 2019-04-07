@@ -1,0 +1,708 @@
+digraph arpeggio_graph {
+38802032 [label="Model=Sequence"];
+38802032->38601104 [label="1"]
+
+38601104 [label="File=ZeroOrMore"];
+38601104->38593488 [label="1"]
+
+38593488 [label="__asgn_plain=Sequence"];
+38593488->38600912 [label="1"]
+
+38600912 [label="Expression=OrderedChoice"];
+38600912->38593328 [label="1"]
+
+38593328 [label="__asgn_plain=Sequence"];
+38593328->38596080 [label="1"]
+
+38596080 [label="IfExpression=Sequence"];
+38596080->38595760 [label="1"]
+
+38595760 [label="StrMatch(if)"];
+38596080->38595792 [label="2"]
+
+38595792 [label="__asgn_plain=Sequence"];
+38595792->38600912 [label="1"]
+
+38596080->38595952 [label="3"]
+
+38595952 [label="StrMatch(then)"];
+38596080->38595824 [label="4"]
+
+38595824 [label="__asgn_plain=Sequence"];
+38595824->38600912 [label="1"]
+
+38596080->38596112 [label="5"]
+
+38596112 [label="StrMatch(else)"];
+38596080->38596208 [label="6"]
+
+38596208 [label="__asgn_plain=Sequence"];
+38596208->38600912 [label="1"]
+
+38596080->38596336 [label="7"]
+
+38596336 [label="StrMatch(endif)"];
+38600912->38593872 [label="2"]
+
+38593872 [label="__asgn_plain=Sequence"];
+38593872->38595056 [label="1"]
+
+38595056 [label="LetExpression=Sequence"];
+38595056->38594384 [label="1"]
+
+38594384 [label="StrMatch(let)"];
+38595056->38594416 [label="2"]
+
+38594416 [label="__asgn_plain=Sequence"];
+38594416->38709584 [label="1"]
+
+38709584 [label="Name=RegExMatch([a-zA-Z_]([a-zA-Z0-9_])*)"];
+38595056->38594288 [label="3"]
+
+38594288 [label="Optional"];
+38594288->38594608 [label="1"]
+
+38594608 [label="Sequence"];
+38594608->38594736 [label="1"]
+
+38594736 [label="StrMatch(()"];
+38594608->38594576 [label="2"]
+
+38594576 [label="__asgn_plain=Sequence"];
+38594576->38756144 [label="1"]
+
+38756144 [label="FormalParameterList=Optional"];
+38756144->38756272 [label="1"]
+
+38756272 [label="Sequence"];
+38756272->38801488 [label="1"]
+
+38801488 [label="__asgn_plain=Sequence"];
+38801488->38709584 [label="1"]
+
+38756272->38801648 [label="2"]
+
+38801648 [label="StrMatch(:)"];
+38756272->38801520 [label="3"]
+
+38801520 [label="__asgn_plain=Sequence"];
+38801520->38594032 [label="1"]
+
+38594032 [label="TypeSpecifier=OrderedChoice"];
+38594032->38754288 [label="1"]
+
+38754288 [label="__asgn_plain=Sequence"];
+38754288->38710384 [label="1"]
+
+38710384 [label="CollectionType=Sequence"];
+38710384->38711152 [label="1"]
+
+38711152 [label="__asgn_plain=Sequence"];
+38711152->38709008 [label="1"]
+
+38709008 [label="CollectionKind=OrderedChoice"];
+38709008->38708304 [label="1"]
+
+38708304 [label="StrMatch(Set)"];
+38709008->38633040 [label="2"]
+
+38633040 [label="StrMatch(Bag)"];
+38709008->38708048 [label="3"]
+
+38708048 [label="StrMatch(Sequence)"];
+38709008->38707632 [label="4"]
+
+38707632 [label="StrMatch(Collection)"];
+38710384->38710256 [label="2"]
+
+38710256 [label="StrMatch(()"];
+38710384->38710960 [label="3"]
+
+38710960 [label="__asgn_plain=Sequence"];
+38710960->38754192 [label="1"]
+
+38754192 [label="SimpleTypeSpecifier=Sequence"];
+38754192->38753744 [label="1"]
+
+38753744 [label="__asgn_plain=Sequence"];
+38753744->38662128 [label="1"]
+
+38662128 [label="PathName=Sequence"];
+38662128->38661360 [label="1"]
+
+38661360 [label="__asgn_plain=Sequence"];
+38661360->38709584 [label="1"]
+
+38662128->38662000 [label="2"]
+
+38662000 [label="ZeroOrMore"];
+38662000->38660720 [label="1"]
+
+38660720 [label="Sequence"];
+38660720->38660656 [label="1"]
+
+38660656 [label="StrMatch(::)"];
+38660720->38660560 [label="2"]
+
+38660560 [label="__asgn_plain=Sequence"];
+38660560->38709584 [label="1"]
+
+38710384->38710000 [label="4"]
+
+38710000 [label="StrMatch())"];
+38594032->38754736 [label="2"]
+
+38754736 [label="__asgn_plain=Sequence"];
+38754736->38754192 [label="1"]
+
+38756272->38756304 [label="4"]
+
+38756304 [label="ZeroOrMore"];
+38756304->38801840 [label="1"]
+
+38801840 [label="Sequence"];
+38801840->38801968 [label="1"]
+
+38801968 [label="StrMatch(,)"];
+38801840->38801936 [label="2"]
+
+38801936 [label="__asgn_plain=Sequence"];
+38801936->38709584 [label="1"]
+
+38801840->38802000 [label="3"]
+
+38802000 [label="StrMatch(:)"];
+38801840->38801808 [label="4"]
+
+38801808 [label="__asgn_plain=Sequence"];
+38801808->38594032 [label="1"]
+
+38594608->38594896 [label="3"]
+
+38594896 [label="StrMatch())"];
+38595056->38594320 [label="4"]
+
+38594320 [label="Optional"];
+38594320->38594672 [label="1"]
+
+38594672 [label="Sequence"];
+38594672->38594992 [label="1"]
+
+38594992 [label="StrMatch(:)"];
+38594672->38594640 [label="2"]
+
+38594640 [label="__asgn_plain=Sequence"];
+38594640->38594032 [label="1"]
+
+38595056->38594864 [label="5"]
+
+38594864 [label="StrMatch(=)"];
+38595056->38595152 [label="6"]
+
+38595152 [label="__asgn_plain=Sequence"];
+38595152->38600912 [label="1"]
+
+38595056->38595280 [label="7"]
+
+38595280 [label="StrMatch(in)"];
+38595056->38595184 [label="8"]
+
+38595184 [label="__asgn_plain=Sequence"];
+38595184->38600912 [label="1"]
+
+38600912->38594000 [label="3"]
+
+38594000 [label="__asgn_plain=Sequence"];
+38594000->38596592 [label="1"]
+
+38596592 [label="LogicalExpression=Sequence"];
+38596592->38629520 [label="1"]
+
+38629520 [label="__asgn_plain=Sequence"];
+38629520->38630320 [label="1"]
+
+38630320 [label="RelationalExpression=Sequence"];
+38630320->38630160 [label="1"]
+
+38630160 [label="__asgn_plain=Sequence"];
+38630160->38631184 [label="1"]
+
+38631184 [label="AdditiveExpression=Sequence"];
+38631184->38631024 [label="1"]
+
+38631024 [label="__asgn_plain=Sequence"];
+38631024->38595440 [label="1"]
+
+38595440 [label="MultiplicativeExpression=Sequence"];
+38595440->38559568 [label="1"]
+
+38559568 [label="__asgn_plain=Sequence"];
+38559568->38631568 [label="1"]
+
+38631568 [label="UnaryExpression=Sequence"];
+38631568->38593456 [label="1"]
+
+38593456 [label="Optional"];
+38593456->38631888 [label="1"]
+
+38631888 [label="__asgn_plain=Sequence"];
+38631888->38755376 [label="1"]
+
+38755376 [label="UnaryOperator=OrderedChoice"];
+38755376->38755792 [label="1"]
+
+38755792 [label="StrMatch(-)"];
+38755376->38755504 [label="2"]
+
+38755504 [label="StrMatch(not)"];
+38631568->38630704 [label="2"]
+
+38630704 [label="__asgn_plain=Sequence"];
+38630704->38629648 [label="1"]
+
+38629648 [label="PostfixExpression=Sequence"];
+38629648->38630928 [label="1"]
+
+38630928 [label="__asgn_plain=Sequence"];
+38630928->38633008 [label="1"]
+
+38633008 [label="PrimaryExpression=OrderedChoice"];
+38633008->38633296 [label="1"]
+
+38633296 [label="Sequence"];
+38633296->38633424 [label="1"]
+
+38633424 [label="StrMatch(()"];
+38633296->38633456 [label="2"]
+
+38633456 [label="__asgn_plain=Sequence"];
+38633456->38600912 [label="1"]
+
+38633296->38658224 [label="3"]
+
+38658224 [label="StrMatch())"];
+38633008->38658096 [label="2"]
+
+38658096 [label="__asgn_plain=Sequence"];
+38658096->38659504 [label="1"]
+
+38659504 [label="LiteralCollection=Sequence"];
+38659504->38659344 [label="1"]
+
+38659344 [label="__asgn_plain=Sequence"];
+38659344->38709008 [label="1"]
+
+38659504->38659792 [label="2"]
+
+38659792 [label="StrMatch({)"];
+38659504->38659536 [label="3"]
+
+38659536 [label="Optional"];
+38659536->38659856 [label="1"]
+
+38659856 [label="Sequence"];
+38659856->38659984 [label="1"]
+
+38659984 [label="__asgn_plain=Sequence"];
+38659984->38660976 [label="1"]
+
+38660976 [label="CollectionItem=Sequence"];
+38660976->38660816 [label="1"]
+
+38660816 [label="__asgn_plain=Sequence"];
+38660816->38600912 [label="1"]
+
+38660976->38661008 [label="2"]
+
+38661008 [label="Optional"];
+38661008->38661296 [label="1"]
+
+38661296 [label="Sequence"];
+38661296->38661424 [label="1"]
+
+38661424 [label="StrMatch(..)"];
+38661296->38661264 [label="2"]
+
+38661264 [label="__asgn_plain=Sequence"];
+38661264->38600912 [label="1"]
+
+38659856->38659888 [label="2"]
+
+38659888 [label="ZeroOrMore"];
+38659888->38660144 [label="1"]
+
+38660144 [label="Sequence"];
+38660144->38660272 [label="1"]
+
+38660272 [label="StrMatch(,)"];
+38660144->38660240 [label="2"]
+
+38660240 [label="__asgn_plain=Sequence"];
+38660240->38660976 [label="1"]
+
+38659504->38659920 [label="4"]
+
+38659920 [label="StrMatch(})"];
+38633008->38658384 [label="3"]
+
+38658384 [label="__asgn_plain=Sequence"];
+38658384->38660688 [label="1"]
+
+38660688 [label="Literal=OrderedChoice"];
+38660688->38596368 [label="1"]
+
+38596368 [label="__asgn_plain=Sequence"];
+38596368->16033776 [label="1"]
+
+16033776 [label="STRING=RegExMatch((\"(\\\\\"|[^\"])*\")|(\\'(\\\\\\'|[^\\'])*\\'))"];
+38660688->38630384 [label="2"]
+
+38630384 [label="__asgn_plain=Sequence"];
+38630384->16033968 [label="1"]
+
+16033968 [label="NUMBER=OrderedChoice"];
+16033968->16033936 [label="1"]
+
+16033936 [label="FLOAT=RegExMatch([+-]?(\\d+(\\.\\d*)?|\\.\\d+)([eE][+-]?\\d+)?(?<=[\\w\\.])(?![\\w\\.]))"];
+16033968->15997904 [label="2"]
+
+15997904 [label="INT=RegExMatch([-+]?[0-9]+\\b)"];
+38660688->38708208 [label="3"]
+
+38708208 [label="__asgn_plain=Sequence"];
+38708208->38708656 [label="1"]
+
+38708656 [label="EnumLiteral=Sequence"];
+38708656->38708496 [label="1"]
+
+38708496 [label="__asgn_plain=Sequence"];
+38708496->38709584 [label="1"]
+
+38708656->38708944 [label="2"]
+
+38708944 [label="StrMatch(::)"];
+38708656->38708912 [label="3"]
+
+38708912 [label="__asgn_plain=Sequence"];
+38708912->38709584 [label="1"]
+
+38708656->38708688 [label="4"]
+
+38708688 [label="ZeroOrMore"];
+38708688->38709072 [label="1"]
+
+38709072 [label="Sequence"];
+38709072->38709200 [label="1"]
+
+38709200 [label="StrMatch(::)"];
+38709072->38709168 [label="2"]
+
+38709168 [label="__asgn_plain=Sequence"];
+38709168->38709584 [label="1"]
+
+38633008->38658544 [label="4"]
+
+38658544 [label="__asgn_plain=Sequence"];
+38658544->38661744 [label="1"]
+
+38661744 [label="PropertyCall=Sequence"];
+38661744->38661584 [label="1"]
+
+38661584 [label="__asgn_plain=Sequence"];
+38661584->38662128 [label="1"]
+
+38661744->38661776 [label="2"]
+
+38661776 [label="Optional"];
+38661776->38707248 [label="1"]
+
+38707248 [label="__asgn_plain=Sequence"];
+38707248->38660080 [label="1"]
+
+38660080 [label="TimeExpression=Sequence"];
+38660080->38659088 [label="1"]
+
+38659088 [label="StrMatch(@)"];
+38660080->38659824 [label="2"]
+
+38659824 [label="StrMatch(pre)"];
+38661744->38661808 [label="3"]
+
+38661808 [label="Optional"];
+38661808->38707408 [label="1"]
+
+38707408 [label="__asgn_plain=Sequence"];
+38707408->38707856 [label="1"]
+
+38707856 [label="Qualifiers=Sequence"];
+38707856->38707984 [label="1"]
+
+38707984 [label="StrMatch([)"];
+38707856->38708016 [label="2"]
+
+38708016 [label="__asgn_plain=Sequence"];
+38708016->38658192 [label="1"]
+
+38658192 [label="ActualParameterList=Sequence"];
+38658192->38632368 [label="1"]
+
+38632368 [label="__asgn_plain=Sequence"];
+38632368->38600912 [label="1"]
+
+38658192->38658768 [label="2"]
+
+38658768 [label="ZeroOrMore"];
+38658768->38630064 [label="1"]
+
+38630064 [label="Sequence"];
+38630064->38632592 [label="1"]
+
+38632592 [label="StrMatch(,)"];
+38630064->38632144 [label="2"]
+
+38632144 [label="__asgn_plain=Sequence"];
+38632144->38600912 [label="1"]
+
+38707856->38708176 [label="3"]
+
+38708176 [label="StrMatch(])"];
+38661744->38661904 [label="4"]
+
+38661904 [label="Optional"];
+38661904->38707600 [label="1"]
+
+38707600 [label="__asgn_plain=Sequence"];
+38707600->38710608 [label="1"]
+
+38710608 [label="PropertyCallParameters=Sequence"];
+38710608->38710736 [label="1"]
+
+38710736 [label="StrMatch(()"];
+38710608->38710640 [label="2"]
+
+38710640 [label="Optional"];
+38710640->38710448 [label="1"]
+
+38710448 [label="__asgn_plain=Sequence"];
+38710448->38752400 [label="1"]
+
+38752400 [label="Declarator=Sequence"];
+38752400->38752528 [label="1"]
+
+38752528 [label="__asgn_plain=Sequence"];
+38752528->38709584 [label="1"]
+
+38752400->38752432 [label="2"]
+
+38752432 [label="ZeroOrMore"];
+38752432->38752720 [label="1"]
+
+38752720 [label="Sequence"];
+38752720->38752848 [label="1"]
+
+38752848 [label="StrMatch(,)"];
+38752720->38752816 [label="2"]
+
+38752816 [label="__asgn_plain=Sequence"];
+38752816->38709584 [label="1"]
+
+38752400->38752464 [label="3"]
+
+38752464 [label="Optional"];
+38752464->38752784 [label="1"]
+
+38752784 [label="Sequence"];
+38752784->38753008 [label="1"]
+
+38753008 [label="StrMatch(:)"];
+38752784->38752752 [label="2"]
+
+38752752 [label="__asgn_plain=Sequence"];
+38752752->38754192 [label="1"]
+
+38752400->38752560 [label="4"]
+
+38752560 [label="Optional"];
+38752560->38752880 [label="1"]
+
+38752880 [label="Sequence"];
+38752880->38753232 [label="1"]
+
+38753232 [label="StrMatch(;)"];
+38752880->38752688 [label="2"]
+
+38752688 [label="__asgn_plain=Sequence"];
+38752688->38709584 [label="1"]
+
+38752880->38753392 [label="3"]
+
+38753392 [label="StrMatch(:)"];
+38752880->38753296 [label="4"]
+
+38753296 [label="__asgn_plain=Sequence"];
+38753296->38594032 [label="1"]
+
+38752880->38753552 [label="5"]
+
+38753552 [label="StrMatch(=)"];
+38752880->38753648 [label="6"]
+
+38753648 [label="__asgn_plain=Sequence"];
+38753648->38600912 [label="1"]
+
+38752400->38753168 [label="5"]
+
+38753168 [label="StrMatch(|)"];
+38710608->38710672 [label="3"]
+
+38710672 [label="Optional"];
+38710672->38711120 [label="1"]
+
+38711120 [label="__asgn_plain=Sequence"];
+38711120->38658192 [label="1"]
+
+38710608->38710832 [label="4"]
+
+38710832 [label="StrMatch())"];
+38633008->38658672 [label="5"]
+
+38658672 [label="__asgn_plain=Sequence"];
+38658672->38596080 [label="1"]
+
+38629648->38629456 [label="2"]
+
+38629456 [label="ZeroOrMore"];
+38629456->38632304 [label="1"]
+
+38632304 [label="Sequence"];
+38632304->38632432 [label="1"]
+
+38632432 [label="__asgn_plain=Sequence"];
+38632432->38593904 [label="1"]
+
+38593904 [label="PropertyCallOperator=OrderedChoice"];
+38593904->38632976 [label="1"]
+
+38632976 [label="StrMatch(.)"];
+38593904->38632688 [label="2"]
+
+38632688 [label="StrMatch(->)"];
+38632304->38632560 [label="2"]
+
+38632560 [label="__asgn_plain=Sequence"];
+38632560->38661744 [label="1"]
+
+38595440->38603184 [label="2"]
+
+38603184 [label="ZeroOrMore"];
+38603184->38596016 [label="1"]
+
+38596016 [label="Sequence"];
+38596016->38594544 [label="1"]
+
+38594544 [label="__asgn_plain=Sequence"];
+38594544->38754160 [label="1"]
+
+38754160 [label="MultiplyOperator=OrderedChoice"];
+38754160->38755344 [label="1"]
+
+38755344 [label="StrMatch(*)"];
+38754160->38753680 [label="2"]
+
+38753680 [label="StrMatch(/)"];
+38596016->38592944 [label="2"]
+
+38592944 [label="__asgn_plain=Sequence"];
+38592944->38631568 [label="1"]
+
+38631184->38631216 [label="2"]
+
+38631216 [label="ZeroOrMore"];
+38631216->38631504 [label="1"]
+
+38631504 [label="Sequence"];
+38631504->38631632 [label="1"]
+
+38631632 [label="__asgn_plain=Sequence"];
+38631632->38659248 [label="1"]
+
+38659248 [label="additiveOperator=OrderedChoice"];
+38659248->38753968 [label="1"]
+
+38753968 [label="StrMatch(+)"];
+38659248->38754768 [label="2"]
+
+38754768 [label="StrMatch(-)"];
+38631504->38631760 [label="2"]
+
+38631760 [label="__asgn_plain=Sequence"];
+38631760->38595440 [label="1"]
+
+38630320->38630352 [label="2"]
+
+38630352 [label="Optional"];
+38630352->38630640 [label="1"]
+
+38630640 [label="Sequence"];
+38630640->38630768 [label="1"]
+
+38630768 [label="__asgn_plain=Sequence"];
+38630768->38632240 [label="1"]
+
+38632240 [label="RelationalOperator=OrderedChoice"];
+38632240->38662064 [label="1"]
+
+38662064 [label="StrMatch(=)"];
+38632240->38659760 [label="2"]
+
+38659760 [label="StrMatch(>=)"];
+38632240->38658832 [label="3"]
+
+38658832 [label="StrMatch(>)"];
+38632240->38661040 [label="4"]
+
+38661040 [label="StrMatch(<=)"];
+38632240->38660016 [label="5"]
+
+38660016 [label="StrMatch(<>)"];
+38632240->38659120 [label="6"]
+
+38659120 [label="StrMatch(<)"];
+38630640->38630896 [label="2"]
+
+38630896 [label="__asgn_plain=Sequence"];
+38630896->38631184 [label="1"]
+
+38596592->38629424 [label="2"]
+
+38629424 [label="ZeroOrMore"];
+38629424->38629712 [label="1"]
+
+38629712 [label="Sequence"];
+38629712->38629840 [label="1"]
+
+38629840 [label="__asgn_plain=Sequence"];
+38629840->38711056 [label="1"]
+
+38711056 [label="LogicalOperator=OrderedChoice"];
+38711056->38707312 [label="1"]
+
+38707312 [label="StrMatch(and)"];
+38711056->38709616 [label="2"]
+
+38709616 [label="StrMatch(or)"];
+38711056->38709456 [label="3"]
+
+38709456 [label="StrMatch(xor)"];
+38711056->38708816 [label="4"]
+
+38708816 [label="StrMatch(implies)"];
+38629712->38629968 [label="2"]
+
+38629968 [label="__asgn_plain=Sequence"];
+38629968->38630320 [label="1"]
+
+38802032->36468528 [label="2"]
+
+36468528 [label="EOF"];
+}

@@ -12,7 +12,7 @@ from textx.model import get_metamodel
 
 # Modes
 
-DEBUG = False
+DEBUG = True
 
 VERBOSE = True
 
@@ -81,7 +81,7 @@ def introduce(expression, expressionDescription, level):
 
 if DEBUG:
     debug = open('debug.txt', 'w+')
-    metamodel = metamodel_from_file("oclGrammar.tx", file=debug)
+    metamodel = metamodel_from_file("oclGrammar.tx", file=debug, debug=True)
 else:
     metamodel = metamodel_from_file("oclGrammar.tx")
 

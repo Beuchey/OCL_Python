@@ -2,6 +2,8 @@ from sys import stdout
 from contextlib import redirect_stdout
 from functools import singledispatch
 
+
+
 from textx import metamodel_from_file
 from textx.model import get_metamodel
 

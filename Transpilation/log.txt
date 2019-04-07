@@ -1,0 +1,60 @@
+FOUND : Expression : 
+	{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
+
+	FOUND : LogicalExpression : 
+		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
+
+		***leftRelationalExpression : 
+		FOUND : RelationalExpression : 
+			{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': '>=', 'rightAdditiveExpression': 'AdditiveExpression'}
+
+			***leftAdditiveExpression : 
+			FOUND : additiveExpression : 
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+				***leftMultiplicativeExpression : 
+				FOUND : multiplicativeExpression : 
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+					***leftUnaryExpression : 
+					FOUND : UnaryExpression : 
+						{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
+
+						***postfixExpression : 
+						FOUND : PostfixExpression : 
+							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': [], 'propertyCall': []}
+
+							***primaryExpression : 
+							FOUND : PrimaryExpression : 
+								{'expression': 'NoneType', 'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'PropertyCall', 'ifExpression': 'NoneType'}
+
+								FOUND : PropertyCall : 
+									{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
+
+									***pathName : 
+									FOUND : PathName : 
+										{'names': ['age']}
+
+			***rightAdditiveExpression : 
+			FOUND : additiveExpression : 
+				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+				***leftMultiplicativeExpression : 
+				FOUND : multiplicativeExpression : 
+					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+					***leftUnaryExpression : 
+					FOUND : UnaryExpression : 
+						{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
+
+						***postfixExpression : 
+						FOUND : PostfixExpression : 
+							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': [], 'propertyCall': []}
+
+							***primaryExpression : 
+							FOUND : PrimaryExpression : 
+								{'expression': 'NoneType', 'literalCollection': 'NoneType', 'literal': 'Literal', 'propertyCall': 'NoneType', 'ifExpression': 'NoneType'}
+
+								FOUND : Literal : 
+									{'string': 'NoneType', 'number': 'float', 'enumLiteral': 'NoneType'}
+

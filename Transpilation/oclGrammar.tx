@@ -53,10 +53,10 @@ PropertyCallOperator:
     "." | "->"
 ;
 PrimaryExpression:
-    literalCollection=LiteralCollection
+    "(" expression=Expression ")"
+    | literalCollection=LiteralCollection
     | literal=Literal
     | propertyCall=PropertyCall
-    | "(" expression=Expression ")"
     | ifExpression=IfExpression
 ;
 UnaryOperator:
@@ -139,7 +139,7 @@ CollectionKind:
     "Set" | "Bag" | "Sequence" | "Collection"
 ;
 RelationalOperator:
-    "=" | ">" | "<" | ">=" | "<=" | "<>"
+    "=" | ">=" | ">" | "<=" | "<>" | "<"
 ;
 additiveOperator:
     "+" |  "-"

@@ -8,6 +8,16 @@ from textx.model import get_metamodel
 
 
 
+# Modes
+
+DEBUG = False
+
+VERBOSE = True
+
+
+
+
+
 
 
 
@@ -41,8 +51,6 @@ def writeTo(to, level, *args):
     to.write("\n")
 
 logger = open("log.txt","w+")
-
-VERBOSE = True
 
 def log(level, *args):
     writeTo(logger, level, *args)
@@ -86,7 +94,7 @@ def delegate(elements, identifier, level):
 
 def splitInfix(elements, operatorName, leftExpressionName, rightExpressionName, level):
     operator = elements[operatorName]
-    if operator is not None and len(operator)==1:
+    if len(operator)>0:
         return delegate(elements, leftExpressionName, level) + " " + operator[0] + " " + delegate(elements, rightExpressionName, level)
     else:
         return delegate(elements, leftExpressionName, level)
@@ -308,7 +316,7 @@ def typeSpecifierParser(expression, level):
 
 # WHERE THE MAGIC HAPPENS
 
-model = metamodel.model_from_file("expression.ocl")
+model = metamodel.model_from_file("expression.ocl", debug=DEBUG)
 
 res(0, "import sys, os\nsys.path.insert(0, os.path.join(os.path.dirname(__file__), '../Wrapper/', 'oclpyth'))\nfrom OclPyth import oclWrapper_Creator\n\n")
 

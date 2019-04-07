@@ -126,7 +126,7 @@ SimpleTypeSpecifier:
     pathName=PathName
 ;
 TypeSpecifier:
-    simpleTypeSpecifier=SimpleTypeSpecifier | collectionType=CollectionType
+    collectionType=CollectionType | simpleTypeSpecifier=SimpleTypeSpecifier
 ;
 CollectionType:
     collectionKind=CollectionKind

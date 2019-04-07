@@ -3,11 +3,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../Wrapper/', 'oclpy
 from OclPyth import oclWrapper_Creator
 
 
-operator : []
-operator : >=
-operator : []
-operator : []
-operator : []
-operator : []
-age > 0.0
+with someValue as something :
+		somethingElse
 

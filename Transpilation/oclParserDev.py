@@ -1,9 +1,11 @@
-from sys import __stdout__
-
+from sys import stdout
+from contextlib import redirect_stdout
 from functools import singledispatch
 
 from textx import metamodel_from_file
 from textx.model import get_metamodel
+
+
 
 
 
@@ -55,7 +57,7 @@ logger = open("log.txt","w+")
 def log(level, *args):
     writeTo(logger, level, *args)
     if(VERBOSE):
-        writeTo(__stdout__, level, *args)
+        writeTo(stdout, level, *args)
 
 result = open("result.txt","w+")
 
@@ -77,9 +79,11 @@ def introduce(expression, expressionDescription, level):
 
 # Parse tools
 
-metamodel = metamodel_from_file("oclGrammar.tx")
-
-
+if DEBUG:
+    debug = open('debug.txt', 'w+')
+    metamodel = metamodel_from_file("oclGrammar.tx", file=debug)
+else:
+    metamodel = metamodel_from_file("oclGrammar.tx")
 
 
 
@@ -94,7 +98,7 @@ def delegate(elements, identifier, level):
 
 def splitInfix(elements, operatorName, leftExpressionName, rightExpressionName, level):
     operator = elements[operatorName]
-    if len(operator)>0:
+    if operator is not None and len(operator)>0:
         return delegate(elements, leftExpressionName, level) + " " + operator[0] + " " + delegate(elements, rightExpressionName, level)
     else:
         return delegate(elements, leftExpressionName, level)
@@ -316,7 +320,10 @@ def typeSpecifierParser(expression, level):
 
 # WHERE THE MAGIC HAPPENS
 
-model = metamodel.model_from_file("expression.ocl", debug=DEBUG)
+if DEBUG:
+    model = metamodel.model_from_file("expression.ocl", debug=True)
+else:
+    model = metamodel.model_from_file("expression.ocl")
 
 res(0, "import sys, os\nsys.path.insert(0, os.path.join(os.path.dirname(__file__), '../Wrapper/', 'oclpyth'))\nfrom OclPyth import oclWrapper_Creator\n\n")
 
@@ -326,7 +333,7 @@ for expression in model.expressions:
 
 
 
-
-
+if DEBUG:
+    debug.close()
 logger.close()
 result.close()

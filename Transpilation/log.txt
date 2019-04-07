@@ -1,60 +1,82 @@
 FOUND : Expression : 
-	{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
+	{'ifExpression': 'NoneType', 'letExpression': 'LetExpression', 'logicalExpression': 'NoneType'}
 
-	FOUND : LogicalExpression : 
-		{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
+	FOUND : LetExpression : 
+		{'identifier': 'something', 'extra_identifiers': 'NoneType', 'type': 'TypeSpecifier', 'initExpression': 'Expression', 'subExpression': 'Expression'}
 
-		***leftRelationalExpression : 
-		FOUND : RelationalExpression : 
-			{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': '>=', 'rightAdditiveExpression': 'AdditiveExpression'}
+		***initExpression : 
+		FOUND : Expression : 
+			{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
 
-			***leftAdditiveExpression : 
-			FOUND : additiveExpression : 
-				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+			FOUND : LogicalExpression : 
+				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
 
-				***leftMultiplicativeExpression : 
-				FOUND : multiplicativeExpression : 
-					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+				***leftRelationalExpression : 
+				FOUND : RelationalExpression : 
+					{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
 
-					***leftUnaryExpression : 
-					FOUND : UnaryExpression : 
-						{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
+					***leftAdditiveExpression : 
+					FOUND : additiveExpression : 
+						{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
 
-						***postfixExpression : 
-						FOUND : PostfixExpression : 
-							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': [], 'propertyCall': []}
+						***leftMultiplicativeExpression : 
+						FOUND : multiplicativeExpression : 
+							{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
 
-							***primaryExpression : 
-							FOUND : PrimaryExpression : 
-								{'expression': 'NoneType', 'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'PropertyCall', 'ifExpression': 'NoneType'}
+							***leftUnaryExpression : 
+							FOUND : UnaryExpression : 
+								{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
 
-								FOUND : PropertyCall : 
-									{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
+								***postfixExpression : 
+								FOUND : PostfixExpression : 
+									{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': [], 'propertyCall': []}
 
-									***pathName : 
-									FOUND : PathName : 
-										{'names': ['age']}
+									***primaryExpression : 
+									FOUND : PrimaryExpression : 
+										{'expression': 'NoneType', 'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'PropertyCall', 'ifExpression': 'NoneType'}
 
-			***rightAdditiveExpression : 
-			FOUND : additiveExpression : 
-				{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+										FOUND : PropertyCall : 
+											{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
 
-				***leftMultiplicativeExpression : 
-				FOUND : multiplicativeExpression : 
-					{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+											***pathName : 
+											FOUND : PathName : 
+												{'names': ['someValue']}
 
-					***leftUnaryExpression : 
-					FOUND : UnaryExpression : 
-						{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
+		***subExpression : 
+		FOUND : Expression : 
+			{'ifExpression': 'NoneType', 'letExpression': 'NoneType', 'logicalExpression': 'LogicalExpression'}
 
-						***postfixExpression : 
-						FOUND : PostfixExpression : 
-							{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': [], 'propertyCall': []}
+			FOUND : LogicalExpression : 
+				{'leftRelationalExpression': 'RelationalExpression', 'logicalOperator': [], 'rightRelationalExpression': []}
 
-							***primaryExpression : 
-							FOUND : PrimaryExpression : 
-								{'expression': 'NoneType', 'literalCollection': 'NoneType', 'literal': 'Literal', 'propertyCall': 'NoneType', 'ifExpression': 'NoneType'}
+				***leftRelationalExpression : 
+				FOUND : RelationalExpression : 
+					{'leftAdditiveExpression': 'AdditiveExpression', 'relationalOperator': 'NoneType', 'rightAdditiveExpression': 'NoneType'}
 
-								FOUND : Literal : 
-									{'string': 'NoneType', 'number': 'float', 'enumLiteral': 'NoneType'}
+					***leftAdditiveExpression : 
+					FOUND : additiveExpression : 
+						{'leftMultiplicativeExpression': 'MultiplicativeExpression', 'additiveOperator': [], 'rightMultiplicativeExpression': []}
+
+						***leftMultiplicativeExpression : 
+						FOUND : multiplicativeExpression : 
+							{'leftUnaryExpression': 'UnaryExpression', 'multiplyOperator': [], 'rightUnaryExpression': []}
+
+							***leftUnaryExpression : 
+							FOUND : UnaryExpression : 
+								{'unaryOperator': 'NoneType', 'postfixExpression': 'PostfixExpression'}
+
+								***postfixExpression : 
+								FOUND : PostfixExpression : 
+									{'primaryExpression': 'PrimaryExpression', 'propertyCallOperator': [], 'propertyCall': []}
+
+									***primaryExpression : 
+									FOUND : PrimaryExpression : 
+										{'expression': 'NoneType', 'literalCollection': 'NoneType', 'literal': 'NoneType', 'propertyCall': 'PropertyCall', 'ifExpression': 'NoneType'}
+
+										FOUND : PropertyCall : 
+											{'pathName': 'PathName', 'timeExpression': 'NoneType', 'qualifiers': 'NoneType', 'propertyCallParameters': 'NoneType'}
+
+											***pathName : 
+											FOUND : PathName : 
+												{'names': ['somethingElse']}
 

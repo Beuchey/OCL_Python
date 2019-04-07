@@ -1,8 +1,7 @@
 from sys import stdout
 from contextlib import redirect_stdout
 from functools import singledispatch
-
-
+import argparse
 
 from textx import metamodel_from_file
 from textx.model import get_metamodel
@@ -14,10 +13,23 @@ from textx.model import get_metamodel
 
 # Modes
 
-DEBUG = True
+parser = argparse.ArgumentParser(description='Turns an OCL file into a Python file')
+parser.add_argument('-i', dest='INPUT', required=True,
+                    help='Name of the input OCL file containing OCL expressions')
+parser.add_argument('-o', dest='OUTPUT', required=True,
+                    help='Name of the output Python file containing Python expressions')
+parser.add_argument('-g', dest='GRAMMAR', required=True,
+                    help='Name of the file containing the OCL grammar to use to parse the input file (format textX : )')
+parser.add_argument('-v', dest='VERBOSE', action='store_const',
+                    const=True, default=False,
+                    help='Prints parsing messages to stdout')
+parser.add_argument('-d', dest='DEBUG', action='store_const',
+                    const=True, default=False,
+                    help='Activates debugging in textX tools')
 
-VERBOSE = False
+programArgs = parser.parse_args()
 
+DEBUGmode = programArgs.DEBUG
 
 
 
@@ -58,10 +70,10 @@ logger = open("log.txt","w+")
 
 def log(level, *args):
     writeTo(logger, level, *args)
-    if(VERBOSE):
+    if(programArgs.VERBOSE):
         writeTo(stdout, level, *args)
 
-result = open("result.txt","w+")
+result = open(programArgs.OUTPUT,"w+")
 
 def res(level, *args):
     writeTo(result, 0, *args)
@@ -81,11 +93,11 @@ def introduce(expression, expressionDescription, level):
 
 # Parse tools
 
-if DEBUG:
-    debug = open('debug.txt', 'w+')
-    metamodel = metamodel_from_file("oclGrammar.tx", file=debug, debug=True)
+if DEBUGmode:
+    debugFile = open('debug.txt', 'w+')
+    metamodel = metamodel_from_file(programArgs.GRAMMAR, file=debugFile, debug=True)
 else:
-    metamodel = metamodel_from_file("oclGrammar.tx")
+    metamodel = metamodel_from_file(programArgs.GRAMMAR)
 
 
 
@@ -322,10 +334,10 @@ def typeSpecifierParser(expression, level):
 
 # WHERE THE MAGIC HAPPENS
 
-if DEBUG:
-    model = metamodel.model_from_file("expression.ocl", debug=True)
+if DEBUGmode:
+    model = metamodel.model_from_file(programArgs.INPUT, debug=True)
 else:
-    model = metamodel.model_from_file("expression.ocl")
+    model = metamodel.model_from_file(programArgs.INPUT)
 
 res(0, "import sys, os\nsys.path.insert(0, os.path.join(os.path.dirname(__file__), '../Wrapper/', 'oclpyth'))\nfrom OclPyth import oclWrapper_Creator\n\n")
 
@@ -335,7 +347,7 @@ for expression in model.expressions:
 
 
 
-if DEBUG:
-    debug.close()
+if DEBUGmode:
+    debugFile.close()
 logger.close()
 result.close()

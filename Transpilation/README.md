@@ -12,4 +12,7 @@ $>: textx visualize ocl.tx expression.ocl
 $>: dot -Tpng -O expression.ocl.dot
 ```
 
-Le fichier __oclParserDev.py__ contient le code en cours de développement du Transpilateur.
+Le fichier __oclParserDev.py__ contient le code en cours de développement du Transpilateur et s'utilise de la manière suivante :
+```
+python oclParserDev.py -i expression.ocl -g oclGrammar.tx -o result.txt
+```

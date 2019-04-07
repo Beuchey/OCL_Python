@@ -14,7 +14,7 @@ from textx.model import get_metamodel
 
 DEBUG = True
 
-VERBOSE = True
+VERBOSE = False
 
 
 

@@ -56,102 +56,102 @@ Please note that OCL collections can contain the *null* value (null) but not the
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - |
-|any|OclExpression|T|||||
-|asBag||Bag{T}|||||
-|asOrderedSet||OrderedSet{T}|||||
-|asSequence||Sequence{T}|||||
-|asSet||Set{T}|||||
-|collect|OclExpression|Collection{T2}|||||
-|collectNested|OclExpression|Collection{T2}|||||
-|count|T|Integer|||||
-|excludes|T|Boolean|||||
-|excludesAll|Collection{T}|Boolean|||||
-|excluding|T|Collection{T}|||||
-|exists|OclExpression|Boolean|||||
-|flatten||Collection{T}|||||
-|forAll|OclExpression|Boolean|||||
-|includes|T|Boolean|||||
-|includesAll|Collection{T}|Boolean|||||
-|including|T|Collection{T}|||||
-|isEmpty||Boolean|||||
-|isUnique|OclExpression|Boolean|||||
-|notEmpty||Boolean|||||
-|one|OclExpression|Boolean|||||
-|product|Collection{T2}|Set(Tuple(T,T2))|||||
-|reject|OclExpression|Collection{T}|||||
-|select|OclExpression|Collection{T}|||||
-|size||Integer|||||
-|sortedBy|OclExpression|Collection{T}|||||
+|any|OclExpression|T|for a in self._wrapped:<br />if condition(a):<br />return True<br />return False|function|{True, False}|
+|asBag||Bag{T}|OclWrapper_Bag(self._wrapped)||OclWrapper_Bag|
+|asOrderedSet||OrderedSet{T}|OclWrapper_OrderedSet(self._wrapped)||OclWrapper_OrderedSet|
+|asSequence||Sequence{T}|OclWrapper_Sequence(self._wrapped)||OclWrapper_Sequence|
+|asSet||Set{T}|OclWrapper_Set(self._wrapped)||OclWrapper_Set|
+|collect|OclExpression|Collection{T2}||||
+|collectNested|OclExpression|Collection{T2}||||
+|count|T|Integer||||
+|excludes|T|Boolean||||
+|excludesAll|Collection{T}|Boolean||||
+|excluding|T|Collection{T}||||
+|exists|OclExpression|Boolean||||
+|flatten||Collection{T}||||
+|forAll|OclExpression|Boolean||||
+|includes|T|Boolean||||
+|includesAll|Collection{T}|Boolean||||
+|including|T|Collection{T}||||
+|isEmpty||Boolean||||
+|isUnique|OclExpression|Boolean||||
+|notEmpty||Boolean||||
+|one|OclExpression|Boolean||||
+|product|Collection{T2}|Set(Tuple(T,T2))||||
+|reject|OclExpression|Collection{T}||||
+|select|OclExpression|Collection{T}||||
+|size||Integer||||
+|sortedBy|OclExpression|Collection{T}||||
 |sum||Real|||||
 
 # Sequence{T}
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - |
-|=|Sequence{T}|Boolean|||||
-|<>|Sequence{T}|Boolean|||||
-|append|T|Sequence{T}|||||
-|at|Integer|T|||||
-|first||T|||||
-|indexOf|T|Integer|||||
-|insertAt|Integer,T|Sequence{T}|||||
-|last||T|||||
-|prepend|T|Sequence{T}|||||
+|=|Sequence{T}|Boolean||||
+|<>|Sequence{T}|Boolean||||
+|append|T|Sequence{T}||||
+|at|Integer|T||||
+|first||T||||
+|indexOf|T|Integer||||
+|insertAt|Integer,T|Sequence{T}||||
+|last||T||||
+|prepend|T|Sequence{T}||||
 |subSequence|start:Integer,end:Integer|Sequence{T}|||||
 
 # Bag{T}
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - |
-|=|Bag{T}|Boolean|||||
-|<>|Bag{T}|Boolean|||||
-|intersection|Bag{T}|Bag{T}|||||
-|intersection|Set{T}|Set{T}|||||
-|union|Bag{T}|Bag{T}|||||
+|=|Bag{T}|Boolean||||
+|<>|Bag{T}|Boolean||||
+|intersection|Bag{T}|Bag{T}||||
+|intersection|Set{T}|Set{T}||||
+|union|Bag{T}|Bag{T}||||
 |union|Set{T}|Set{T}|||||
 
 # OrderedSet{T}
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - |
-|=|Set{T}|Boolean|||||
-|=|OrderedSet{T}|Boolean|||||
-|<>|Set{T}|Boolean|||||
-|<>|OrderedSet{T}|Boolean|||||
-|-|Set{T}|Set{T}|||||
-|append|T|OrderedSet{T}|||||
-|at|Integer|T|||||
-|first||T|||||
-|indexOf|T|Integer|||||
-|insertAt|Integer,T|OrderedSet{T}|||||
-|intersection|Bag{T}|Set{T}|||||
-|intersection|Set{T}|Set{T}|||||
-|last||T|||||
-|prepend|T|OrderedSet{T}|||||
-|subOrderedSet|start:Integer,end:Integer|OrderedSet{T}|||||
-|symmetricDifference|Set{T}|Set{T}|||||
-|union|Bag{T}|Bag{T}|||||
+|=|Set{T}|Boolean||||
+|=|OrderedSet{T}|Boolean||||
+|<>|Set{T}|Boolean||||
+|<>|OrderedSet{T}|Boolean||||
+|-|Set{T}|Set{T}||||
+|append|T|OrderedSet{T}||||
+|at|Integer|T||||
+|first||T||||
+|indexOf|T|Integer||||
+|insertAt|Integer,T|OrderedSet{T}||||
+|intersection|Bag{T}|Set{T}||||
+|intersection|Set{T}|Set{T}||||
+|last||T||||
+|prepend|T|OrderedSet{T}||||
+|subOrderedSet|start:Integer,end:Integer|OrderedSet{T}||||
+|symmetricDifference|Set{T}|Set{T}||||
+|union|Bag{T}|Bag{T}||||
 |union|Set{T}|Set{T}|||||
 
 # Set{T}
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - |
-|=|Set{T}|Boolean|||||
-|<>|Set{T}|Boolean|||||
-|-|Set{T}|Set{T}|||||
-|intersection|Bag{T}|Set{T}|||||
-|intersection|Set{T}|Set{T}|||||
-|symmetricDifference|Set{T}|Set{T}|||||
-|union|Bag{T}|Bag{T}|||||
+|=|Set{T}|Boolean||||
+|<>|Set{T}|Boolean||||
+|-|Set{T}|Set{T}||||
+|intersection|Bag{T}|Set{T}||||
+|intersection|Set{T}|Set{T}||||
+|symmetricDifference|Set{T}|Set{T}||||
+|union|Bag{T}|Bag{T}||||
 |union|Set{T}|Set{T}|||||
 
 # Boolean
 
 |OCL expression|OCL parameter(s)|OCL return type|Python3 expression|Python3 parameter(s)|Python3 return type
 |-| - | - | - | - | - |
-|And|Boolean|Boolean|||||
-|Implies|Boolean|Boolean|||||
-|Or|Boolean|Boolean|||||
-|Not|Boolean|Boolean|||||
+|And|Boolean|Boolean||||
+|Implies|Boolean|Boolean||||
+|Or|Boolean|Boolean||||
+|Not|Boolean|Boolean||||
 |Xor|Boolean|Boolean|||||

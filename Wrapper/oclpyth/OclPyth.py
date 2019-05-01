@@ -1943,9 +1943,9 @@ class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_In
         Returns:
             An OclWrapper_Any wrapping the original wrapped object once concatenated with the other object (eventually already wrapped).
 
-        >>> print(OclWrapper_String('Hello World!').concat(' I am a string.'))
+        >>> print(oclWrapper_Creator('Hello World!').concat(' I am a string.'))
         Hello World! I am a string.
-        >>> print(OclWrapper_String('Hello World!').concat(OclWrapper_String(' I am another string.')))
+        >>> print(oclWrapper_Creator('Hello World!').concat(oclWrapper_Creator(' I am another string.')))
         Hello World! I am another string.
         """
         return oclWrapper_Creator(self._wrapped + otherObject)
@@ -1959,11 +1959,11 @@ class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_In
         Returns:
             An OclWrapper_Any wrapping the size, aka the length, of the wrapped object.
 
-        >>> print(OclWrapper_String('Hello World!').size())
+        >>> print(oclWrapper_Creator('Hello World!').size())
         12
-        >>> print(OclWrapper_String('').size())
+        >>> print(oclWrapper_Creator('').size())
         0
-        >>> print(OclWrapper_String(oclWrapper_Creator('Hello World!')).size())
+        >>> print(oclWrapper_Creator(oclWrapper_Creator('Hello World!')).size())
         12
         """
         return oclWrapper_Creator(len(self._wrapped))
@@ -1983,11 +1983,11 @@ class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_In
         Returns:
             An OclWrapper_Any wrapping the result of the slicing from start to end on the wrapped object.
 
-        >>> print(OclWrapper_String('test').substring(1,1))
+        >>> print(oclWrapper_Creator('test').substring(1,1))
         t
-        >>> print(OclWrapper_String(OclWrapper_String('test')).substring(2,4))
+        >>> print(oclWrapper_Creator(oclWrapper_Creator('test')).substring(2,4))
         est
-        >>> s = OclWrapper_String('test')
+        >>> s = oclWrapper_Creator('test')
         >>> print(s.substring(1, s.size()))
         test
         """
@@ -2002,9 +2002,9 @@ class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_In
         Returns:
             An OclWrapper_Any wrapping the Integer value of the wrapped object.
 
-        >>> print(OclWrapper_String('3').toInteger())
+        >>> print(oclWrapper_Creator('3').toInteger())
         3
-        >>> print(OclWrapper_String(OclWrapper_String('3')).toInteger())
+        >>> print(oclWrapper_Creator(oclWrapper_Creator('3')).toInteger())
         3
         """
         return oclWrapper_Creator(int(self._wrapped))
@@ -2018,11 +2018,11 @@ class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_In
         Returns:
             An OclWrapper_Any wrapping a full lowercase version of the original wrapped object.
 
-        >>> print(OclWrapper_String('IWIW').toLower())
+        >>> print(oclWrapper_Creator('IWIW').toLower())
         iwiw
-        >>> print(OclWrapper_String('iwiw').toLower())
+        >>> print(oclWrapper_Creator('iwiw').toLower())
         iwiw
-        >>> print(OclWrapper_String('IwIw').toLower())
+        >>> print(oclWrapper_Creator('IwIw').toLower())
         iwiw
         """
         return oclWrapper_Creator(self._wrapped.lower())
@@ -2036,11 +2036,11 @@ class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_In
         Returns:
             An OclWrapper_Any wrapping a full uppercase version of the original wrapped object.
 
-        >>> print(OclWrapper_String('IWIW').toUpper())
+        >>> print(oclWrapper_Creator('IWIW').toUpper())
         IWIW
-        >>> print(OclWrapper_String('iwiw').toUpper())
+        >>> print(oclWrapper_Creator('iwiw').toUpper())
         IWIW
-        >>> print(OclWrapper_String('IwIw').toUpper())
+        >>> print(oclWrapper_Creator('IwIw').toUpper())
         IWIW
         """
         return oclWrapper_Creator(self._wrapped.upper())
@@ -2128,7 +2128,6 @@ class OclWrapper_Collection(OclWrapper_Multiple):
         H
         """
         return self._wrapped.__iter__()
-        # return oclWrapper_Creator(self._wrapped.__iter__())
 
     def __next__(self) -> OclWrapper_Any:
         """__next__ method.
@@ -2158,7 +2157,6 @@ class OclWrapper_Collection(OclWrapper_Multiple):
         e
         """
         return self._wrapped.__next__()
-        # return oclWrapper_Creator(self._wrapped.__next__())
 
     def __reversed__(self) -> OclWrapper_Any:
         """__reversed__ method.
@@ -2173,7 +2171,30 @@ class OclWrapper_Collection(OclWrapper_Multiple):
         3
         """
         return self._wrapped.__reversed__()
-        # return oclWrapper_Creator(self._wrapped.__reversed__())
+
+    def any(self, condition: function) -> OclWrapper_Any:
+        """Checks if any of the elements of the collection meets the conditions(s).
+
+        Note:
+            OCL functionnality -> 'any'
+
+        Args:
+            condition (function): A function allowing to test if an element of the collection meets the condition(s).
+
+        Returns:
+            True if any of the elements of the collection meets the conditions(s).
+
+        >>> print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x == 2))
+        True
+        >>> print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x == 4))
+        False
+        >>> print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x > 2 and x < 4))
+        True
+        """
+        for a in self._wrapped:
+            if condition(a):
+                return True
+        return False
 
 class OclWrapper_Sequence(OclWrapper_Collection):
     # List
@@ -2206,8 +2227,7 @@ type_wrappers = {
     list: OclWrapper_Sequence,
     set: OclWrapper_Set,
     tuple: OclWrapper_Collection,
-    dict: OclWrapper_Collection,
-    str: OclWrapper_String
+    dict: OclWrapper_Collection
 }
 """dict: dictionnary to use in order to pick the correct OclWrapper_Any class to use to wrap the futureWrapped object,
     according to it's type as a key in this dictionnary.
@@ -2229,6 +2249,8 @@ def oclWrapper_Creator(futureWrapped: object) -> OclWrapper_Any:
     Returns:
        An OclWrapper_Any of a class corresponding to the type of the futureWrapped object, according to the type_wrappers dictionnary.
     """
+    if isinstance(futureWrapped, OclWrapper_Any):
+        return oclWrapper_Creator(futureWrapped._wrapped)
     return type_wrappers.get(type(futureWrapped), OclWrapper_Any)(futureWrapped)
 
 
@@ -2328,34 +2350,34 @@ print(b.oclIsUndefined())
 """
 """
 # Ocl functionnality -> concat
-astr = OclWrapper_String('Hello World!')
+astr = oclWrapper_Creator('Hello World!')
 print(astr.concat(' I\'m a string.'))
-print(astr.concat(OclWrapper_String(' I\'m a another string.')))
+print(astr.concat(oclWrapper_Creator(' I\'m a another string.')))
 """
 """
 # Ocl functionnality -> size
-print(OclWrapper_String('Hello World!').size())
-print(OclWrapper_String(oclWrapper_Creator('Hello World!')).size())
+print(oclWrapper_Creator('Hello World!').size())
+print(oclWrapper_Creator(oclWrapper_Creator('Hello World!')).size())
 """
 """
 # Ocl functionnality -> substring
-print(OclWrapper_String('test').substring(1,1))
-print(OclWrapper_String(OclWrapper_String('test')).substring(2,4))
-s = OclWrapper_String('test')
+print(oclWrapper_Creator('test').substring(1,1))
+print(oclWrapper_Creator(oclWrapper_Creator('test')).substring(2,4))
+s = oclWrapper_Creator('test')
 print(s.substring(1, s.size()))
 """
 """
 # Ocl functionnality -> toInteger
-print(OclWrapper_String('3').toInteger())
-print(OclWrapper_String(OclWrapper_String('3')).toInteger())
+print(oclWrapper_Creator('3').toInteger())
+print(oclWrapper_Creator(oclWrapper_Creator('3')).toInteger())
 """
 """
 # Ocl functionnality -> toLower
-print(OclWrapper_String('Hello World!').toLower())
+print(oclWrapper_Creator('Hello World!').toLower())
 """
 """
 # Ocl functionnality -> toUpper
-print(OclWrapper_String('Hello World!').toUpper())
+print(oclWrapper_Creator('Hello World!').toUpper())
 """
 
 

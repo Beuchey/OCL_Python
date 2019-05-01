@@ -522,6 +522,10 @@ class OclWrapper_Any(object):
 class OclWrapper_Any_Extended(OclWrapper_Any):
     """ Example of OclWrapper_Any with additionnal functionnality """
 
+    def __init__(self, wrapped: object):
+        OclWrapper_Any.__init__(self, wrapped)
+        self.test = 3.14
+
     def sayHello(self):
         print("Hello from ", self._wrapped, "!")
 
@@ -2251,6 +2255,39 @@ class OclWrapper_Collection(OclWrapper_Multiple):
         OclWrapper_Set
         """
         return OclWrapper_Set(self._wrapped)
+
+    def collect(self, attName: str) -> OclWrapper_Collection:
+        """Collect all the attributes named as the attName from the elements of the wrapped collection, into another OclWrapper_Collection.
+
+        Note:
+            OCL functionnality -> 'collect'
+
+        Returns:
+            An OclWrapper_Collection wrapping all the attributes named as the attName from the elements of the current wrapped collection.
+
+        >>> print(oclWrapper_Creator([oclWrapper_Creator(1), oclWrapper_Creator(2), oclWrapper_Creator(3)]).collect('_wrapped'))
+        [1, 2, 3]
+        """
+        return oclWrapper_Creator([element.__getattribute__(attName) for element in self._wrapped])
+
+    def __getattr__(self, attName: str) -> OclWrapper_Collection:
+        """Performs a Collect when the attName is not recognized.
+
+        Note:
+            OCL functionnality -> 'implicit collect'
+
+        Returns:
+            An OclWrapper_Collection wrapping all the attributes named as the attName from the elements of the current wrapped collection.
+
+        >>> print(oclWrapper_Creator([1, 2, 3])._wrapped)
+        [1, 2, 3]
+        >>> print(oclWrapper_Creator([OclWrapper_Any_Extended(3), OclWrapper_Any_Extended(3), OclWrapper_Any_Extended(3)]).test)
+        [3.14, 3.14, 3.14]
+        """
+        if self.__slots__.__contains__(attName):
+            return OclWrapper_Multiple.__getattr__(self, attName)
+        return self.collect(attName)
+
 
 class OclWrapper_Sequence(OclWrapper_Collection):
     # List

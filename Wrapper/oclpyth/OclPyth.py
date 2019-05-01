@@ -2196,6 +2196,20 @@ class OclWrapper_Collection(OclWrapper_Multiple):
                 return True
         return False
 
+    def asBag(self) -> OclWrapper_Bag:
+        """Turns the current OclWrapper_Collection into an OclWrapper_Bag.
+
+        Note:
+            OCL functionnality -> 'asBag'
+
+        Returns:
+            The current OclWrapper_Collection turned into an OclWrapper_Bag.
+
+        >>> print(oclWrapper_Creator([1, 2, 3]).asBag().__class__.__name__)
+        OclWrapper_Bag
+        """
+        return OclWrapper_Bag(self._wrapped)
+
 class OclWrapper_Sequence(OclWrapper_Collection):
     # List
     pass

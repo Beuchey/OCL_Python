@@ -252,10 +252,10 @@ def literalCollectionParser(expression, level):
 def collectionItemParser(expression, level):
     introduce(expression, "CollectionItem", level)
     elements = vars(expression)
-    result = delegate(elements, "startExpression", level)
+    result = "range("+delegate(elements, "startExpression", level)
     endExpression = elements["endExpression"]
     if(endExpression is not None):
-        result += ".." + defaultExpressionParser(endExpression, level+1)
+        result += ", " + defaultExpressionParser(endExpression, level+1) + ")"
     return result
 
 @defaultExpressionParser.register(metamodel["Literal"])
@@ -286,7 +286,7 @@ def stringParser(expression, level):
 def enumLiteralParser(expression, level):
     introduce(expression, "EnumLiteral", level)
     names = vars(expression)["names"]
-    result = names[0] + "::" + names[1]
+    result = names[0]# + "::" + names[1]
     for e in names[2:]:
         result += ", " + e
     return result
@@ -312,11 +312,13 @@ def declaratorParametersParser(expression, level):
     for e in names[1:]:
         result += ", " + e
     simpleTypeSpecifier = elements["simpleTypeSpecifier"]
+    """
     if(simpleTypeSpecifier is not None):
         result += " : " + delegate(elements, "simpleTypeSpecifier", level)
     extraName = elements["extraName"]
     if(extraName is not None):
         result += " ; " + delegate(elements, "extraName", level) + " : " + delegate(elements, "extraTypeSpecifier", level) + " = " + delegate(elements, "expression", level)
+    """
     return result + " | "
 
 @defaultExpressionParser.register(metamodel["SimpleTypeSpecifier"])

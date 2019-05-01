@@ -2379,6 +2379,12 @@ print(oclWrapper_Creator('Hello World!').toLower())
 # Ocl functionnality -> toUpper
 print(oclWrapper_Creator('Hello World!').toUpper())
 """
+"""
+# Ocl functionnality -> any
+print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x == 2))
+print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x == 4))
+print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x > 2 and x < 4))
+"""
 
 
 

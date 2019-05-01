@@ -2238,6 +2238,20 @@ class OclWrapper_Collection(OclWrapper_Multiple):
         """
         return OclWrapper_Sequence(self._wrapped)
 
+    def asSet(self) -> OclWrapper_Set:
+        """Turns the current OclWrapper_Collection into an OclWrapper_Set.
+
+        Note:
+            OCL functionnality -> 'asSet'
+
+        Returns:
+            The current OclWrapper_Collection turned into an OclWrapper_Set.
+
+        >>> print(oclWrapper_Creator([1, 2, 3]).asSet().__class__.__name__)
+        OclWrapper_Set
+        """
+        return OclWrapper_Set(self._wrapped)
+
 class OclWrapper_Sequence(OclWrapper_Collection):
     # List
     pass

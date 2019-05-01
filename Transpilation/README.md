@@ -14,5 +14,24 @@ $>: dot -Tpng -O expression.ocl.dot
 
 Le fichier __oclParserDev.py__ contient le code en cours de développement du Transpilateur et s'utilise de la manière suivante :
 ```
-python oclParserDev.py -i expression.ocl -g oclGrammar.tx -o result.txt
+$>: python oclParserDev.py -i expression.ocl -g oclGrammar.tx -o result.txt
+```
+
+## Deboggage
+
+Le détail du travail du transpilateur est stocké dans `log.txt`. Utilisez l'option `-v` pour activer le mode Verbose et que les mêmes messages soient aussi envoyés à la sortie standard.
+
+Ajoutez l'option `-d` pour le mode Debug, pendant lequel textX va générer des fichiers détaillant son travail :
+* File_parser_model.dot
+  Fichier Dot qui présente la grammaire utilisée sous forme d'un graphe.
+* Model_parse_tree.dot
+  Fichier Dot qui présente le fichier input sous forme de graphe correspondant la grammaire utilisé.
+
+Ces deux fichiers sont visualisables en générant un PNG pour chacun via la même commande que décrite plus haut :
+```
+$>: dot -Tpng -O File_parser_model.dot
+```
+et
+```
+$>: dot -Tpng -O Model_parse_tree.dot
 ```

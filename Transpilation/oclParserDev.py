@@ -95,7 +95,7 @@ def introduce(expression, expressionDescription, level):
 
 if DEBUGmode:
     debugFile = open('debug.txt', 'w+')
-    metamodel = metamodel_from_file(programArgs.GRAMMAR, file=debugFile, debug=True)
+    metamodel = metamodel_from_file(programArgs.GRAMMAR, file=debugFile)
 else:
     metamodel = metamodel_from_file(programArgs.GRAMMAR)
 
@@ -223,8 +223,10 @@ def actualParameterListParser(expression, level):
     introduce(expression, "ActualParameterList", level)
     content = vars(expression)["expressions"]
     result = defaultExpressionParser(content[0], level+1)
+    """
     for e in content[1:]:
         result += ", " + defaultExpressionParser(e, level+1)
+    """
     return result
 
 @defaultExpressionParser.register(metamodel["PrimaryExpression"])
@@ -252,10 +254,11 @@ def literalCollectionParser(expression, level):
 def collectionItemParser(expression, level):
     introduce(expression, "CollectionItem", level)
     elements = vars(expression)
-    result = "range("+delegate(elements, "startExpression", level)
+    result = "range(int("+delegate(elements, "startExpression", level) + ")"
     endExpression = elements["endExpression"]
     if(endExpression is not None):
-        result += ", " + defaultExpressionParser(endExpression, level+1) + ")"
+        result += ", int(" + defaultExpressionParser(endExpression, level+1) + ")"
+    result += ")"
     return result
 
 @defaultExpressionParser.register(metamodel["Literal"])
@@ -342,6 +345,9 @@ else:
     model = metamodel.model_from_file(programArgs.INPUT)
 
 res(0, "import sys, os\nsys.path.insert(0, os.path.join(os.path.dirname(__file__), '../Wrapper/', 'oclpyth'))\nfrom OclPyth import oclWrapper_Creator\n\n")
+
+with open("initialize.py", 'r') as content:
+    res(0, content.read() + "\n\n#----------------------\n\n")
 
 for expression in model.expressions:
     res(0, defaultExpressionParser(expression, 0), "\n")

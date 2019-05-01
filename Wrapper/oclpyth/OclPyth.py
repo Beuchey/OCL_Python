@@ -2211,7 +2211,7 @@ class OclWrapper_Collection(OclWrapper_Multiple):
         return OclWrapper_Bag(self._wrapped)
 
     def asOrderedSet(self) -> OclWrapper_OrderedSet:
-        """Turns the current OclWrapper_OrderedSet into an OclWrapper_Bag.
+        """Turns the current OclWrapper_Collection into an OclWrapper_OrderedSet.
 
         Note:
             OCL functionnality -> 'asOrderedSet'
@@ -2223,6 +2223,20 @@ class OclWrapper_Collection(OclWrapper_Multiple):
         OclWrapper_OrderedSet
         """
         return OclWrapper_OrderedSet(self._wrapped)
+
+    def asSequence(self) -> OclWrapper_Sequence:
+        """Turns the current OclWrapper_Collection into an OclWrapper_Sequence.
+
+        Note:
+            OCL functionnality -> 'asSequence'
+
+        Returns:
+            The current OclWrapper_Collection turned into an OclWrapper_Sequence.
+
+        >>> print(oclWrapper_Creator([1, 2, 3]).asSequence().__class__.__name__)
+        OclWrapper_Sequence
+        """
+        return OclWrapper_Sequence(self._wrapped)
 
 class OclWrapper_Sequence(OclWrapper_Collection):
     # List

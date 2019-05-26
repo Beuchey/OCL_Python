@@ -180,6 +180,7 @@ def unaryExpressionParser(expression, level):
     if(elements["unaryOperator"] is None):
         return delegate(elements, "postfixExpression", level)
     else:
+        #return elements["unaryOperator"] + " " + delegate(elements, "postfixExpression", level)
         return elements["unaryOperator"] + " " + delegate(elements, "postfixExpression", level)
 
 @defaultExpressionParser.register(metamodel["PostfixExpression"])
@@ -189,7 +190,8 @@ def postfixExpressionParser(expression, level):
     elements = vars(expression)
     propertyCall = elements["propertyCall"]
     if(len(propertyCall)>0):
-        result += elements["propertyCallOperator"][0] + defaultExpressionParser(propertyCall[0], level+1)
+        #result += elements["propertyCallOperator"][0] + defaultExpressionParser(propertyCall[0], level+1)
+        result += "." + defaultExpressionParser(propertyCall[0], level+1)
     return result
 
 @defaultExpressionParser.register(metamodel["PropertyCall"])

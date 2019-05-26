@@ -76,17 +76,17 @@ class OclWrapper_Any(object):
         Raises:
             TypeError: If the wrapped doesn't support the attribute reference
 
-        >>> oclWrapper_Creator(True)._wrapped
+        >>> oclWrapper_Factory(True)._wrapped
         True
-        >>> oclWrapper_Creator(1)._wrapped
+        >>> oclWrapper_Factory(1)._wrapped
         1
-        >>> oclWrapper_Creator('Hello')._wrapped
+        >>> oclWrapper_Factory('Hello')._wrapped
         'Hello'
-        >>> oclWrapper_Creator((1, 2, 3))._wrapped
+        >>> oclWrapper_Factory((1, 2, 3))._wrapped
         (1, 2, 3)
-        >>> oclWrapper_Creator([1, 2, 3])._wrapped
+        >>> oclWrapper_Factory([1, 2, 3])._wrapped
         [1, 2, 3]
-        >>> oclWrapper_Creator({'a': 1, 'b': 2, 'c': 3})._wrapped
+        >>> oclWrapper_Factory({'a': 1, 'b': 2, 'c': 3})._wrapped
         {'a': 1, 'b': 2, 'c': 3}
         """
         return self._wrapped.__getattribute__(attName)
@@ -118,17 +118,17 @@ class OclWrapper_Any(object):
         Raises:
             TypeError: If neither the wrapped or the wrapper support the attribute.
 
-        >>> oclWrapper_Creator(True)._wrapped
+        >>> oclWrapper_Factory(True)._wrapped
         True
-        >>> oclWrapper_Creator(1)._wrapped
+        >>> oclWrapper_Factory(1)._wrapped
         1
-        >>> oclWrapper_Creator('Hello')._wrapped
+        >>> oclWrapper_Factory('Hello')._wrapped
         'Hello'
-        >>> oclWrapper_Creator((1, 2, 3))._wrapped
+        >>> oclWrapper_Factory((1, 2, 3))._wrapped
         (1, 2, 3)
-        >>> oclWrapper_Creator([1, 2, 3])._wrapped
+        >>> oclWrapper_Factory([1, 2, 3])._wrapped
         [1, 2, 3]
-        >>> oclWrapper_Creator({'a': 1, 'b': 2, 'c': 3})._wrapped
+        >>> oclWrapper_Factory({'a': 1, 'b': 2, 'c': 3})._wrapped
         {'a': 1, 'b': 2, 'c': 3}
         """"""
         return object.__getattribute__(self, attName)
@@ -149,10 +149,10 @@ class OclWrapper_Any(object):
         Raises:
             An AttributeError if the attribute is one of the locked ones.
 
-        >>> oclWrapper_Creator(True)._locked("_wrapped")
+        >>> oclWrapper_Factory(True)._locked("_wrapped")
         Traceback (most recent call last):
         AttributeError
-        >>> oclWrapper_Creator(True)._locked("__instances")
+        >>> oclWrapper_Factory(True)._locked("__instances")
         Traceback (most recent call last):
         AttributeError
         """
@@ -163,7 +163,7 @@ class OclWrapper_Any(object):
     def __setattr__(self, name: str, value: object):
         """Avoids direct setting of the _wrapped attribute.
 
-        >>> oclWrapper_Creator(True)._wrapped = False
+        >>> oclWrapper_Factory(True)._wrapped = False
         Traceback (most recent call last):
         AttributeError
         """
@@ -172,10 +172,10 @@ class OclWrapper_Any(object):
     def __delattr__(self, name):
         """Avoids direct deleting of the _wrapped attribute.
 
-        >>> del oclWrapper_Creator(True)._wrapped
+        >>> del oclWrapper_Factory(True)._wrapped
         Traceback (most recent call last):
         AttributeError
-        >>> del oclWrapper_Creator(True).__instances
+        >>> del oclWrapper_Factory(True).__instances
         Traceback (most recent call last):
         AttributeError
         """
@@ -200,17 +200,17 @@ class OclWrapper_Any(object):
         Returns:
             The quick string representation of the instanced object.
 
-        >>> print(oclWrapper_Creator(True))
+        >>> print(oclWrapper_Factory(True))
         True
-        >>> print(oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(1))
         1
-        >>> print(oclWrapper_Creator('Hello'))
+        >>> print(oclWrapper_Factory('Hello'))
         Hello
-        >>> print(oclWrapper_Creator((1, 2, 3)))
+        >>> print(oclWrapper_Factory((1, 2, 3)))
         (1, 2, 3)
-        >>> print(oclWrapper_Creator([1, 2, 3]))
+        >>> print(oclWrapper_Factory([1, 2, 3]))
         [1, 2, 3]
-        >>> print(oclWrapper_Creator({'a': 1, 'b': 2, 'c': 3}))
+        >>> print(oclWrapper_Factory({'a': 1, 'b': 2, 'c': 3}))
         {'a': 1, 'b': 2, 'c': 3}
         """
         return self._wrapped.__str__()
@@ -224,15 +224,15 @@ class OclWrapper_Any(object):
         Returns:
             The result of the operation on the wrapped object.
 
-        >>> print(bytes(oclWrapper_Creator(True)))
+        >>> print(bytes(oclWrapper_Factory(True)))
         b'\\x00'
-        >>> print(bytes(oclWrapper_Creator(False)))
+        >>> print(bytes(oclWrapper_Factory(False)))
         b''
-        >>> print(bytes(oclWrapper_Creator(1)))
+        >>> print(bytes(oclWrapper_Factory(1)))
         b'\\x00'
-        >>> print(bytes(oclWrapper_Creator((1, 16, 10))))
+        >>> print(bytes(oclWrapper_Factory((1, 16, 10))))
         b'\\x01\\x10\\n'
-        >>> print(bytes(oclWrapper_Creator([1, 16, 10])))
+        >>> print(bytes(oclWrapper_Factory([1, 16, 10])))
         b'\\x01\\x10\\n'
         """
         return bytes(self._wrapped)
@@ -246,13 +246,13 @@ class OclWrapper_Any(object):
         Returns:
             The result of the operation on the wrapped object.
 
-        >>> oclWrapper_Creator('Hello {0}, I am {1}').format('world', 'John')
+        >>> oclWrapper_Factory('Hello {0}, I am {1}').format('world', 'John')
         'Hello world, I am John'
-        >>> oclWrapper_Creator('User ID: {uid}   Last seen: {last_login}').format(uid="root", last_login = "5 Mar 2008 07:20")
+        >>> oclWrapper_Factory('User ID: {uid}   Last seen: {last_login}').format(uid="root", last_login = "5 Mar 2008 07:20")
         'User ID: root   Last seen: 5 Mar 2008 07:20'
-        >>> oclWrapper_Creator('Empty dict: {{}}').format()
+        >>> oclWrapper_Factory('Empty dict: {{}}').format()
         'Empty dict: {}'
-        >>> oclWrapper_Creator('Item 1: {0[1]}   Item 2: {0[2]}').format((4, 12, 5))
+        >>> oclWrapper_Factory('Item 1: {0[1]}   Item 2: {0[2]}').format((4, 12, 5))
         'Item 1: 12   Item 2: 5'
         """
         return self._wrapped.__format__(*format_spec)
@@ -269,16 +269,16 @@ class OclWrapper_Any(object):
         Returns:
             The return value of the call to the wrapped objet with those arguments.
 
-        >>> print(oclWrapper_Creator(lambda x : x + 1)(2))
+        >>> print(oclWrapper_Factory(lambda x : x + 1)(2))
         3
-        >>> print(oclWrapper_Creator(lambda x : x + ' world!')('Hello'))
+        >>> print(oclWrapper_Factory(lambda x : x + ' world!')('Hello'))
         Hello world!
-        >>> print(oclWrapper_Creator(lambda x : x + (3,))((1, 2)))
+        >>> print(oclWrapper_Factory(lambda x : x + (3,))((1, 2)))
         (1, 2, 3)
-        >>> print(oclWrapper_Creator(lambda x : x + [3])([1, 2]))
+        >>> print(oclWrapper_Factory(lambda x : x + [3])([1, 2]))
         [1, 2, 3]
         """"""
-        return oclWrapper_Creator(self._wrapped.__call__(*args))
+        return oclWrapper_Factory(self._wrapped.__call__(*args))
         """
 
     # Emulating context manager
@@ -290,13 +290,13 @@ class OclWrapper_Any(object):
             If the wrapped object has an __enter__ attribute, delegates the operation to it,
             or returns directly the wrapped object if it has not.
 
-        >>> with oclWrapper_Creator(True) as o: print(o)
+        >>> with oclWrapper_Factory(True) as o: print(o)
         True
-        >>> with oclWrapper_Creator(oclWrapper_Creator(False)) as o: print(o)
+        >>> with oclWrapper_Factory(oclWrapper_Factory(False)) as o: print(o)
         False
         """
         try:
-            return oclWrapper_Creator(self._wrapped.__enter__())
+            return oclWrapper_Factory(self._wrapped.__enter__())
         except AttributeError:
             return self
 
@@ -310,7 +310,7 @@ class OclWrapper_Any(object):
             (i.e., prevent it from being propagated), it should return a true value.
             Otherwise, the exception will be processed normally upon exit from this method.
         """
-        return oclWrapper_Creator(False)
+        return oclWrapper_Factory(False)
 
 
     """ Never emulating descriptors ?
@@ -333,7 +333,7 @@ class OclWrapper_Any(object):
             The value asked, eventully computed.
         """"""
         try:
-            return oclWrapper_Creator(self._wrapped.__get__(instance, owner))
+            return oclWrapper_Factory(self._wrapped.__get__(instance, owner))
         except AttributeError:
             return self
 
@@ -425,9 +425,9 @@ class OclWrapper_Any(object):
         Returns:
             object: Self if the object if an instance of the class, None otherwise.
 
-        >>> type(oclWrapper_Creator(True).oclAsType(OclWrapper_Any)).__name__
+        >>> type(oclWrapper_Factory(True).oclAsType(OclWrapper_Any)).__name__
         'OclWrapper_Any'
-        >>> type(oclWrapper_Creator(True).oclAsType(bool)).__name__
+        >>> type(oclWrapper_Factory(True).oclAsType(bool)).__name__
         'NoneType'
         """
         if(isinstance(self, aclass)):
@@ -445,16 +445,16 @@ class OclWrapper_Any(object):
         Returns:
             True if the object is an instance of the class, False otherwise.
 
-        >>> print(oclWrapper_Creator('Hello').oclIsKindOf(str))
+        >>> print(oclWrapper_Factory('Hello').oclIsKindOf(str))
         True
-        >>> print(oclWrapper_Creator(1).oclIsKindOf(int))
+        >>> print(oclWrapper_Factory(1).oclIsKindOf(int))
         True
-        >>> print(oclWrapper_Creator('Hello').oclIsKindOf(int))
+        >>> print(oclWrapper_Factory('Hello').oclIsKindOf(int))
         False
-        >>> print(oclWrapper_Creator(1).oclIsKindOf(bool))
+        >>> print(oclWrapper_Factory(1).oclIsKindOf(bool))
         False
         """
-        return oclWrapper_Creator(isinstance(self._wrapped, aclass))
+        return oclWrapper_Factory(isinstance(self._wrapped, aclass))
 
     def oclIsTypeOf(self, aclass: str) -> OclWrapper_Any:
         """Checks if the object is exactly an instance of the class. Exactly means that it will return False even if the object is a generalization or specialization of the desired class.
@@ -468,12 +468,12 @@ class OclWrapper_Any(object):
         Returns:
             True if the type of the object is exactly the given class, False otherwise.
 
-        >>> print(oclWrapper_Creator(True).oclIsTypeOf(OclWrapper_Any))
+        >>> print(oclWrapper_Factory(True).oclIsTypeOf(OclWrapper_Any))
         False
-        >>> print(oclWrapper_Creator(True).oclIsTypeOf(bool))
+        >>> print(oclWrapper_Factory(True).oclIsTypeOf(bool))
         True
         """
-        return oclWrapper_Creator(type(self._wrapped) is aclass)
+        return oclWrapper_Factory(type(self._wrapped) is aclass)
 
     def oclIsInvalid(self) -> OclWrapper_Any:
         """Checks if the wrapped object is invalid, aka is None.
@@ -484,12 +484,12 @@ class OclWrapper_Any(object):
         Returns:
             True if the wrapped object is invalid, aka is None, Fale otherwise.
 
-        >>> print(oclWrapper_Creator(True).oclIsInvalid())
+        >>> print(oclWrapper_Factory(True).oclIsInvalid())
         False
-        >>> print(oclWrapper_Creator(None).oclIsInvalid())
+        >>> print(oclWrapper_Factory(None).oclIsInvalid())
         True
         """
-        return oclWrapper_Creator(self._wrapped is None)
+        return oclWrapper_Factory(self._wrapped is None)
 
     def oclIsUndefined(self) -> OclWrapper_Any:
         """Checks if the wrapped object is undefined, aka is None.
@@ -500,12 +500,12 @@ class OclWrapper_Any(object):
         Returns:
             True if the wrapped object is undefined, aka is None, Fale otherwise.
 
-        >>> print(oclWrapper_Creator(True).oclIsUndefined())
+        >>> print(oclWrapper_Factory(True).oclIsUndefined())
         False
-        >>> print(oclWrapper_Creator(None).oclIsUndefined())
+        >>> print(oclWrapper_Factory(None).oclIsUndefined())
         True
         """
-        return oclWrapper_Creator(self._wrapped is None)
+        return oclWrapper_Factory(self._wrapped is None)
 
 
 
@@ -563,9 +563,9 @@ class OclWrapper_Boolean(OclWrapper_Primitive):
         Returns:
             The boolean signification of the wrapped object.
 
-        >>> print('Yes' if oclWrapper_Creator(True) else 'No')
+        >>> print('Yes' if oclWrapper_Factory(True) else 'No')
         Yes
-        >>> print('Yes' if oclWrapper_Creator(False) else 'No')
+        >>> print('Yes' if oclWrapper_Factory(False) else 'No')
         No
         """
         return self._wrapped.__bool__()
@@ -585,24 +585,24 @@ class OclWrapper_Addable(object):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(1) + 2)
+        >>> print(oclWrapper_Factory(1) + 2)
         3
-        >>> print(oclWrapper_Creator(1) + oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) + oclWrapper_Factory(2))
         3
-        >>> print(oclWrapper_Creator('Hello') + ' world!')
+        >>> print(oclWrapper_Factory('Hello') + ' world!')
         Hello world!
-        >>> print(oclWrapper_Creator('Hello') + oclWrapper_Creator(' world!'))
+        >>> print(oclWrapper_Factory('Hello') + oclWrapper_Factory(' world!'))
         Hello world!
-        >>> print(oclWrapper_Creator((1, 2)) + (3, 4))
+        >>> print(oclWrapper_Factory((1, 2)) + (3, 4))
         (1, 2, 3, 4)
-        >>> print(oclWrapper_Creator((1, 2)) + oclWrapper_Creator((3, 4)))
+        >>> print(oclWrapper_Factory((1, 2)) + oclWrapper_Factory((3, 4)))
         (1, 2, 3, 4)
-        >>> print(oclWrapper_Creator([1, 2]) + [3, 4])
+        >>> print(oclWrapper_Factory([1, 2]) + [3, 4])
         [1, 2, 3, 4]
-        >>> print(oclWrapper_Creator([1, 2]) + oclWrapper_Creator([3, 4]))
+        >>> print(oclWrapper_Factory([1, 2]) + oclWrapper_Factory([3, 4]))
         [1, 2, 3, 4]
         """
-        return oclWrapper_Creator(self._wrapped + otherObject)
+        return oclWrapper_Factory(self._wrapped + otherObject)
 
     def __radd__(self, otherObject) -> OclWrapper_Any:
         """__radd__ method.
@@ -616,26 +616,26 @@ class OclWrapper_Addable(object):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(2 + oclWrapper_Creator(1))
+        >>> print(2 + oclWrapper_Factory(1))
         3
-        >>> print(oclWrapper_Creator(1) + oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) + oclWrapper_Factory(2))
         3
-        >>> print(sum([oclWrapper_Creator(1), oclWrapper_Creator(2)]))
+        >>> print(sum([oclWrapper_Factory(1), oclWrapper_Factory(2)]))
         3
-        >>> print('Hello' + oclWrapper_Creator(' world!'))
+        >>> print('Hello' + oclWrapper_Factory(' world!'))
         Hello world!
-        >>> print(oclWrapper_Creator('Hello') + oclWrapper_Creator(' world!'))
+        >>> print(oclWrapper_Factory('Hello') + oclWrapper_Factory(' world!'))
         Hello world!
-        >>> print((1, 2) + oclWrapper_Creator((3, 4)))
+        >>> print((1, 2) + oclWrapper_Factory((3, 4)))
         (1, 2, 3, 4)
-        >>> print(oclWrapper_Creator((1, 2)) + oclWrapper_Creator((3, 4)))
+        >>> print(oclWrapper_Factory((1, 2)) + oclWrapper_Factory((3, 4)))
         (1, 2, 3, 4)
-        >>> print([1, 2] + oclWrapper_Creator([3, 4]))
+        >>> print([1, 2] + oclWrapper_Factory([3, 4]))
         [1, 2, 3, 4]
-        >>> print(oclWrapper_Creator([1, 2]) + oclWrapper_Creator([3, 4]))
+        >>> print(oclWrapper_Factory([1, 2]) + oclWrapper_Factory([3, 4]))
         [1, 2, 3, 4]
         """
-        return oclWrapper_Creator(otherObject + self._wrapped)
+        return oclWrapper_Factory(otherObject + self._wrapped)
 
 class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
     """ A wrapper to emulate Numeric types in OCL  :
@@ -656,16 +656,16 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
 
-        >>> print(oclWrapper_Creator(1) < 2)
+        >>> print(oclWrapper_Factory(1) < 2)
         True
-        >>> print(oclWrapper_Creator(1) < oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) < oclWrapper_Factory(2))
         True
-        >>> print(oclWrapper_Creator(2) < 1)
+        >>> print(oclWrapper_Factory(2) < 1)
         False
-        >>> print(oclWrapper_Creator(2) < oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(2) < oclWrapper_Factory(1))
         False
         """
-        return oclWrapper_Creator(self._wrapped < otherObject)
+        return oclWrapper_Factory(self._wrapped < otherObject)
 
     def __le__(self, otherObject) -> OclWrapper_Any:
         """__te__ method.
@@ -679,20 +679,20 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
 
-        >>> print(oclWrapper_Creator(1) <= 2)
+        >>> print(oclWrapper_Factory(1) <= 2)
         True
-        >>> print(oclWrapper_Creator(1) <= oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) <= oclWrapper_Factory(2))
         True
-        >>> print(oclWrapper_Creator(2) <= 1)
+        >>> print(oclWrapper_Factory(2) <= 1)
         False
-        >>> print(oclWrapper_Creator(2) <= oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(2) <= oclWrapper_Factory(1))
         False
-        >>> print(oclWrapper_Creator(1) <= 1)
+        >>> print(oclWrapper_Factory(1) <= 1)
         True
-        >>> print(oclWrapper_Creator(1) <= oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(1) <= oclWrapper_Factory(1))
         True
         """
-        return oclWrapper_Creator(self._wrapped <= otherObject)
+        return oclWrapper_Factory(self._wrapped <= otherObject)
 
     def __eq__(self, otherObject: object) -> OclWrapper_Any:
         """__eq__ method.
@@ -706,16 +706,16 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
 
-        >>> print(oclWrapper_Creator(1) == 1)
+        >>> print(oclWrapper_Factory(1) == 1)
         True
-        >>> print(oclWrapper_Creator(1) == oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(1) == oclWrapper_Factory(1))
         True
-        >>> print(oclWrapper_Creator(1) == 2)
+        >>> print(oclWrapper_Factory(1) == 2)
         False
-        >>> print(oclWrapper_Creator(1) == oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) == oclWrapper_Factory(2))
         False
         """
-        return oclWrapper_Creator(self._wrapped == otherObject)
+        return oclWrapper_Factory(self._wrapped == otherObject)
 
     def __hash__(self):
         """__hash__ method.
@@ -729,13 +729,13 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             The hash value of the instanced object.
 
-        >>> print(hash(oclWrapper_Creator(1)) == hash(oclWrapper_Creator(1)))
+        >>> print(hash(oclWrapper_Factory(1)) == hash(oclWrapper_Factory(1)))
         True
-        >>> a = oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(1)
         >>> print(hash(a) == hash(a))
         True
-        >>> a = oclWrapper_Creator(1)
-        >>> b = oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(1)
+        >>> b = oclWrapper_Factory(1)
         >>> print(hash(a) == hash(b))
         False
         """
@@ -753,20 +753,20 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
 
-        >>> print(oclWrapper_Creator(1) >= 2)
+        >>> print(oclWrapper_Factory(1) >= 2)
         False
-        >>> print(oclWrapper_Creator(1) >= oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) >= oclWrapper_Factory(2))
         False
-        >>> print(oclWrapper_Creator(2) >= 1)
+        >>> print(oclWrapper_Factory(2) >= 1)
         True
-        >>> print(oclWrapper_Creator(2) >= oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(2) >= oclWrapper_Factory(1))
         True
-        >>> print(oclWrapper_Creator(1) >= oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(1) >= oclWrapper_Factory(1))
         True
-        >>> print(oclWrapper_Creator(1) >= 1)
+        >>> print(oclWrapper_Factory(1) >= 1)
         True
         """
-        return oclWrapper_Creator(self._wrapped >= otherObject)
+        return oclWrapper_Factory(self._wrapped >= otherObject)
 
     def __gt__(self, otherObject) -> OclWrapper_Any:
         """__gt__ method.
@@ -780,16 +780,16 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the original wrapped object compared to the other object.
 
-        >>> print(oclWrapper_Creator(1) > 2)
+        >>> print(oclWrapper_Factory(1) > 2)
         False
-        >>> print(oclWrapper_Creator(1) > oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) > oclWrapper_Factory(2))
         False
-        >>> print(oclWrapper_Creator(2) > 1)
+        >>> print(oclWrapper_Factory(2) > 1)
         True
-        >>> print(oclWrapper_Creator(2) > oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(2) > oclWrapper_Factory(1))
         True
         """
-        return oclWrapper_Creator(self._wrapped > otherObject)
+        return oclWrapper_Factory(self._wrapped > otherObject)
 
     def __sub__(self, otherObject: object) -> OclWrapper_Any:
         """__sub__ method.
@@ -803,12 +803,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(1) - 2)
+        >>> print(oclWrapper_Factory(1) - 2)
         -1
-        >>> print(oclWrapper_Creator(1) - oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) - oclWrapper_Factory(2))
         -1
         """
-        return oclWrapper_Creator(self._wrapped - otherObject)
+        return oclWrapper_Factory(self._wrapped - otherObject)
 
     def __mul__(self, otherObject: object) -> OclWrapper_Any:
         """__mul__ method.
@@ -822,12 +822,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(1) * 2)
+        >>> print(oclWrapper_Factory(1) * 2)
         2
-        >>> print(oclWrapper_Creator(1) * oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) * oclWrapper_Factory(2))
         2
         """
-        return oclWrapper_Creator(self._wrapped * otherObject)
+        return oclWrapper_Factory(self._wrapped * otherObject)
 
     def __matmul__(self, otherObject: object) -> OclWrapper_Any:
         """__matmul__ method.
@@ -841,7 +841,7 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
         """
-        return oclWrapper_Creator(self._wrapped @ otherObject)
+        return oclWrapper_Factory(self._wrapped @ otherObject)
 
     def __truediv__(self, otherObject: object) -> OclWrapper_Any:
         """__truediv__ method.
@@ -855,12 +855,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(1) / 2)
+        >>> print(oclWrapper_Factory(1) / 2)
         0.5
-        >>> print(oclWrapper_Creator(1) / oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) / oclWrapper_Factory(2))
         0.5
         """
-        return oclWrapper_Creator(self._wrapped / otherObject)
+        return oclWrapper_Factory(self._wrapped / otherObject)
 
     def __floordiv__(self, otherObject: object) -> OclWrapper_Any:
         """__floordiv__ method.
@@ -874,12 +874,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(1) // 2)
+        >>> print(oclWrapper_Factory(1) // 2)
         0
-        >>> print(oclWrapper_Creator(1) // oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) // oclWrapper_Factory(2))
         0
         """
-        return oclWrapper_Creator(self._wrapped // otherObject)
+        return oclWrapper_Factory(self._wrapped // otherObject)
 
     def __mod__(self, otherObject: object) -> OclWrapper_Any:
         """__mod__ method.
@@ -893,12 +893,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(3) % 2)
+        >>> print(oclWrapper_Factory(3) % 2)
         1
-        >>> print(oclWrapper_Creator(3) % oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(3) % oclWrapper_Factory(2))
         1
         """
-        return oclWrapper_Creator(self._wrapped % otherObject)
+        return oclWrapper_Factory(self._wrapped % otherObject)
 
     def __divmod__(self, otherObject: object) -> OclWrapper_Any:
         """__divmod__ method.
@@ -912,12 +912,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(divmod(oclWrapper_Creator(7), 2))
+        >>> print(divmod(oclWrapper_Factory(7), 2))
         (3, 1)
-        >>> print(divmod(oclWrapper_Creator(7), oclWrapper_Creator(2)))
+        >>> print(divmod(oclWrapper_Factory(7), oclWrapper_Factory(2)))
         (3, 1)
         """
-        return oclWrapper_Creator(divmod(self._wrapped, otherObject))
+        return oclWrapper_Factory(divmod(self._wrapped, otherObject))
 
     def __pow__(self, otherObject: object) -> OclWrapper_Any:
         """__pow__ method.
@@ -931,12 +931,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(pow(oclWrapper_Creator(2), 3))
+        >>> print(pow(oclWrapper_Factory(2), 3))
         8
-        >>> print(pow(oclWrapper_Creator(2), oclWrapper_Creator(3)))
+        >>> print(pow(oclWrapper_Factory(2), oclWrapper_Factory(3)))
         8
         """
-        return oclWrapper_Creator(pow(self._wrapped, otherObject))
+        return oclWrapper_Factory(pow(self._wrapped, otherObject))
 
     def __lshift__(self, otherObject: object) -> OclWrapper_Any:
         """__lshift__ method.
@@ -950,12 +950,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(2) << 1)
+        >>> print(oclWrapper_Factory(2) << 1)
         4
-        >>> print(oclWrapper_Creator(2) << oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(2) << oclWrapper_Factory(2))
         8
         """
-        return oclWrapper_Creator(self._wrapped << otherObject)
+        return oclWrapper_Factory(self._wrapped << otherObject)
 
     def __rshift__(self, otherObject: object) -> OclWrapper_Any:
         """__rshift__ method.
@@ -969,12 +969,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(4) >> 1)
+        >>> print(oclWrapper_Factory(4) >> 1)
         2
-        >>> print(oclWrapper_Creator(4) >> oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(4) >> oclWrapper_Factory(2))
         1
         """
-        return oclWrapper_Creator(self._wrapped >> otherObject)
+        return oclWrapper_Factory(self._wrapped >> otherObject)
 
     def __and__(self, otherObject: object) -> OclWrapper_Any:
         """__and__ method.
@@ -988,12 +988,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(3) & 1)
+        >>> print(oclWrapper_Factory(3) & 1)
         1
-        >>> print(oclWrapper_Creator(3) & oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(3) & oclWrapper_Factory(1))
         1
         """
-        return oclWrapper_Creator(self._wrapped & otherObject)
+        return oclWrapper_Factory(self._wrapped & otherObject)
 
     def __or__(self, otherObject: object) -> OclWrapper_Any:
         """__or__ method.
@@ -1007,12 +1007,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(3) | 1)
+        >>> print(oclWrapper_Factory(3) | 1)
         3
-        >>> print(oclWrapper_Creator(3) | oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(3) | oclWrapper_Factory(1))
         3
         """
-        return oclWrapper_Creator(self._wrapped | otherObject)
+        return oclWrapper_Factory(self._wrapped | otherObject)
 
     def __xor__(self, otherObject: object) -> OclWrapper_Any:
         """__xor__ method.
@@ -1026,12 +1026,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(3) ^ 1)
+        >>> print(oclWrapper_Factory(3) ^ 1)
         2
-        >>> print(oclWrapper_Creator(3) ^ oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(3) ^ oclWrapper_Factory(1))
         2
         """
-        return oclWrapper_Creator(self._wrapped ^ otherObject)
+        return oclWrapper_Factory(self._wrapped ^ otherObject)
 
     def __rsub__(self, otherObject) -> OclWrapper_Any:
         """__rsub__ method.
@@ -1045,12 +1045,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(2 - oclWrapper_Creator(1))
+        >>> print(2 - oclWrapper_Factory(1))
         1
-        >>> print(oclWrapper_Creator(2) - oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(2) - oclWrapper_Factory(1))
         1
         """
-        return oclWrapper_Creator(otherObject - self._wrapped)
+        return oclWrapper_Factory(otherObject - self._wrapped)
 
     def __rmul__(self, otherObject: object) -> OclWrapper_Any:
         """__rmul__ method.
@@ -1064,12 +1064,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(2 * oclWrapper_Creator(1))
+        >>> print(2 * oclWrapper_Factory(1))
         2
-        >>> print(oclWrapper_Creator(2) * oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(2) * oclWrapper_Factory(1))
         2
         """
-        return oclWrapper_Creator(otherObject * self._wrapped)
+        return oclWrapper_Factory(otherObject * self._wrapped)
 
     def __rmatmul__(self, otherObject: object) -> OclWrapper_Any:
         """__rmatmul__ method.
@@ -1083,7 +1083,7 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
         """
-        return oclWrapper_Creator(otherObject @ self._wrapped)
+        return oclWrapper_Factory(otherObject @ self._wrapped)
 
     def __rtruediv__(self, otherObject: object) -> OclWrapper_Any:
         """__rtruediv__ method.
@@ -1097,12 +1097,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(1 / oclWrapper_Creator(2))
+        >>> print(1 / oclWrapper_Factory(2))
         0.5
-        >>> print(oclWrapper_Creator(1) / oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) / oclWrapper_Factory(2))
         0.5
         """
-        return oclWrapper_Creator(otherObject / self._wrapped)
+        return oclWrapper_Factory(otherObject / self._wrapped)
 
     def __rfloordiv__(self, otherObject: object) -> OclWrapper_Any:
         """__rfloordiv__ method.
@@ -1116,12 +1116,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(1 // oclWrapper_Creator(2))
+        >>> print(1 // oclWrapper_Factory(2))
         0
-        >>> print(oclWrapper_Creator(1) // oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(1) // oclWrapper_Factory(2))
         0
         """
-        return oclWrapper_Creator(otherObject // self._wrapped)
+        return oclWrapper_Factory(otherObject // self._wrapped)
 
     def __rmod__(self, otherObject: object) -> OclWrapper_Any:
         """__rmod__ method.
@@ -1135,12 +1135,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(3 % oclWrapper_Creator(2))
+        >>> print(3 % oclWrapper_Factory(2))
         1
-        >>> print(oclWrapper_Creator(3) % oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(3) % oclWrapper_Factory(2))
         1
         """
-        return oclWrapper_Creator(otherObject % self._wrapped)
+        return oclWrapper_Factory(otherObject % self._wrapped)
 
     def __rdivmod__(self, otherObject: object) -> OclWrapper_Any:
         """__rdivmod__ method.
@@ -1154,12 +1154,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(divmod(7, oclWrapper_Creator(2)))
+        >>> print(divmod(7, oclWrapper_Factory(2)))
         (3, 1)
-        >>> print(divmod(oclWrapper_Creator(7), oclWrapper_Creator(2)))
+        >>> print(divmod(oclWrapper_Factory(7), oclWrapper_Factory(2)))
         (3, 1)
         """
-        return oclWrapper_Creator(divmod(otherObject,self._wrapped))
+        return oclWrapper_Factory(divmod(otherObject,self._wrapped))
 
     def __rpow__(self, otherObject: object) -> OclWrapper_Any:
         """__rpow__ method.
@@ -1173,12 +1173,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(pow(2, oclWrapper_Creator(3)))
+        >>> print(pow(2, oclWrapper_Factory(3)))
         8
-        >>> print(pow(oclWrapper_Creator(2), oclWrapper_Creator(3)))
+        >>> print(pow(oclWrapper_Factory(2), oclWrapper_Factory(3)))
         8
         """
-        return oclWrapper_Creator(pow(otherObject, self._wrapped))
+        return oclWrapper_Factory(pow(otherObject, self._wrapped))
 
     def __rlshift__(self, otherObject: object) -> OclWrapper_Any:
         """__rlshift__ method.
@@ -1192,12 +1192,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(2 << oclWrapper_Creator(1))
+        >>> print(2 << oclWrapper_Factory(1))
         4
-        >>> print(oclWrapper_Creator(2) << oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(2) << oclWrapper_Factory(2))
         8
         """
-        return oclWrapper_Creator(otherObject << self._wrapped)
+        return oclWrapper_Factory(otherObject << self._wrapped)
 
     def __rrshift__(self, otherObject: object) -> OclWrapper_Any:
         """__rrshift__ method.
@@ -1211,12 +1211,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(4 >> oclWrapper_Creator(1))
+        >>> print(4 >> oclWrapper_Factory(1))
         2
-        >>> print(oclWrapper_Creator(4) >> oclWrapper_Creator(2))
+        >>> print(oclWrapper_Factory(4) >> oclWrapper_Factory(2))
         1
         """
-        return oclWrapper_Creator(otherObject >> self._wrapped)
+        return oclWrapper_Factory(otherObject >> self._wrapped)
 
     def __rand__(self, otherObject: object) -> OclWrapper_Any:
         """__rand__ method.
@@ -1230,12 +1230,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(3 & oclWrapper_Creator(1))
+        >>> print(3 & oclWrapper_Factory(1))
         1
-        >>> print(oclWrapper_Creator(3) & oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(3) & oclWrapper_Factory(1))
         1
         """
-        return oclWrapper_Creator(otherObject & self._wrapped)
+        return oclWrapper_Factory(otherObject & self._wrapped)
 
     def __ror__(self, otherObject: object) -> OclWrapper_Any:
         """__ror__ method.
@@ -1249,12 +1249,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(3 | oclWrapper_Creator(1))
+        >>> print(3 | oclWrapper_Factory(1))
         3
-        >>> print(oclWrapper_Creator(3) | oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(3) | oclWrapper_Factory(1))
         3
         """
-        return oclWrapper_Creator(otherObject | self._wrapped)
+        return oclWrapper_Factory(otherObject | self._wrapped)
 
     def __rxor__(self, otherObject: object) -> OclWrapper_Any:
         """__rxor__ method.
@@ -1268,12 +1268,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(3 ^ oclWrapper_Creator(1))
+        >>> print(3 ^ oclWrapper_Factory(1))
         2
-        >>> print(oclWrapper_Creator(3) ^ oclWrapper_Creator(1))
+        >>> print(oclWrapper_Factory(3) ^ oclWrapper_Factory(1))
         2
         """
-        return oclWrapper_Creator(otherObject ^ self._wrapped)
+        return oclWrapper_Factory(otherObject ^ self._wrapped)
 
     def __iadd__(self, otherObject) -> OclWrapper_Any:
         """__iadd__ method.
@@ -1287,36 +1287,36 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(1)
         >>> a += 2
         >>> print(a)
         3
-        >>> a = oclWrapper_Creator(1)
-        >>> a += oclWrapper_Creator(2)
+        >>> a = oclWrapper_Factory(1)
+        >>> a += oclWrapper_Factory(2)
         >>> print(a)
         3
-        >>> a = oclWrapper_Creator('Hello')
+        >>> a = oclWrapper_Factory('Hello')
         >>> a += ' world!'
         >>> print(a)
         Hello world!
-        >>> a = oclWrapper_Creator('Hello')
-        >>> a += oclWrapper_Creator(' world!')
+        >>> a = oclWrapper_Factory('Hello')
+        >>> a += oclWrapper_Factory(' world!')
         >>> print(a)
         Hello world!
-        >>> a = oclWrapper_Creator((1, 2))
+        >>> a = oclWrapper_Factory((1, 2))
         >>> a += (3, 4)
         >>> print(a)
         (1, 2, 3, 4)
-        >>> a = oclWrapper_Creator((1, 2))
-        >>> a += oclWrapper_Creator((3, 4))
+        >>> a = oclWrapper_Factory((1, 2))
+        >>> a += oclWrapper_Factory((3, 4))
         >>> print(a)
         (1, 2, 3, 4)
-        >>> a = oclWrapper_Creator([1, 2])
+        >>> a = oclWrapper_Factory([1, 2])
         >>> a += [3, 4]
         >>> print(a)
         [1, 2, 3, 4]
-        >>> a = oclWrapper_Creator([1, 2])
-        >>> a += oclWrapper_Creator([3, 4])
+        >>> a = oclWrapper_Factory([1, 2])
+        >>> a += oclWrapper_Factory([3, 4])
         >>> print(a)
         [1, 2, 3, 4]
         """
@@ -1335,12 +1335,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(1)
         >>> a -= 2
         >>> print(a)
         -1
-        >>> a = oclWrapper_Creator(1)
-        >>> a -= oclWrapper_Creator(2)
+        >>> a = oclWrapper_Factory(1)
+        >>> a -= oclWrapper_Factory(2)
         >>> print(a)
         -1
         """
@@ -1359,12 +1359,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(1)
         >>> a *= 2
         >>> print(a)
         2
-        >>> a = oclWrapper_Creator(1)
-        >>> a *= oclWrapper_Creator(2)
+        >>> a = oclWrapper_Factory(1)
+        >>> a *= oclWrapper_Factory(2)
         >>> print(a)
         2
         """
@@ -1398,12 +1398,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(1)
         >>> a /= 2
         >>> print(a)
         0.5
-        >>> a = oclWrapper_Creator(1)
-        >>> a /= oclWrapper_Creator(2)
+        >>> a = oclWrapper_Factory(1)
+        >>> a /= oclWrapper_Factory(2)
         >>> print(a)
         0.5
         """
@@ -1422,12 +1422,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> a = oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(1)
         >>> a //= 2
         >>> print(a)
         0
-        >>> a = oclWrapper_Creator(1)
-        >>> a //= oclWrapper_Creator(2)
+        >>> a = oclWrapper_Factory(1)
+        >>> a //= oclWrapper_Factory(2)
         >>> print(a)
         0
         """
@@ -1446,12 +1446,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(7)
+        >>> a = oclWrapper_Factory(7)
         >>> a %= 2
         >>> print(a)
         1
-        >>> a = oclWrapper_Creator(7)
-        >>> a %= oclWrapper_Creator(2)
+        >>> a = oclWrapper_Factory(7)
+        >>> a %= oclWrapper_Factory(2)
         >>> print(a)
         1
         """
@@ -1470,12 +1470,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(2)
+        >>> a = oclWrapper_Factory(2)
         >>> a **= 3
         >>> print(a)
         8
-        >>> a = oclWrapper_Creator(2)
-        >>> a **= oclWrapper_Creator(3)
+        >>> a = oclWrapper_Factory(2)
+        >>> a **= oclWrapper_Factory(3)
         >>> print(a)
         8
         """
@@ -1494,12 +1494,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(1)
         >>> a <<= 2
         >>> print(a)
         4
-        >>> a = oclWrapper_Creator(1)
-        >>> a <<= oclWrapper_Creator(2)
+        >>> a = oclWrapper_Factory(1)
+        >>> a <<= oclWrapper_Factory(2)
         >>> print(a)
         4
         """
@@ -1518,12 +1518,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(2)
+        >>> a = oclWrapper_Factory(2)
         >>> a >>= 1
         >>> print(a)
         1
-        >>> a = oclWrapper_Creator(2)
-        >>> a >>= oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(2)
+        >>> a >>= oclWrapper_Factory(1)
         >>> print(a)
         1
         """
@@ -1542,12 +1542,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(3)
+        >>> a = oclWrapper_Factory(3)
         >>> a &= 1
         >>> print(a)
         1
-        >>> a = oclWrapper_Creator(3)
-        >>> a &= oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(3)
+        >>> a &= oclWrapper_Factory(1)
         >>> print(a)
         1
         """
@@ -1566,12 +1566,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(3)
+        >>> a = oclWrapper_Factory(3)
         >>> a |= 1
         >>> print(a)
         3
-        >>> a = oclWrapper_Creator(3)
-        >>> a |= oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(3)
+        >>> a |= oclWrapper_Factory(1)
         >>> print(a)
         3
         """
@@ -1590,12 +1590,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             Updates the wrapped object with the operation and returns self.
 
-        >>> a = oclWrapper_Creator(3)
+        >>> a = oclWrapper_Factory(3)
         >>> a ^= 1
         >>> print(a)
         2
-        >>> a = oclWrapper_Creator(3)
-        >>> a ^= oclWrapper_Creator(1)
+        >>> a = oclWrapper_Factory(3)
+        >>> a ^= oclWrapper_Factory(1)
         >>> print(a)
         2
         """
@@ -1611,12 +1611,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(-oclWrapper_Creator(3))
+        >>> print(-oclWrapper_Factory(3))
         -3
-        >>> print(-oclWrapper_Creator(-3))
+        >>> print(-oclWrapper_Factory(-3))
         3
         """
-        return oclWrapper_Creator(-self._wrapped)
+        return oclWrapper_Factory(-self._wrapped)
 
     def __pos__(self) -> OclWrapper_Any:
         """__pos__ method.
@@ -1627,12 +1627,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(+oclWrapper_Creator(3))
+        >>> print(+oclWrapper_Factory(3))
         3
-        >>> print(+oclWrapper_Creator(-3))
+        >>> print(+oclWrapper_Factory(-3))
         -3
         """
-        return oclWrapper_Creator(+self._wrapped)
+        return oclWrapper_Factory(+self._wrapped)
 
     def __abs__(self) -> OclWrapper_Any:
         """__abs__ method.
@@ -1643,12 +1643,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(abs(oclWrapper_Creator(3)))
+        >>> print(abs(oclWrapper_Factory(3)))
         3
-        >>> print(abs(oclWrapper_Creator(-3)))
+        >>> print(abs(oclWrapper_Factory(-3)))
         3
         """
-        return oclWrapper_Creator(abs(self._wrapped))
+        return oclWrapper_Factory(abs(self._wrapped))
 
     def __invert__(self) -> OclWrapper_Any:
         """__invert__ method.
@@ -1659,12 +1659,12 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             An OclWrapper_Any wrapping the result of the operation on the wrapped object and the other object.
 
-        >>> print(~oclWrapper_Creator(3))
+        >>> print(~oclWrapper_Factory(3))
         -4
-        >>> print(~oclWrapper_Creator(-3))
+        >>> print(~oclWrapper_Factory(-3))
         2
         """
-        return oclWrapper_Creator(~self._wrapped)
+        return oclWrapper_Factory(~self._wrapped)
 
     def __complex__(self) -> complex:
         """__complex__ method.
@@ -1675,9 +1675,9 @@ class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(complex(oclWrapper_Creator(3)))
+        >>> print(complex(oclWrapper_Factory(3)))
         (3+0j)
-        >>> print(complex(oclWrapper_Creator(3.5)))
+        >>> print(complex(oclWrapper_Factory(3.5)))
         (3.5+0j)
         """
         return complex(self._wrapped)
@@ -1694,9 +1694,9 @@ class OclWrapper_Floatable(object):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(float(oclWrapper_Creator(3)))
+        >>> print(float(oclWrapper_Factory(3)))
         3.0
-        >>> print(float(oclWrapper_Creator("3")))
+        >>> print(float(oclWrapper_Factory("3")))
         3.0
         """
         return float(self._wrapped)
@@ -1716,7 +1716,7 @@ class OclWrapper_Integer(OclWrapper_Numeric, OclWrapper_Floatable):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(oclWrapper_Creator(3).__index__())
+        >>> print(oclWrapper_Factory(3).__index__())
         3
         """
         return self._wrapped.__index__()
@@ -1734,9 +1734,9 @@ class OclWrapper_Intable(object):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(int(oclWrapper_Creator(3.5)))
+        >>> print(int(oclWrapper_Factory(3.5)))
         3
-        >>> print(int(oclWrapper_Creator("3")))
+        >>> print(int(oclWrapper_Factory("3")))
         3
         """
         return int(self._wrapped)
@@ -1753,21 +1753,21 @@ class OclWrapper_Real(OclWrapper_Numeric):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(round(oclWrapper_Creator(3.111111)))
+        >>> print(round(oclWrapper_Factory(3.111111)))
         3
-        >>> print(round(oclWrapper_Creator(3.444444)))
+        >>> print(round(oclWrapper_Factory(3.444444)))
         3
-        >>> print(round(oclWrapper_Creator(3.555555)))
+        >>> print(round(oclWrapper_Factory(3.555555)))
         4
-        >>> print(round(oclWrapper_Creator(3.999999)))
+        >>> print(round(oclWrapper_Factory(3.999999)))
         4
-        >>> print(round(oclWrapper_Creator(3.111111), 3))
+        >>> print(round(oclWrapper_Factory(3.111111), 3))
         3.111
-        >>> print(round(oclWrapper_Creator(3.444444), 3))
+        >>> print(round(oclWrapper_Factory(3.444444), 3))
         3.444
-        >>> print(round(oclWrapper_Creator(3.555555), 3))
+        >>> print(round(oclWrapper_Factory(3.555555), 3))
         3.556
-        >>> print(round(oclWrapper_Creator(3.999999), 3))
+        >>> print(round(oclWrapper_Factory(3.999999), 3))
         4.0
         """
         return self._wrapped.__round__(*ndigits)
@@ -1781,13 +1781,13 @@ class OclWrapper_Real(OclWrapper_Numeric):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(trunc(oclWrapper_Creator(3.1)))
+        >>> print(trunc(oclWrapper_Factory(3.1)))
         3
-        >>> print(trunc(oclWrapper_Creator(3.4)))
+        >>> print(trunc(oclWrapper_Factory(3.4)))
         3
-        >>> print(trunc(oclWrapper_Creator(3.5)))
+        >>> print(trunc(oclWrapper_Factory(3.5)))
         3
-        >>> print(trunc(oclWrapper_Creator(3.9)))
+        >>> print(trunc(oclWrapper_Factory(3.9)))
         3
         """
         return self._wrapped.__trunc__()
@@ -1801,13 +1801,13 @@ class OclWrapper_Real(OclWrapper_Numeric):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(floor(oclWrapper_Creator(3.1)))
+        >>> print(floor(oclWrapper_Factory(3.1)))
         3
-        >>> print(floor(oclWrapper_Creator(3.4)))
+        >>> print(floor(oclWrapper_Factory(3.4)))
         3
-        >>> print(floor(oclWrapper_Creator(3.5)))
+        >>> print(floor(oclWrapper_Factory(3.5)))
         3
-        >>> print(floor(oclWrapper_Creator(3.9)))
+        >>> print(floor(oclWrapper_Factory(3.9)))
         3
         """
         return floor(self._wrapped)
@@ -1821,13 +1821,13 @@ class OclWrapper_Real(OclWrapper_Numeric):
         Returns:
             The result of the operation on the wrapped object and the other object.
 
-        >>> print(ceil(oclWrapper_Creator(3.1)))
+        >>> print(ceil(oclWrapper_Factory(3.1)))
         4
-        >>> print(ceil(oclWrapper_Creator(3.4)))
+        >>> print(ceil(oclWrapper_Factory(3.4)))
         4
-        >>> print(ceil(oclWrapper_Creator(3.5)))
+        >>> print(ceil(oclWrapper_Factory(3.5)))
         4
-        >>> print(ceil(oclWrapper_Creator(3.9)))
+        >>> print(ceil(oclWrapper_Factory(3.9)))
         4
         """
         return ceil(self._wrapped)
@@ -1847,13 +1847,13 @@ class OclWrapper_Multiple(object):
         Returns:
             The length of the wrapped objet.
 
-        >>> len(oclWrapper_Creator('Hello'))
+        >>> len(oclWrapper_Factory('Hello'))
         5
-        >>> len(oclWrapper_Creator((1, 2, 3)))
+        >>> len(oclWrapper_Factory((1, 2, 3)))
         3
-        >>> len(oclWrapper_Creator([1, 2, 3, 4]))
+        >>> len(oclWrapper_Factory([1, 2, 3, 4]))
         4
-        >>> len(oclWrapper_Creator({'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6}))
+        >>> len(oclWrapper_Factory({'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6}))
         6
         """
         return self._wrapped.__len__()
@@ -1870,16 +1870,16 @@ class OclWrapper_Multiple(object):
         Returns:
             The object returned by the wrapped object.
 
-        >>> print(oclWrapper_Creator((1, 2, 3))[1])
+        >>> print(oclWrapper_Factory((1, 2, 3))[1])
         2
-        >>> print(oclWrapper_Creator('Hello world!')[1])
+        >>> print(oclWrapper_Factory('Hello world!')[1])
         e
-        >>> print(oclWrapper_Creator([1, 2, 3])[2])
+        >>> print(oclWrapper_Factory([1, 2, 3])[2])
         3
-        >>> print(oclWrapper_Creator({'a': 1, 'b': 2, 'c': 3})['c'])
+        >>> print(oclWrapper_Factory({'a': 1, 'b': 2, 'c': 3})['c'])
         3
         """
-        return oclWrapper_Creator(self._wrapped.__getitem__(key))
+        return oclWrapper_Factory(self._wrapped.__getitem__(key))
 
     def __contains__(self, item: object) -> OclWrapper_Any:
         """__contains__ method.
@@ -1893,41 +1893,41 @@ class OclWrapper_Multiple(object):
         Returns:
             True if the wrapped object contains the item, False otherwise.
 
-        >>> print(oclWrapper_Creator([2, 3, 1]).__contains__(3))
+        >>> print(oclWrapper_Factory([2, 3, 1]).__contains__(3))
         True
-        >>> print(oclWrapper_Creator([2, 3, 1]).__contains__(4))
+        >>> print(oclWrapper_Factory([2, 3, 1]).__contains__(4))
         False
-        >>> print(oclWrapper_Creator((2, 3, 1)).__contains__(3))
+        >>> print(oclWrapper_Factory((2, 3, 1)).__contains__(3))
         True
-        >>> print(oclWrapper_Creator((2, 3, 1)).__contains__(4))
+        >>> print(oclWrapper_Factory((2, 3, 1)).__contains__(4))
         False
-        >>> print(oclWrapper_Creator({'a':2, 'b':3, 'c':1}).__contains__('b'))
+        >>> print(oclWrapper_Factory({'a':2, 'b':3, 'c':1}).__contains__('b'))
         True
-        >>> print(oclWrapper_Creator({'a':2, 'b':3, 'c':1}).__contains__('d'))
+        >>> print(oclWrapper_Factory({'a':2, 'b':3, 'c':1}).__contains__('d'))
         False
-        >>> print(oclWrapper_Creator('Hello world!').__contains__('o'))
+        >>> print(oclWrapper_Factory('Hello world!').__contains__('o'))
         True
-        >>> print(oclWrapper_Creator('Hello world!').__contains__('z'))
+        >>> print(oclWrapper_Factory('Hello world!').__contains__('z'))
         False
 
-        >>> print(3 in oclWrapper_Creator([2, 3, 1]))
+        >>> print(3 in oclWrapper_Factory([2, 3, 1]))
         True
-        >>> print(4 in oclWrapper_Creator([2, 3, 1]))
+        >>> print(4 in oclWrapper_Factory([2, 3, 1]))
         False
-        >>> print(3 in oclWrapper_Creator((2, 3, 1)))
+        >>> print(3 in oclWrapper_Factory((2, 3, 1)))
         True
-        >>> print(4 in oclWrapper_Creator((2, 3, 1)))
+        >>> print(4 in oclWrapper_Factory((2, 3, 1)))
         False
-        >>> print('b' in oclWrapper_Creator({'a':2, 'b':3, 'c':1}))
+        >>> print('b' in oclWrapper_Factory({'a':2, 'b':3, 'c':1}))
         True
-        >>> print('d' in oclWrapper_Creator({'a':2, 'b':3, 'c':1}))
+        >>> print('d' in oclWrapper_Factory({'a':2, 'b':3, 'c':1}))
         False
-        >>> print('o' in oclWrapper_Creator('Hello world!'))
+        >>> print('o' in oclWrapper_Factory('Hello world!'))
         True
-        >>> print('z' in oclWrapper_Creator('Hello world!'))
+        >>> print('z' in oclWrapper_Factory('Hello world!'))
         False
         """
-        return oclWrapper_Creator(self._wrapped.__contains__(item))
+        return oclWrapper_Factory(self._wrapped.__contains__(item))
 
 class OclWrapper_String(OclWrapper_Primitive, OclWrapper_Floatable, OclWrapper_Intable, OclWrapper_Multiple):
     """ A wrapper to emulate String type in OCL (in python "str")."""
@@ -1944,12 +1944,12 @@ class OclWrapper_String(OclWrapper_Primitive, OclWrapper_Floatable, OclWrapper_I
         Returns:
             An OclWrapper_Any wrapping the original wrapped object once concatenated with the other object (eventually already wrapped).
 
-        >>> print(oclWrapper_Creator('Hello World!').concat(' I am a string.'))
+        >>> print(oclWrapper_Factory('Hello World!').concat(' I am a string.'))
         Hello World! I am a string.
-        >>> print(oclWrapper_Creator('Hello World!').concat(oclWrapper_Creator(' I am another string.')))
+        >>> print(oclWrapper_Factory('Hello World!').concat(oclWrapper_Factory(' I am another string.')))
         Hello World! I am another string.
         """
-        return oclWrapper_Creator(self._wrapped + otherObject)
+        return oclWrapper_Factory(self._wrapped + otherObject)
 
     def size(self) -> OclWrapper_Any:
         """Returns the size, aka le length, of the wrapped object.
@@ -1960,14 +1960,14 @@ class OclWrapper_String(OclWrapper_Primitive, OclWrapper_Floatable, OclWrapper_I
         Returns:
             An OclWrapper_Any wrapping the size, aka the length, of the wrapped object.
 
-        >>> print(oclWrapper_Creator('Hello World!').size())
+        >>> print(oclWrapper_Factory('Hello World!').size())
         12
-        >>> print(oclWrapper_Creator('').size())
+        >>> print(oclWrapper_Factory('').size())
         0
-        >>> print(oclWrapper_Creator(oclWrapper_Creator('Hello World!')).size())
+        >>> print(oclWrapper_Factory(oclWrapper_Factory('Hello World!')).size())
         12
         """
-        return oclWrapper_Creator(len(self._wrapped))
+        return oclWrapper_Factory(len(self._wrapped))
 
     def substring(self, start: int, end: int) -> OclWrapper_Any:
         """Slices the _wrapped object from start to end.
@@ -1984,15 +1984,15 @@ class OclWrapper_String(OclWrapper_Primitive, OclWrapper_Floatable, OclWrapper_I
         Returns:
             An OclWrapper_Any wrapping the result of the slicing from start to end on the wrapped object.
 
-        >>> print(oclWrapper_Creator('test').substring(1,1))
+        >>> print(oclWrapper_Factory('test').substring(1,1))
         t
-        >>> print(oclWrapper_Creator(oclWrapper_Creator('test')).substring(2,4))
+        >>> print(oclWrapper_Factory(oclWrapper_Factory('test')).substring(2,4))
         est
-        >>> s = oclWrapper_Creator('test')
+        >>> s = oclWrapper_Factory('test')
         >>> print(s.substring(1, s.size()))
         test
         """
-        return oclWrapper_Creator(self._wrapped[start-1:end])
+        return oclWrapper_Factory(self._wrapped[start-1:end])
 
     def toInteger(self) -> OclWrapper_Any:
         """Parses a String into an Integer, if possible.
@@ -2003,12 +2003,12 @@ class OclWrapper_String(OclWrapper_Primitive, OclWrapper_Floatable, OclWrapper_I
         Returns:
             An OclWrapper_Any wrapping the Integer value of the wrapped object.
 
-        >>> print(oclWrapper_Creator('3').toInteger())
+        >>> print(oclWrapper_Factory('3').toInteger())
         3
-        >>> print(oclWrapper_Creator(oclWrapper_Creator('3')).toInteger())
+        >>> print(oclWrapper_Factory(oclWrapper_Factory('3')).toInteger())
         3
         """
-        return oclWrapper_Creator(int(self._wrapped))
+        return oclWrapper_Factory(int(self._wrapped))
 
     def toLower(self) -> OclWrapper_Any:
         """Turns the wrapped string into a full lowercase version of itelf.
@@ -2019,14 +2019,14 @@ class OclWrapper_String(OclWrapper_Primitive, OclWrapper_Floatable, OclWrapper_I
         Returns:
             An OclWrapper_Any wrapping a full lowercase version of the original wrapped object.
 
-        >>> print(oclWrapper_Creator('IWIW').toLower())
+        >>> print(oclWrapper_Factory('IWIW').toLower())
         iwiw
-        >>> print(oclWrapper_Creator('iwiw').toLower())
+        >>> print(oclWrapper_Factory('iwiw').toLower())
         iwiw
-        >>> print(oclWrapper_Creator('IwIw').toLower())
+        >>> print(oclWrapper_Factory('IwIw').toLower())
         iwiw
         """
-        return oclWrapper_Creator(self._wrapped.lower())
+        return oclWrapper_Factory(self._wrapped.lower())
 
     def toUpper(self) -> OclWrapper_Any:
         """Turns the wrapped string into a full uppercase version of itelf.
@@ -2037,14 +2037,14 @@ class OclWrapper_String(OclWrapper_Primitive, OclWrapper_Floatable, OclWrapper_I
         Returns:
             An OclWrapper_Any wrapping a full uppercase version of the original wrapped object.
 
-        >>> print(oclWrapper_Creator('IWIW').toUpper())
+        >>> print(oclWrapper_Factory('IWIW').toUpper())
         IWIW
-        >>> print(oclWrapper_Creator('iwiw').toUpper())
+        >>> print(oclWrapper_Factory('iwiw').toUpper())
         IWIW
-        >>> print(oclWrapper_Creator('IwIw').toUpper())
+        >>> print(oclWrapper_Factory('IwIw').toUpper())
         IWIW
         """
-        return oclWrapper_Creator(self._wrapped.upper())
+        return oclWrapper_Factory(self._wrapped.upper())
 
 class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
     """ A wrapper to emulate Collection type in OCL (in python <multiple types possibles depending on the collection>)."""
@@ -2071,11 +2071,11 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Args:
             key (object): Key of the item to set.
 
-        >>> a = oclWrapper_Creator([1, 2, 3])
+        >>> a = oclWrapper_Factory([1, 2, 3])
         >>> a[1] = 'A'
         >>> print(a)
         [1, 'A', 3]
-        >>> a = oclWrapper_Creator({'a': 1, 'b': 2, 'c': 3})
+        >>> a = oclWrapper_Factory({'a': 1, 'b': 2, 'c': 3})
         >>> a['b'] = 'A'
         >>> print(a)
         {'a': 1, 'b': 'A', 'c': 3}
@@ -2091,11 +2091,11 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Args:
             key (object): Key of the item to delete.
 
-        >>> a = oclWrapper_Creator([1, 2, 3])
+        >>> a = oclWrapper_Factory([1, 2, 3])
         >>> del a[1]
         >>> print(a)
         [1, 3]
-        >>> a = oclWrapper_Creator({'a': 1, 'b': 2, 'c': 3})
+        >>> a = oclWrapper_Factory({'a': 1, 'b': 2, 'c': 3})
         >>> del a['b']
         >>> print(a)
         {'a': 1, 'c': 3}
@@ -2119,13 +2119,13 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Note:
             Delegates the __iter__ method to the wrapped object.
 
-        >>> print(next(iter(oclWrapper_Creator([2, 3, 1]))))
+        >>> print(next(iter(oclWrapper_Factory([2, 3, 1]))))
         2
-        >>> print(next(iter(oclWrapper_Creator((2, 3, 1)))))
+        >>> print(next(iter(oclWrapper_Factory((2, 3, 1)))))
         2
-        >>> print(next(iter(oclWrapper_Creator({'a':2, 'b':3, 'c':1}))))
+        >>> print(next(iter(oclWrapper_Factory({'a':2, 'b':3, 'c':1}))))
         a
-        >>> print(next(iter(oclWrapper_Creator('Hello world!'))))
+        >>> print(next(iter(oclWrapper_Factory('Hello world!'))))
         H
         """
         return self._wrapped.__iter__()
@@ -2136,22 +2136,22 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Note:
             Delegates the __next__ method to the wrapped object.
 
-        >>> it = iter(oclWrapper_Creator([2, 3, 1]))
+        >>> it = iter(oclWrapper_Factory([2, 3, 1]))
         >>> print(next(it))
         2
         >>> print(next(it))
         3
-        >>> it = iter(oclWrapper_Creator((2, 3, 1)))
+        >>> it = iter(oclWrapper_Factory((2, 3, 1)))
         >>> print(next(it))
         2
         >>> print(next(it))
         3
-        >>> it = iter(oclWrapper_Creator({'a':2, 'b':3, 'c':1}))
+        >>> it = iter(oclWrapper_Factory({'a':2, 'b':3, 'c':1}))
         >>> print(next(it))
         a
         >>> print(next(it))
         b
-        >>> it = iter(oclWrapper_Creator('Hello world!'))
+        >>> it = iter(oclWrapper_Factory('Hello world!'))
         >>> print(next(it))
         H
         >>> print(next(it))
@@ -2165,7 +2165,7 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Note:
             Delegates the __reversed__ method to the wrapped object.
 
-        >>> it = reversed(oclWrapper_Creator([2, 3, 1]))
+        >>> it = reversed(oclWrapper_Factory([2, 3, 1]))
         >>> print(next(it))
         1
         >>> print(next(it))
@@ -2185,11 +2185,11 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Returns:
             True if any of the elements of the collection meets the conditions(s).
 
-        >>> print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x == 2))
+        >>> print(oclWrapper_Factory([1, 2, 3]).any(lambda x : x == 2))
         True
-        >>> print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x == 4))
+        >>> print(oclWrapper_Factory([1, 2, 3]).any(lambda x : x == 4))
         False
-        >>> print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x > 2 and x < 4))
+        >>> print(oclWrapper_Factory([1, 2, 3]).any(lambda x : x > 2 and x < 4))
         True
         """
         for a in self._wrapped:
@@ -2206,7 +2206,7 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Returns:
             The current OclWrapper_Collection turned into an OclWrapper_Bag.
 
-        >>> print(oclWrapper_Creator([1, 2, 3]).asBag().__class__.__name__)
+        >>> print(oclWrapper_Factory([1, 2, 3]).asBag().__class__.__name__)
         OclWrapper_Bag
         """
         return OclWrapper_Bag(self._wrapped)
@@ -2220,7 +2220,7 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Returns:
             The current OclWrapper_Collection turned into an OclWrapper_OrderedSet.
 
-        >>> print(oclWrapper_Creator([1, 2, 3]).asOrderedSet().__class__.__name__)
+        >>> print(oclWrapper_Factory([1, 2, 3]).asOrderedSet().__class__.__name__)
         OclWrapper_OrderedSet
         """
         return OclWrapper_OrderedSet(self._wrapped)
@@ -2234,7 +2234,7 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Returns:
             The current OclWrapper_Collection turned into an OclWrapper_Sequence.
 
-        >>> print(oclWrapper_Creator([1, 2, 3]).asSequence().__class__.__name__)
+        >>> print(oclWrapper_Factory([1, 2, 3]).asSequence().__class__.__name__)
         OclWrapper_Sequence
         """
         return OclWrapper_Sequence(self._wrapped)
@@ -2248,7 +2248,7 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Returns:
             The current OclWrapper_Collection turned into an OclWrapper_Set.
 
-        >>> print(oclWrapper_Creator([1, 2, 3]).asSet().__class__.__name__)
+        >>> print(oclWrapper_Factory([1, 2, 3]).asSet().__class__.__name__)
         OclWrapper_Set
         """
         return OclWrapper_Set(self._wrapped)
@@ -2262,10 +2262,10 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Returns:
             An OclWrapper_Collection wrapping all the attributes named as the attName from the elements of the current wrapped collection.
 
-        >>> print(oclWrapper_Creator([oclWrapper_Creator(1), oclWrapper_Creator(2), oclWrapper_Creator(3)]).collect('_wrapped'))
+        >>> print(oclWrapper_Factory([oclWrapper_Factory(1), oclWrapper_Factory(2), oclWrapper_Factory(3)]).collect('_wrapped'))
         [1, 2, 3]
         """
-        return oclWrapper_Creator([element.__getattribute__(attName) for element in self._wrapped])
+        return oclWrapper_Factory([element.__getattribute__(attName) for element in self._wrapped])
 
     def __getattr__(self, attName: str) -> OclWrapper_Collection:
         """Performs a Collect when the attName is not recognized.
@@ -2276,9 +2276,9 @@ class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
         Returns:
             An OclWrapper_Collection wrapping all the attributes named as the attName from the elements of the current wrapped collection.
 
-        >>> print(oclWrapper_Creator([1, 2, 3])._wrapped)
+        >>> print(oclWrapper_Factory([1, 2, 3])._wrapped)
         [1, 2, 3]
-        >>> print(oclWrapper_Creator([OclWrapper_Any_Extended(3), OclWrapper_Any_Extended(3), OclWrapper_Any_Extended(3)]).test)
+        >>> print(oclWrapper_Factory([OclWrapper_Any_Extended(3), OclWrapper_Any_Extended(3), OclWrapper_Any_Extended(3)]).test)
         [3.14, 3.14, 3.14]
         """
         if self.__slots__.__contains__(attName):
@@ -2326,7 +2326,7 @@ type_wrappers = {
 """
 
 
-def oclWrapper_Creator(futureWrapped: object) -> OclWrapper_Any:
+def oclWrapper_Factory(futureWrapped: object) -> OclWrapper_Any:
     """Creator to which we can delegate the choice and creation of the appropriate OclWrapper_Any subclass according
        to the type of the wrapped object and the type_wrappers dictionnary.
 
@@ -2340,7 +2340,7 @@ def oclWrapper_Creator(futureWrapped: object) -> OclWrapper_Any:
        An OclWrapper_Any of a class corresponding to the type of the futureWrapped object, according to the type_wrappers dictionnary.
     """
     if isinstance(futureWrapped, OclWrapper_Any):
-        return oclWrapper_Creator(futureWrapped._wrapped)
+        return oclWrapper_Factory(futureWrapped._wrapped)
     return type_wrappers.get(type(futureWrapped), OclWrapper_Any)(futureWrapped)
 
 
@@ -2366,16 +2366,16 @@ class Example_Wrapped:
     class_attribute = 3
     def __init__(self, value):
         self.instance_attribute = value
-wrap = oclWrapper_Creator(Example_Wrapped(6))
+wrap = oclWrapper_Factory(Example_Wrapped(6))
 print(wrap)
 print(wrap.class_attribute)
 print(wrap.instance_attribute)
 """
 """
 # Ocl functionnality -> allInstances
-a = oclWrapper_Creator("a")
-b = oclWrapper_Creator("b")
-c = oclWrapper_Creator(1)
+a = oclWrapper_Factory("a")
+b = oclWrapper_Factory("b")
+c = oclWrapper_Factory(1)
 del b
 for obj in OclWrapper_Any.allInstances():
     print(obj)
@@ -2393,7 +2393,7 @@ for obj in OclWrapper_Any_Extended.allInstances():
 """
 """
 # Ocl functionnality -> oclAsType
-a = oclWrapper_Creator("a")
+a = oclWrapper_Factory("a")
 a_e = a.oclAsType(OclWrapper_Any_Extended)
 if(a_e == None):
     print("a is not a OclWrapper_Any_Extended")
@@ -2410,14 +2410,14 @@ a.oclAsType(OclWrapper_Any_Extended).sayHello()
 """
 """
 # Ocl functionnality -> oclIsKindOf
-a = oclWrapper_Creator("a")
+a = oclWrapper_Factory("a")
 b = OclWrapper_Any_Extended(1)
 print(a.oclIsKindOf(str))
 print(b.oclIsKindOf(int))
 """
 """
 # Ocl functionnality -> oclIsTypeOf
-a = oclWrapper_Creator("a")
+a = oclWrapper_Factory("a")
 b = OclWrapper_Any_Extended(1)
 print(a.oclIsTypeOf(OclWrapper_Any))
 print(a.oclIsTypeOf(OclWrapper_Any_Extended))
@@ -2426,54 +2426,54 @@ print(b.oclIsTypeOf(OclWrapper_Any_Extended))
 """
 """
 # Ocl functionnality -> oclIsInvalid
-a = oclWrapper_Creator("a")
+a = oclWrapper_Factory("a")
 b = OclWrapper_Any_Extended(None)
 print(a.oclIsInvalid())
 print(b.oclIsInvalid())
 """
 """
 # Ocl functionnality -> oclIsUndefined
-a = oclWrapper_Creator("a")
+a = oclWrapper_Factory("a")
 b = OclWrapper_Any_Extended(None)
 print(a.oclIsUndefined())
 print(b.oclIsUndefined())
 """
 """
 # Ocl functionnality -> concat
-astr = oclWrapper_Creator('Hello World!')
+astr = oclWrapper_Factory('Hello World!')
 print(astr.concat(' I\'m a string.'))
-print(astr.concat(oclWrapper_Creator(' I\'m a another string.')))
+print(astr.concat(oclWrapper_Factory(' I\'m a another string.')))
 """
 """
 # Ocl functionnality -> size
-print(oclWrapper_Creator('Hello World!').size())
-print(oclWrapper_Creator(oclWrapper_Creator('Hello World!')).size())
+print(oclWrapper_Factory('Hello World!').size())
+print(oclWrapper_Factory(oclWrapper_Factory('Hello World!')).size())
 """
 """
 # Ocl functionnality -> substring
-print(oclWrapper_Creator('test').substring(1,1))
-print(oclWrapper_Creator(oclWrapper_Creator('test')).substring(2,4))
-s = oclWrapper_Creator('test')
+print(oclWrapper_Factory('test').substring(1,1))
+print(oclWrapper_Factory(oclWrapper_Factory('test')).substring(2,4))
+s = oclWrapper_Factory('test')
 print(s.substring(1, s.size()))
 """
 """
 # Ocl functionnality -> toInteger
-print(oclWrapper_Creator('3').toInteger())
-print(oclWrapper_Creator(oclWrapper_Creator('3')).toInteger())
+print(oclWrapper_Factory('3').toInteger())
+print(oclWrapper_Factory(oclWrapper_Factory('3')).toInteger())
 """
 """
 # Ocl functionnality -> toLower
-print(oclWrapper_Creator('Hello World!').toLower())
+print(oclWrapper_Factory('Hello World!').toLower())
 """
 """
 # Ocl functionnality -> toUpper
-print(oclWrapper_Creator('Hello World!').toUpper())
+print(oclWrapper_Factory('Hello World!').toUpper())
 """
 """
 # Ocl functionnality -> any
-print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x == 2))
-print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x == 4))
-print(oclWrapper_Creator([1, 2, 3]).any(lambda x : x > 2 and x < 4))
+print(oclWrapper_Factory([1, 2, 3]).any(lambda x : x == 2))
+print(oclWrapper_Factory([1, 2, 3]).any(lambda x : x == 4))
+print(oclWrapper_Factory([1, 2, 3]).any(lambda x : x > 2 and x < 4))
 """
 
 

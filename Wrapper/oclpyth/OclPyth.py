@@ -281,11 +281,10 @@ class OclWrapper_Any(object):
         return oclWrapper_Creator(self._wrapped.__call__(*args))
         """
 
-    """ Never emulating context managers ?
     # Emulating context manager
 
     def __enter__(self) -> OclWrapper_Any:
-        """"""__enter__ method.
+        """__enter__ method.
 
         Note:
             If the wrapped object has an __enter__ attribute, delegates the operation to it,
@@ -295,14 +294,14 @@ class OclWrapper_Any(object):
         True
         >>> with oclWrapper_Creator(oclWrapper_Creator(False)) as o: print(o)
         False
-        """"""
+        """
         try:
             return oclWrapper_Creator(self._wrapped.__enter__())
         except AttributeError:
             return self
 
     def __exit__(self, exception_type, exception_value, exception_traceback) -> OclWrapper_Any:
-        """"""__exit__ method.
+        """"__exit__ method.
 
         Note:
             Delegates the __exit__ method to the wrapped object.
@@ -310,9 +309,9 @@ class OclWrapper_Any(object):
             If an exception is supplied, and the method wishes to suppress the exception
             (i.e., prevent it from being propagated), it should return a true value.
             Otherwise, the exception will be processed normally upon exit from this method.
-        """"""
-        return oclWrapper_Creator(False)
         """
+        return oclWrapper_Creator(False)
+
 
     """ Never emulating descriptors ?
     # Emulating descriptors

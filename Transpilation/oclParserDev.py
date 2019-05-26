@@ -225,10 +225,6 @@ def actualParameterListParser(expression, level):
     introduce(expression, "ActualParameterList", level)
     content = vars(expression)["expressions"]
     result = defaultExpressionParser(content[0], level+1)
-    """
-    for e in content[1:]:
-        result += ", " + defaultExpressionParser(e, level+1)
-    """
     return result
 
 @defaultExpressionParser.register(metamodel["PrimaryExpression"])
@@ -243,14 +239,7 @@ def primaryExpressionParser(expression, level):
 @defaultExpressionParser.register(metamodel["LiteralCollection"])
 def literalCollectionParser(expression, level):
     introduce(expression, "LiteralCollection", level)
-    elements = vars(expression)
-    result = "oclWrapper_Creator(["
-    collectionItems = elements["collectionItems"]
-    result += defaultExpressionParser(collectionItems[0], level+1)
-    for e in collectionItems[1:]:
-        result += ", " + defaultExpressionParser(e, level+1)
-    result += "])"
-    return result
+    return "oclWrapper_Creator([" + ', '.join(map(lambda x: defaultExpressionParser(x, level+1), vars(expression)["collectionItems"])) + "])"
 
 @defaultExpressionParser.register(metamodel["CollectionItem"])
 def collectionItemParser(expression, level):
@@ -311,20 +300,8 @@ def propertyCallParametersParser(expression, level):
 @defaultExpressionParser.register(metamodel["Declarator"])
 def declaratorParametersParser(expression, level):
     introduce(expression, "Declarator", level)
-    elements = vars(expression)
-    names = elements["names"]
-    result = names[0]
-    for e in names[1:]:
-        result += ", " + e
-    simpleTypeSpecifier = elements["simpleTypeSpecifier"]
-    """
-    if(simpleTypeSpecifier is not None):
-        result += " : " + delegate(elements, "simpleTypeSpecifier", level)
-    extraName = elements["extraName"]
-    if(extraName is not None):
-        result += " ; " + delegate(elements, "extraName", level) + " : " + delegate(elements, "extraTypeSpecifier", level) + " = " + delegate(elements, "expression", level)
-    """
-    return result + " | "
+    #simpleTypeSpecifier = elements["simpleTypeSpecifier"]
+    return ', '.join(map(lambda x: defaultExpressionParser(x, level+1), vars(expression)["names"])) + " | "
 
 @defaultExpressionParser.register(metamodel["SimpleTypeSpecifier"])
 def simpleTypeSpecifierParser(expression, level):

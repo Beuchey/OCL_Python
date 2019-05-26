@@ -549,8 +549,6 @@ class OclWrapper_Primitive(OclWrapper_Any):
         Reals (in Python : "float")
         Strings (in Python : "str")
         Collections (in Python : <multiple types possibles depending on the collection>)
-
-        STILL USEFULL ??????????
     """
 
 class OclWrapper_Boolean(OclWrapper_Primitive):
@@ -572,7 +570,7 @@ class OclWrapper_Boolean(OclWrapper_Primitive):
         """
         return self._wrapped.__bool__()
 
-class OclWrapper_Addable(OclWrapper_Primitive):
+class OclWrapper_Addable(object):
     """ A wrapper to emulate types that can be added."""
 
     def __add__(self, otherObject: object) -> OclWrapper_Any:
@@ -639,7 +637,7 @@ class OclWrapper_Addable(OclWrapper_Primitive):
         """
         return oclWrapper_Creator(otherObject + self._wrapped)
 
-class OclWrapper_Numeric(OclWrapper_Addable):
+class OclWrapper_Numeric(OclWrapper_Primitive, OclWrapper_Addable):
     """ A wrapper to emulate Numeric types in OCL  :
 
         Integers (in Python : "int")
@@ -1684,7 +1682,7 @@ class OclWrapper_Numeric(OclWrapper_Addable):
         """
         return complex(self._wrapped)
 
-class OclWrapper_Floatable(OclWrapper_Primitive):
+class OclWrapper_Floatable(object):
     """ A wrapper to emulate types that can be turned into floats."""
 
     def __float__(self) -> float:
@@ -1724,7 +1722,7 @@ class OclWrapper_Integer(OclWrapper_Numeric, OclWrapper_Floatable):
         return self._wrapped.__index__()
 
 
-class OclWrapper_Intable(OclWrapper_Primitive):
+class OclWrapper_Intable(object):
     """ A wrapper to emulate types that can be turned into integers."""
 
     def __int__(self) -> int:
@@ -1837,7 +1835,7 @@ class OclWrapper_Real(OclWrapper_Numeric):
 
 
 
-class OclWrapper_Multiple(OclWrapper_Addable):
+class OclWrapper_Multiple(object):
     """ A wrapper to emulate types that contains several elements."""
 
     def __len__(self) -> int:
@@ -1931,7 +1929,7 @@ class OclWrapper_Multiple(OclWrapper_Addable):
         """
         return oclWrapper_Creator(self._wrapped.__contains__(item))
 
-class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_Intable):
+class OclWrapper_String(OclWrapper_Primitive, OclWrapper_Floatable, OclWrapper_Intable, OclWrapper_Multiple):
     """ A wrapper to emulate String type in OCL (in python "str")."""
 
     def concat(self, otherObject: object) -> OclWrapper_Any:
@@ -2048,7 +2046,7 @@ class OclWrapper_String(OclWrapper_Multiple, OclWrapper_Floatable, OclWrapper_In
         """
         return oclWrapper_Creator(self._wrapped.upper())
 
-class OclWrapper_Collection(OclWrapper_Multiple):
+class OclWrapper_Collection(OclWrapper_Any, OclWrapper_Multiple):
     """ A wrapper to emulate Collection type in OCL (in python <multiple types possibles depending on the collection>)."""
 
     #  Emulating container types
@@ -2301,7 +2299,7 @@ class OclWrapper_Bag(OclWrapper_Collection):
     pass
 
 class OclWrapper_OrderedSet(OclWrapper_Collection):
-    # List or OrderedSet from other library
+    # List, or OrderedSet from other library
     pass
 
 

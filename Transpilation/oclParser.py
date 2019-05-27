@@ -239,7 +239,7 @@ def primaryExpressionParser(expression, level):
 @defaultExpressionParser.register(metamodel["LiteralCollection"])
 def literalCollectionParser(expression, level):
     introduce(expression, "LiteralCollection", level)
-    return "oclWrapper_Creator([" + ', '.join(map(lambda x: defaultExpressionParser(x, level+1), vars(expression)["collectionItems"])) + "])"
+    return "oclWrapper_Factory([" + ', '.join(map(lambda x: defaultExpressionParser(x, level+1), vars(expression)["collectionItems"])) + "])"
 
 @defaultExpressionParser.register(metamodel["CollectionItem"])
 def collectionItemParser(expression, level):
@@ -323,7 +323,7 @@ if DEBUGmode:
 else:
     model = metamodel.model_from_file(programArgs.INPUT)
 
-res(0, "import sys, os\nsys.path.insert(0, os.path.join(os.path.dirname(__file__), '../Wrapper/', 'oclpyth'))\nfrom OclPyth import oclWrapper_Creator\n\n")
+res(0, "import sys, os\nsys.path.insert(0, os.path.join(os.path.dirname(__file__), '../Wrapper/', 'oclpyth'))\nfrom oclWrapper import oclWrapper_Factory\n\n")
 
 with open("initialize.py", 'r') as content:
     res(0, content.read() + "\n\n#----------------------\n\n")

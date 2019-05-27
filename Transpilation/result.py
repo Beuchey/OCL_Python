@@ -1,6 +1,6 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../Wrapper/', 'oclpyth'))
-from OclPyth import oclWrapper_Creator
+from oclWrapper import oclWrapper_Factory
 
 
 someValue = open("test.txt",'w+')
@@ -50,9 +50,9 @@ not name0.base[ qualifier1 ](name0, name1 | aParameter) * multiple + summable
 
 aValue[ aqualifier ] and (aBoolean or anotherOne)
 
-oclWrapper_Creator([range(int(1), int(two)), range(int(len("three")), int(enum))])
+oclWrapper_Factory([range(int(1), int(two)), range(int(len("three")), int(enum))])
 
 path
 
-oclWrapper_Creator([range(int(1.0))])
+oclWrapper_Factory([range(int(1.0))])
 

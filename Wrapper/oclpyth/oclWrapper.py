@@ -310,7 +310,10 @@ class OclWrapper_Any(object):
             (i.e., prevent it from being propagated), it should return a true value.
             Otherwise, the exception will be processed normally upon exit from this method.
         """
-        return oclWrapper_Factory(False)
+        try:
+            return oclWrapper_Factory(self._wrapped.__exit__())
+        except AttributeError:
+            return self
 
 
     """ Never emulating descriptors ?
